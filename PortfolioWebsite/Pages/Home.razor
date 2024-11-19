@@ -1,0 +1,36 @@
+﻿@page "/"
+@using PortfolioWebsite.ViewModels
+@inject BaseViewModel BaseViewModel
+
+<PageTitle>.NET Developer, Jack Lehman</PageTitle>
+
+@if (!isContentVisible)
+{
+    <div class="container">
+        <h1 class="@h1Class text-white">@BaseViewModel.Person?.Name</h1>
+        <h1 class="@h1Class text-white">@BaseViewModel.SiteConfig?.OpeningSectionKeyword</h1>
+    </div>
+}
+
+<div class="@(isContentVisible ? "visible-content" : "hidden-content")">
+    <!-- Other content goes here -->
+</div>
+
+@code {
+    private bool isContentVisible = false;
+    private string h1Class = string.Empty;
+    private int displayTimeMs = 3000; // Amount of milliseconds before hiding the H1
+
+    protected override async Task OnInitializedAsync()
+    {
+        await BaseViewModel.InitializeAsync();
+        StateHasChanged();
+        await Task.Delay(displayTimeMs);
+        h1Class = "fade-out";
+        StateHasChanged();
+        await Task.Delay(1000); // Ensure this matches with the duration of your fade-out animation
+        isContentVisible = true;
+        StateHasChanged();
+    }
+}
+
