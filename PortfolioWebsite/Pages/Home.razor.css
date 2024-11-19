@@ -1,34 +1,48 @@
-﻿/* Home.razor.css */
-
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.container {
+﻿.temporary-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #000000; /* Adjust if you want a different background */
+    background: #000000; 
     display: flex;
+    flex-direction: column;
+    gap: 10px;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    overflow: hidden; /* Ensure no overflowing content */
+    overflow: hidden;
+    color: white;
 }
 
-.fade-out {
-    animation: fadeOut 1s forwards;
+.temporary-container-content {
+    width: 70%;
 }
 
 @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
 }
+
+.temporary-container.fade-out-1000ms {
+    animation: fadeOut 1000ms forwards;
+}
+.temporary-container.fade-out-1500ms {
+    animation: fadeOut 1500ms forwards;
+}
+
+.temporary-container.fade-out-2000ms {
+    animation: fadeOut 2000ms forwards;
+}
+
+.temporary-container.fade-out-2500ms {
+    animation: fadeOut 2500ms forwards;
+}
+
+.temporary-container.fade-out-3000ms {
+    animation: fadeOut 3000ms forwards;
+}
+
 
 .hidden-content {
     display: none;

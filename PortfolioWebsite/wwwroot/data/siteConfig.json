@@ -1,4 +1,5 @@
 ﻿{
-  "OpeningSectionDurationInMs": 3000,
-  "OpeningSectionKeyword": "Portfolio"
+  "OpeningSectionHoldDurationInMs": 1500, 
+  "OpeningSectionFadeDurationInMs": 1500,
+  "SiteTitle": ".NET Developer - Jack Lehman"
 }

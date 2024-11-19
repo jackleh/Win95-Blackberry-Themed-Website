@@ -2,28 +2,35 @@
 @using PortfolioWebsite.ViewModels
 @inject BaseViewModel BaseViewModel
 
-<PageTitle>.NET Developer, Jack Lehman</PageTitle>
+<PageTitle>@SiteTitle</PageTitle>
 
-@if (!_isContentVisible)
-{
-    <div class="container @_introClass">
-        <h1 class="text-white">@PersonName</h1>
-        <h1 class="text-white">@OpeningKeyword</h1>
-    </div>
-}
+<div>
+    @if (!_isContentVisible)
+    {
+        <div class="temporary-container @(!string.IsNullOrEmpty(_introClass) ? _introClass : "")">
+            <div class="temporary-container-content">
+                <div class="text-large">@PersonName</div>
+                <div class="text-regular">@PersonTitle</div>
+            </div>
+        </div>
+    }
 
-<div class="@(_isContentVisible ? "visible-content" : "hidden-content")">
-    <!-- Other content goes here -->
+    <div class="@(_isContentVisible ? "visible-content" : "hidden-content")">
+        <!-- Other content goes here -->
+    </div>  
 </div>
 
 @code {
     /// <summary>
     /// Properties
     /// </summary>
-    private int DisplayTimeMs => BaseViewModel.SiteConfig?.OpeningSectionDurationInMs ?? 0;
+    private int OpeningHoldTimeMs => BaseViewModel.SiteConfig?.OpeningSectionHoldDurationInMs ?? 0;
+    private int OpeningFadeTimeMs => BaseViewModel.SiteConfig?.OpeningSectionFadeDurationInMs ?? 0;
     private string PersonName => BaseViewModel.Person?.Name ?? string.Empty;
-    private string OpeningKeyword => BaseViewModel.SiteConfig?.OpeningSectionKeyword ?? string.Empty;
-    
+    private string PersonTitle => BaseViewModel.Person?.Title ?? string.Empty;
+    private string SiteTitle => BaseViewModel.SiteConfig?.SiteTitle ?? string.Empty;
+    private string FadeOutClass => $"fade-out-{OpeningFadeTimeMs}ms";
+
     private bool _isContentVisible = false;
     private string _introClass = string.Empty;
 
@@ -31,12 +38,11 @@
     {
         await BaseViewModel.InitializeAsync();
         StateHasChanged();
-        await Task.Delay(DisplayTimeMs);
-        _introClass = "fade-out";
+        await Task.Delay(OpeningHoldTimeMs);
+        _introClass = FadeOutClass;
         StateHasChanged();
-        await Task.Delay(1000); // Ensure this matches with the duration of your fade-out animation
+        await Task.Delay(OpeningFadeTimeMs); 
         _isContentVisible = true;
         StateHasChanged();
     }
 }
-
