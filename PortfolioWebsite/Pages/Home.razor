@@ -4,32 +4,38 @@
 
 <PageTitle>.NET Developer, Jack Lehman</PageTitle>
 
-@if (!isContentVisible)
+@if (!_isContentVisible)
 {
-    <div class="container">
-        <h1 class="@h1Class text-white">@BaseViewModel.Person?.Name</h1>
-        <h1 class="@h1Class text-white">@BaseViewModel.SiteConfig?.OpeningSectionKeyword</h1>
+    <div class="container @_introClass">
+        <h1 class="text-white">@PersonName</h1>
+        <h1 class="text-white">@OpeningKeyword</h1>
     </div>
 }
 
-<div class="@(isContentVisible ? "visible-content" : "hidden-content")">
+<div class="@(_isContentVisible ? "visible-content" : "hidden-content")">
     <!-- Other content goes here -->
 </div>
 
 @code {
-    private bool isContentVisible = false;
-    private string h1Class = string.Empty;
-    private int displayTimeMs = 3000; // Amount of milliseconds before hiding the H1
+    /// <summary>
+    /// Properties
+    /// </summary>
+    private int DisplayTimeMs => BaseViewModel.SiteConfig?.OpeningSectionDurationInMs ?? 0;
+    private string PersonName => BaseViewModel.Person?.Name ?? string.Empty;
+    private string OpeningKeyword => BaseViewModel.SiteConfig?.OpeningSectionKeyword ?? string.Empty;
+    
+    private bool _isContentVisible = false;
+    private string _introClass = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         await BaseViewModel.InitializeAsync();
         StateHasChanged();
-        await Task.Delay(displayTimeMs);
-        h1Class = "fade-out";
+        await Task.Delay(DisplayTimeMs);
+        _introClass = "fade-out";
         StateHasChanged();
         await Task.Delay(1000); // Ensure this matches with the duration of your fade-out animation
-        isContentVisible = true;
+        _isContentVisible = true;
         StateHasChanged();
     }
 }
