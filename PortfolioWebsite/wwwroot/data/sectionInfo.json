@@ -1,0 +1,22 @@
+﻿{
+  "SectionPrepend": "/",
+  "SectionSelection": ">",
+  "Sections": [
+    {
+      "Title": "about-me",
+      "NavUrl": "/about"
+    },
+    {
+      "Title": "projects",
+      "NavUrl": "/projects"
+    },
+    {
+      "Title": "view-resume",
+      "NavUrl": "/resume"
+    },
+    {
+      "Title": "contact-me",
+      "NavUrl": "/contact"
+    }
+  ]
+}

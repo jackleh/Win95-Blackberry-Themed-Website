@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using PortfolioWebsite.Models
 @using PortfolioWebsite.ViewModels
 @inject BaseViewModel BaseViewModel
 
@@ -16,7 +17,26 @@
     }
 
     <div class="@(_isContentVisible ? "visible-content" : "hidden-content")">
-        <!-- Other content goes here -->
+        <div>
+            <div id="person-info">
+                <div class="text-large">@PersonName</div>
+                <div class="text-regular">@PersonTitle</div>
+            </div>
+            
+            <div id="selection-menu">
+                <div class="text-regular">Directory</div>
+                <div id="selection-items">
+                    @if (Sections != null)
+                    {
+                        foreach (var sec in Sections)
+                        {
+                            <div @onclick="() => DisplayInternalNavUrl(sec.NavUrl)">@sec.Title</div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        
     </div>  
 </div>
 
@@ -30,6 +50,7 @@
     private string PersonTitle => BaseViewModel.Person?.Title ?? string.Empty;
     private string SiteTitle => BaseViewModel.SiteConfig?.SiteTitle ?? string.Empty;
     private string FadeOutClass => $"fade-out-{OpeningFadeTimeMs}ms";
+    private List<SectionInfo.Section>? Sections => BaseViewModel.SectionInfo?.Sections;
 
     private bool _isContentVisible = false;
     private string _introClass = string.Empty;
@@ -44,5 +65,10 @@
         await Task.Delay(OpeningFadeTimeMs); 
         _isContentVisible = true;
         StateHasChanged();
+    }
+
+    public void DisplayInternalNavUrl(string url)
+    {
+        throw new NotImplementedException();
     }
 }
