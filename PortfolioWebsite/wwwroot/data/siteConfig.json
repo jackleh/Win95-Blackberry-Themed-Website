@@ -2,5 +2,9 @@
   "OpeningSectionHoldDurationInMs": 1500, 
   "OpeningSectionFadeDurationInMs": 1500,
   "SectionSelectionFlashTimeDurationInMs": 2000,
-  "SiteTitle": ".NET Developer - Jack Lehman"
+  "SiteTitle": ".NET Developer - Jack Lehman",
+  "EnableEasterEggs": true,
+  "EasterEggVideo1Url": "",
+  "EasterEggVideo2Url": "",
+  "EasterEggDesktopPictureUrl": ""
 }

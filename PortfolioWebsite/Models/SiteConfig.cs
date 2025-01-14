@@ -34,4 +34,9 @@ public class SiteConfig
         }
     }
     public string SiteTitle { get; set; }
+    
+    public bool EnableEasterEggs { get; set; }
+    public string EasterEggVideo1Url { get; set; }
+    public string EasterEggVideo2Url { get; set; }
+    public string EasterEggDesktopPictureUrl { get; set; }
 }

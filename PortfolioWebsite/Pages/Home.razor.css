@@ -52,6 +52,67 @@
     animation: fadeOut 3000ms forwards;
 }
 
+
+.top-bar {
+    background-color: #2e2e2e;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0;
+}
+
+.back-tab {
+    background-color: black;
+    color: white;
+    padding: 3px 20px 5px;
+    margin-left: 10px;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+    bottom: 0;
+}
+.top-bar-controls {
+    margin-left: auto; /* Ensures the entire `.top-bar-controls` aligns to the far right */
+    margin-right: 10px; /* Optional: Adjust the margin from the right edge of the page */
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+    cursor: pointer;
+    color: white;
+    display: flex; /* Use flexbox for better alignment */
+    justify-content: flex-end; /* Ensures the content inside is pushed to the far right */
+    gap: 10px; /* Adds spacing between the items */
+}
+
+.top-bar-controls {
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center; 
+    gap: 25px; 
+    margin-right: 15px;
+    color: white;
+}
+
+.top-bar-controls span:nth-child(1) {
+    position: relative;
+    top: 2px;
+}
+
+.top-bar-controls span:nth-child(2) {
+    position: relative;
+    top: 2px;
+}
+
+.top-bar-controls span:nth-child(3) {
+    position: relative;
+}
+
 .flash-animation-1000ms {
     animation: flash 1000ms infinite;
 }

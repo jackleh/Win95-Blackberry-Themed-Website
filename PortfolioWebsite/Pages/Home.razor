@@ -18,7 +18,18 @@
     }
 
     <div class="@(_isContentVisible ? "visible-content" : "hidden-content")">
-        <div class="p-3">
+        <div class="top-bar">
+            <div class="back-tab">
+                <span style="font-weight: bold; font-size: .7rem;">@SiteTitle</span>
+                <span style="padding-left: 2rem; font-size: .9rem;" @onclick="CloseEasterEgg">x</span>
+            </div>
+            <div class="top-bar-controls">
+                <span @onclick="MinimizeEasterEgg">-</span>
+                <span @onclick="ReduceWindowEasterEgg">□</span>
+                <span @onclick="CloseEasterEgg">x</span>
+            </div>
+        </div>
+        <div class="p-3 pt-5">
             <div id="person-info">
                 <div class="text-regular text-white">@PersonName</div>
                 <div class="text-regular text-white">@PersonTitle</div>
@@ -72,6 +83,7 @@
     private List<SectionInfo.Section>? Sections => BaseViewModel.SectionInfo?.Sections;
     private string? SectionPrepend => BaseViewModel.SectionInfo?.SectionPrepend;
     private string? SectionSelection => BaseViewModel.SectionInfo?.SectionSelection;
+    public bool? EasterEggsEnabled => BaseViewModel.SiteConfig?.EnableEasterEggs;
     private int selectedItemIndex;
 
     private bool _isContentVisible = false;
@@ -126,6 +138,45 @@
 
     public void DisplayInternalNavUrl(string url)
     {
+        throw new NotImplementedException();
+    }
+
+    public void CloseEasterEgg()
+    {
+        if ((bool)!EasterEggsEnabled) return;
+        //todo dislpay a popup that says "You're not supposed to do that. 3 warnings remain."...
+        //if you keep going and exhaust all your warnings, minimize the window and show a windows 95 desktop with
+        //https://www.youtube.com/watch?v=JTLVzGR5nzw playing in the background of the desktop instead of a pic
+        //with glitch effects overlaying. after the video ends just play this one on loop
+        //https://www.youtube.com/watch?v=bKjAj9Lc674, also have the cmd in the fake task bar and on the desktop
+        //which clicking will
+        //reopen the main webpage
+        //the website in windowed mode with the video still playing
+        throw new NotImplementedException();
+    }
+    
+    public void ReduceWindowEasterEgg()
+    {
+        if ((bool)!EasterEggsEnabled) return;
+
+        //todo show a windows 95 desktop with the window free to drag around on it with
+        //https://www.deviantart.com/phate1128/art/Copland-OS-Lain-56999890 as the background cleaned up to remove
+        //the "created by" text
+        throw new NotImplementedException();
+    }
+    
+    public void MinimizeEasterEgg()
+    {
+        if ((bool)!EasterEggsEnabled) return;
+
+        //todo dislpay a popup that says "You're not supposed to do that. 3 warnings remain."...
+        //if you keep going and exhaust all your warnings, minimize the window and show a windows 95 desktop with
+        //https://www.youtube.com/watch?v=JTLVzGR5nzw playing in the background of the desktop instead of a pic
+        //with glitch effects overlaying. after the video ends just play this one on loop
+        //also have the cmd in the fake task bar and on the desktop
+        //which clicking will
+        //reopen the main webpage
+        //the website in windowed mode with the video still playing
         throw new NotImplementedException();
     }
 }
