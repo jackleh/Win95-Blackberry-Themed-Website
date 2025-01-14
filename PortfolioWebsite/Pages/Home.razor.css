@@ -24,6 +24,15 @@
     to { opacity: 0; }
 }
 
+@keyframes flash {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
 .temporary-container.fade-out-1000ms {
     animation: fadeOut 1000ms forwards;
 }
@@ -43,9 +52,36 @@
     animation: fadeOut 3000ms forwards;
 }
 
-
 .hidden-content {
     display: none;
+}
+
+.section-item-container {
+    display: flex;
+    align-items: center;
+}
+
+.selection-icon {
+    display: inline-block;
+    width: 1.5rem;
+    text-align: center;
+    animation: flash 2s infinite;
+}
+
+.section-item {
+    color: white;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    display: flex;
+}
+
+.section-item-title {
+    display: flex;
+    margin: 0;
+}
+
+#selection-menu {
+    padding-top: 2rem;
 }
 
 .visible-content {
