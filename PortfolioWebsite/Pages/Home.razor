@@ -5,7 +5,8 @@
 
 <PageTitle>@SiteTitle</PageTitle>
 
-<div>
+<div style="height: 100vh; width: 100vw; display: flex; flex-direction: column;" @onkeydown="HandleKeyDown" tabindex="0" @ref="_mainDiv">
+    
     @if (!_isContentVisible)
     {
         <div class="temporary-container @(!string.IsNullOrEmpty(_introClass) ? _introClass : "")">
@@ -22,7 +23,7 @@
                 <div class="text-regular text-white">@PersonName</div>
                 <div class="text-regular text-white">@PersonTitle</div>
             </div>
-            
+
             <div id="selection-menu">
                 <div class="text-regular text-white">Directory</div>
                 <div id="selection-items">
@@ -31,9 +32,11 @@
                         for (int i = 0; i < Sections.Count; i++)
                         {
                             var localIteration = i;
-                            <div class="section-item" @onclick="() => DisplayInternalNavUrl(Sections[localIteration].NavUrl)">
+                            <div class="section-item"
+                                 @onclick="() => DisplayInternalNavUrl(Sections[localIteration].NavUrl)"
+                                 @onmouseover="() => UpdateSelectionIndex(localIteration)">
                                 <div class="section-item-container">
-                                    <span class="selection-icon">
+                                    <span class="selection-icon @SelectionFlashAnimationClass">
                                         @if (localIteration == selectedItemIndex)
                                         {
                                             @SectionSelection
@@ -50,8 +53,8 @@
                 </div>
             </div>
         </div>
-        
-    </div>  
+
+    </div>
 </div>
 
 @code {
@@ -60,10 +63,12 @@
     /// </summary>
     private int OpeningHoldTimeMs => BaseViewModel.SiteConfig?.OpeningSectionHoldDurationInMs ?? 0;
     private int OpeningFadeTimeMs => BaseViewModel.SiteConfig?.OpeningSectionFadeDurationInMs ?? 0;
+    private int SectionSelectionFlashTimeMs => BaseViewModel.SiteConfig?.SectionSelectionFlashTimeDurationInMs ?? 0;
     private string PersonName => BaseViewModel.Person?.Name ?? string.Empty;
     private string PersonTitle => BaseViewModel.Person?.Title ?? string.Empty;
     private string SiteTitle => BaseViewModel.SiteConfig?.SiteTitle ?? string.Empty;
     private string FadeOutClass => $"fade-out-{OpeningFadeTimeMs}ms";
+    private string SelectionFlashAnimationClass => $"flash-animation-{SectionSelectionFlashTimeMs}ms";
     private List<SectionInfo.Section>? Sections => BaseViewModel.SectionInfo?.Sections;
     private string? SectionPrepend => BaseViewModel.SectionInfo?.SectionPrepend;
     private string? SectionSelection => BaseViewModel.SectionInfo?.SectionSelection;
@@ -71,7 +76,8 @@
 
     private bool _isContentVisible = false;
     private string _introClass = string.Empty;
-
+    
+    
     protected override async Task OnInitializedAsync()
     {
         await BaseViewModel.InitializeAsync();
@@ -82,6 +88,40 @@
         await Task.Delay(OpeningFadeTimeMs); 
         _isContentVisible = true;
         StateHasChanged();
+    }
+    
+    private ElementReference _mainDiv;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _mainDiv.FocusAsync();
+        }
+    }
+    
+    
+    private void UpdateSelectionIndex(int index)
+    {
+        selectedItemIndex = index;
+        StateHasChanged();
+    }
+    
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (Sections == null || Sections.Count == 0)
+        {
+            return;
+        }
+
+        int updateToIndex = e.Key switch
+        {
+            "ArrowDown" => (selectedItemIndex + 1) % Sections.Count,
+            "ArrowUp" => (selectedItemIndex - 1 + Sections.Count) % Sections.Count,
+            _ => 0
+        };
+
+        UpdateSelectionIndex(updateToIndex);
     }
 
     public void DisplayInternalNavUrl(string url)

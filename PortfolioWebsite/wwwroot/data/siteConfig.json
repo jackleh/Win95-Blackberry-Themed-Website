@@ -1,5 +1,6 @@
 ﻿{
   "OpeningSectionHoldDurationInMs": 1500, 
   "OpeningSectionFadeDurationInMs": 1500,
+  "SectionSelectionFlashTimeDurationInMs": 2000,
   "SiteTitle": ".NET Developer - Jack Lehman"
 }

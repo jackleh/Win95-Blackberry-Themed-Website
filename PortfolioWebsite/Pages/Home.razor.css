@@ -52,6 +52,22 @@
     animation: fadeOut 3000ms forwards;
 }
 
+.flash-animation-1000ms {
+    animation: flash 1000ms infinite;
+}
+.flash-animation-1500ms {
+    animation: flash 1500ms infinite;
+}
+.flash-animation-2000ms {
+    animation: flash 2000ms infinite;
+}
+.flash-animation-2500ms {
+    animation: flash 2500ms infinite;
+}
+.flash-animation-3000ms {
+    animation: flash 3000ms infinite;
+}
+
 .hidden-content {
     display: none;
 }
@@ -65,7 +81,6 @@
     display: inline-block;
     width: 1.5rem;
     text-align: center;
-    animation: flash 2s infinite;
 }
 
 .section-item {
@@ -87,3 +102,4 @@
 .visible-content {
     display: block;
 }
+
