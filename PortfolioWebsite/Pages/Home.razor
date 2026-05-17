@@ -2,6 +2,7 @@
 @using PortfolioWebsite.Models
 @using PortfolioWebsite.ViewModels
 @inject BaseViewModel BaseViewModel
+@inject NavigationManager NavigationManager
 
 <PageTitle>@SiteTitle</PageTitle>
 
@@ -44,11 +45,11 @@
                         {
                             var localIteration = i;
                             <div class="section-item"
-                                 @onclick="() => DisplayInternalNavUrl(Sections[localIteration].NavUrl)"
+                                 @onclick="() => ShowSection(Sections[localIteration].DisplayOrder)"
                                  @onmouseover="() => UpdateSelectionIndex(localIteration)">
                                 <div class="section-item-container">
                                     <span class="selection-icon @SelectionFlashAnimationClass">
-                                        @if (localIteration == selectedItemIndex)
+                                        @if (localIteration == _selectedItemIndex)
                                         {
                                             @SectionSelection
                                         }
@@ -64,6 +65,12 @@
                 </div>
             </div>
         </div>
+        
+
+        @if (ShownSection != null)
+        {
+            <DynamicComponent Type="ShownSection" />
+        }
 
     </div>
 </div>
@@ -84,7 +91,8 @@
     private string? SectionPrepend => BaseViewModel.SectionInfo?.SectionPrepend;
     private string? SectionSelection => BaseViewModel.SectionInfo?.SectionSelection;
     public bool? EasterEggsEnabled => BaseViewModel.SiteConfig?.EnableEasterEggs;
-    private int selectedItemIndex;
+    private int _selectedItemIndex;
+    private int _showSectionIndex = -1;
 
     private bool _isContentVisible = false;
     private string _introClass = string.Empty;
@@ -115,7 +123,7 @@
     
     private void UpdateSelectionIndex(int index)
     {
-        selectedItemIndex = index;
+        _selectedItemIndex = index;
         StateHasChanged();
     }
     
@@ -128,17 +136,30 @@
 
         int updateToIndex = e.Key switch
         {
-            "ArrowDown" => (selectedItemIndex + 1) % Sections.Count,
-            "ArrowUp" => (selectedItemIndex - 1 + Sections.Count) % Sections.Count,
+            "ArrowDown" => (_selectedItemIndex + 1) % Sections.Count,
+            "ArrowUp" => (_selectedItemIndex - 1 + Sections.Count) % Sections.Count,
             _ => 0
         };
 
         UpdateSelectionIndex(updateToIndex);
     }
 
-    public void DisplayInternalNavUrl(string url)
+    public void ShowSection(string section) => ShownSection = GetSectionComponent(Convert.ToInt16(section));
+
+    public Type? ShownSection = null;
+    
+    /// <summary>
+    /// Dynamically resolves section components using naming convention Section{N}
+    /// Searches current assembly for components matching the pattern
+    /// </summary>
+    private Type? GetSectionComponent(int index)
     {
-        throw new NotImplementedException();
+        if (index <= 0) return null;
+        
+        var componentName = $"Section{index}";
+        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+        return assembly.GetTypes()
+            .FirstOrDefault(t => t.Name == componentName && t.IsSubclassOf(typeof(ComponentBase)));
     }
 
     public void CloseEasterEgg()

@@ -9,7 +9,8 @@ public class SectionInfo
     public class Section
     {
         public string Title { get; set; }
-        public string NavUrl { get; set; }
+        public string DisplayOrder { get; set; }
+        
     }
 }
 
