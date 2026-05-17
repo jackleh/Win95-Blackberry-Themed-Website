@@ -1,0 +1,192 @@
+@inject IJSRuntime JS
+@inject BaseViewModel BaseViewModel
+
+<div class="win95-overlay">
+    <!-- Desktop wallpaper -->
+    <div class="win95-desktop" style="background-image: url('@_wallpaperUrl')">
+
+        <!-- Desktop icons -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" @ondblclick="OpenCmdWindow">
+                <div class="icon-img cmd-icon">C:\</div>
+                <div class="icon-label">cmd.exe</div>
+            </div>
+
+            @if (Mode == EasterEggMode.Reduce)
+            {
+                <div class="desktop-icon" @ondblclick="StartVideoSequence">
+                    <div class="icon-img video-icon">▶</div>
+                    <div class="icon-label">video.mp4</div>
+                </div>
+            }
+        </div>
+
+        <!-- Unclosable video window (VideoSequence mode) -->
+        @if (Mode == EasterEggMode.VideoSequence && _videoSequenceActive)
+        {
+            <div class="win95-window video-window" id="videoWindow">
+                <div class="win95-titlebar">
+                    <span class="win95-title">@_currentVideoTitle</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" disabled>_</button>
+                        <button class="win95-btn" disabled>□</button>
+                        <button class="win95-btn win95-btn-disabled" disabled>×</button>
+                    </div>
+                </div>
+                <div class="win95-body video-body">
+                    <video @ref="_videoRef"
+                           src="@_currentVideoSrc"
+                           autoplay
+                           @onended="OnVideoEnded"
+                           style="width:100%;height:100%;display:block;background:#000;">
+                    </video>
+                </div>
+            </div>
+        }
+
+        <!-- Draggable portfolio window (Reduce mode) -->
+        @if (Mode == EasterEggMode.Reduce)
+        {
+            <div class="win95-window portfolio-window" id="portfolioWindow" style="left:80px;top:60px;">
+                <div class="win95-titlebar" id="portfolioTitleBar">
+                    <span class="win95-title">@_siteTitle</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick="OnExit">_</button>
+                        <button class="win95-btn" disabled>□</button>
+                        <button class="win95-btn" @onclick="OnExit">×</button>
+                    </div>
+                </div>
+                <div class="win95-body portfolio-body">
+                    <p class="portfolio-preview-text">[ @_siteTitle ]</p>
+                    <p class="portfolio-preview-text secondary">Double-click video.mp4 on the desktop to continue...</p>
+                    <button class="win95-restore-btn" @onclick="OnExit">Restore Site</button>
+                </div>
+            </div>
+        }
+
+        <!-- CMD window -->
+        @if (_cmdOpen)
+        {
+            <div class="win95-window cmd-window" id="cmdWindow" style="left:120px;top:140px;">
+                <div class="win95-titlebar" id="cmdTitleBar">
+                    <span class="win95-title">C:\WINDOWS\system32\cmd.exe</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick="() => _cmdOpen = false">_</button>
+                        <button class="win95-btn" disabled>□</button>
+                        <button class="win95-btn" @onclick="() => _cmdOpen = false">×</button>
+                    </div>
+                </div>
+                <div class="win95-body cmd-body">
+                    <p>Microsoft Windows [Version 4.00.950]</p>
+                    <p>(C) Copyright Microsoft Corp 1981-1996.</p>
+                    <br />
+                    <p>C:\WINDOWS&gt; <span class="cmd-blink">_</span></p>
+                    <br />
+                    <p class="cmd-hint">Type <span class="cmd-cmd" @onclick="OnExit">restore</span> to return to site.</p>
+                    <button class="cmd-restore-btn" @onclick="OnExit">restore</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Taskbar -->
+    <div class="win95-taskbar">
+        <button class="win95-start-btn">
+            <span class="start-logo">⊞</span> Start
+        </button>
+        <div class="taskbar-divider"></div>
+        <div class="taskbar-windows">
+            @if (Mode == EasterEggMode.VideoSequence && _videoSequenceActive)
+            {
+                <div class="taskbar-item active">@_currentVideoTitle</div>
+            }
+            @if (Mode == EasterEggMode.Reduce)
+            {
+                <div class="taskbar-item active">@_siteTitle</div>
+            }
+        </div>
+        <div class="taskbar-cmd-btn" @onclick="OpenCmdWindow" title="Open CMD">
+            <span>C:\</span>
+        </div>
+        <div class="taskbar-clock">@_clock</div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public EasterEggMode Mode { get; set; }
+
+    [Parameter]
+    public EventCallback OnExit { get; set; }
+
+    private string _wallpaperUrl => BaseViewModel.SiteConfig?.EasterEggDesktopPictureUrl ?? string.Empty;
+    private string _siteTitle => BaseViewModel.SiteConfig?.SiteTitle ?? "Portfolio";
+
+    private bool _videoSequenceActive;
+    private bool _cmdOpen;
+    private int _videoIndex;
+    private string _clock = string.Empty;
+
+    private ElementReference _videoRef;
+
+    private readonly string[] _videoTitles = ["lain_phone.mp4", "lain_vhs.mp4", "lain_falling_dance.mp4"];
+
+    private string _currentVideoTitle => _videoIndex < _videoTitles.Length
+        ? _videoTitles[_videoIndex]
+        : string.Empty;
+
+    private string _currentVideoSrc => _videoIndex switch
+    {
+        0 => BaseViewModel.SiteConfig?.EasterEggVideo1Url ?? string.Empty,
+        1 => BaseViewModel.SiteConfig?.EasterEggVideo2Url ?? string.Empty,
+        2 => BaseViewModel.SiteConfig?.EasterEggVideo3Url ?? string.Empty,
+        _ => string.Empty
+    };
+
+    protected override void OnInitialized()
+    {
+        _clock = DateTime.Now.ToString("HH:mm");
+
+        if (Mode == EasterEggMode.VideoSequence)
+        {
+            _videoSequenceActive = true;
+            _videoIndex = 0;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && Mode == EasterEggMode.Reduce)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag", "portfolioWindow", "portfolioTitleBar");
+        }
+        if (_cmdOpen)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag", "cmdWindow", "cmdTitleBar");
+        }
+    }
+
+    private void StartVideoSequence()
+    {
+        _videoSequenceActive = true;
+        _videoIndex = 0;
+        StateHasChanged();
+    }
+
+    private async Task OnVideoEnded()
+    {
+        _videoIndex++;
+        if (_videoIndex >= _videoTitles.Length)
+        {
+            await OnExit.InvokeAsync();
+            return;
+        }
+        StateHasChanged();
+    }
+
+    private void OpenCmdWindow()
+    {
+        _cmdOpen = true;
+        StateHasChanged();
+    }
+}

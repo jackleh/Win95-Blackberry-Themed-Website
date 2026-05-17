@@ -1,10 +1,16 @@
 ﻿@page "/"
 @using PortfolioWebsite.Models
 @using PortfolioWebsite.ViewModels
+@using PortfolioWebsite.Components.EasterEgg
 @inject BaseViewModel BaseViewModel
 @inject NavigationManager NavigationManager
 
 <PageTitle>@SiteTitle</PageTitle>
+
+@if (_easterEggMode.HasValue)
+{
+    <Win95Desktop Mode="_easterEggMode.Value" OnExit="ExitEasterEgg" />
+}
 
 <div style="height: 100vh; width: 100vw; display: flex; flex-direction: column;" @onkeydown="HandleKeyDown" tabindex="0" @ref="_mainDiv">
     
@@ -96,6 +102,8 @@
 
     private bool _isContentVisible = false;
     private string _introClass = string.Empty;
+
+    private EasterEggMode? _easterEggMode = null;
     
     
     protected override async Task OnInitializedAsync()
@@ -162,42 +170,30 @@
             .FirstOrDefault(t => t.Name == componentName && t.IsSubclassOf(typeof(ComponentBase)));
     }
 
+    private void ExitEasterEgg()
+    {
+        _easterEggMode = null;
+        StateHasChanged();
+    }
+
     public void CloseEasterEgg()
     {
-        if ((bool)!EasterEggsEnabled) return;
-        /* todo you keep going and exhaust all your warnings, minimize the window and show a windows 95 desktop with
-         * the lain_phone playing in a unclosable desktop window with the navi computer as the BG. after that video plays
-         * play the lain_vhs, then lain_falling_dance video, after which it will close.
-         *
-         * there will also have a cmd on the desktop and one in the fake task bar on the desktop which will
-         * restore the webpage back to its original state.
-         */
-        
-        throw new NotImplementedException();
+        if (EasterEggsEnabled != true) return;
+        _easterEggMode = EasterEggMode.VideoSequence;
+        StateHasChanged();
     }
     
     public void ReduceWindowEasterEgg()
     {
-        if ((bool)!EasterEggsEnabled) return;
-
-        //todo show a windows 95 desktop with the window free to drag around on it with
-        //lain_navi as the background cleaned up to remove
-        //the "created by" text. there will be a app on the desktop called video.mp4 which will kick of the video
-        //easter eggs
-        throw new NotImplementedException();
+        if (EasterEggsEnabled != true) return;
+        _easterEggMode = EasterEggMode.Reduce;
+        StateHasChanged();
     }
     
     public void MinimizeEasterEgg()
     {
-        if ((bool)!EasterEggsEnabled) return;
-
-        /* todo you keep going and exhaust all your warnings, minimize the window and show a windows 95 desktop with
-         * the lain_phone playing in a unclosable desktop window with the navi computer as the BG. after that video plays
-         * play the lain_vhs, then lain_falling_dance video, after which it will close.
-         *
-         * there will also have a cmd on the desktop and one in the fake task bar on the desktop which will
-         * restore the webpage back to its original state.
-         */
-        throw new NotImplementedException();
+        if (EasterEggsEnabled != true) return;
+        _easterEggMode = EasterEggMode.VideoSequence;
+        StateHasChanged();
     }
 }

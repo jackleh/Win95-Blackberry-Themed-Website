@@ -1,1 +1,81 @@
-﻿
+﻿.section-wrapper {
+    padding: 2rem 1.5rem 2rem;
+    color: white;
+}
+
+.section-header {
+    font-size: 1.2rem;
+    color: #aaaaaa;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 680px;
+}
+
+.project-card {
+    border: 1px solid #333;
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.project-name {
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.project-status {
+    font-size: 0.7rem;
+    font-weight: normal;
+}
+
+.project-status.active {
+    color: #6fcf97;
+}
+
+.project-status.archived {
+    color: #888888;
+}
+
+.project-description {
+    font-size: 0.85rem;
+    color: #cccccc;
+    line-height: 1.5;
+}
+
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.2rem;
+}
+
+.tech-tag {
+    font-size: 0.75rem;
+    color: #aaaaaa;
+    border: 1px solid #444;
+    padding: 0.1rem 0.45rem;
+    border-radius: 2px;
+}
+
+.project-link {
+    font-size: 0.8rem;
+    color: #7eb8f7;
+    text-decoration: none;
+    margin-top: 0.2rem;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}

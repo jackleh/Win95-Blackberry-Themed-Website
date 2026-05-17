@@ -1,0 +1,354 @@
+.win95-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Arial', 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+}
+
+/* ── Desktop ── */
+.win95-desktop {
+    flex: 1;
+    background-color: #008080;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ── Desktop Icons ── */
+.desktop-icons {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 64px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.desktop-icon:hover .icon-img {
+    background-color: rgba(0, 0, 128, 0.5);
+}
+
+.icon-img {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.cmd-icon {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+}
+
+.video-icon {
+    background-color: #111111;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.icon-label {
+    color: white;
+    text-shadow: 1px 1px 2px #000;
+    font-size: 11px;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* ── Windows ── */
+.win95-window {
+    position: absolute;
+    border: 2px solid #ffffff;
+    outline: 1px solid #000000;
+    box-shadow: 2px 2px 0 #000000;
+    background-color: #c0c0c0;
+    min-width: 200px;
+}
+
+.win95-titlebar {
+    background: linear-gradient(to right, #000080, #1084d0);
+    color: white;
+    padding: 3px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: move;
+    user-select: none;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.win95-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 6px;
+}
+
+.win95-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.win95-btn {
+    width: 16px;
+    height: 14px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    color: #000000;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.win95-btn:disabled {
+    color: #808080;
+    cursor: default;
+}
+
+.win95-btn-disabled {
+    color: #808080 !important;
+}
+
+.win95-body {
+    background-color: #c0c0c0;
+    padding: 8px;
+}
+
+/* ── Video Window ── */
+.video-window {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 560px;
+}
+
+.video-body {
+    padding: 0;
+    height: 315px;
+    background: #000;
+}
+
+/* ── Portfolio Window (Reduce mode) ── */
+.portfolio-window {
+    width: 380px;
+}
+
+.portfolio-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+}
+
+.portfolio-preview-text {
+    margin: 0;
+    font-size: 12px;
+    color: #000000;
+}
+
+.portfolio-preview-text.secondary {
+    color: #444444;
+    font-style: italic;
+}
+
+.win95-restore-btn {
+    margin-top: 8px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    padding: 4px 16px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+    align-self: flex-start;
+}
+
+.win95-restore-btn:hover {
+    background-color: #d4d4d4;
+}
+
+/* ── CMD Window ── */
+.cmd-window {
+    width: 480px;
+}
+
+.cmd-body {
+    background-color: #000000;
+    color: #c0c0c0;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 10px;
+    min-height: 180px;
+}
+
+.cmd-body p {
+    margin: 0 0 2px;
+}
+
+.cmd-blink {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.cmd-hint {
+    color: #888888 !important;
+    font-style: italic;
+    margin-top: 8px !important;
+}
+
+.cmd-cmd {
+    color: #6fcf97;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.cmd-restore-btn {
+    margin-top: 8px;
+    background-color: transparent;
+    border: 1px solid #6fcf97;
+    color: #6fcf97;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 2px 12px;
+    cursor: pointer;
+    display: block;
+}
+
+.cmd-restore-btn:hover {
+    background-color: #6fcf97;
+    color: #000;
+}
+
+/* ── Taskbar ── */
+.win95-taskbar {
+    height: 30px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    flex-shrink: 0;
+}
+
+.win95-start-btn {
+    height: 22px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+}
+
+.start-logo {
+    color: #00aa00;
+}
+
+.taskbar-divider {
+    width: 2px;
+    height: 20px;
+    background: #808080;
+    border-right: 1px solid #ffffff;
+}
+
+.taskbar-windows {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+    overflow: hidden;
+}
+
+.taskbar-item {
+    height: 22px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    padding: 0 8px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.taskbar-item.active {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    background-color: #b0b0b0;
+}
+
+.taskbar-cmd-btn {
+    height: 22px;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #808080;
+}
+
+.taskbar-cmd-btn:hover {
+    background-color: #222222;
+}
+
+.taskbar-clock {
+    font-size: 11px;
+    padding: 0 8px;
+    border: 1px solid #808080;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+}

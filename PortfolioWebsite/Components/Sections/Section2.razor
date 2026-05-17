@@ -1,5 +1,33 @@
-﻿<h3>Section2</h3>
+﻿@inject BaseViewModel BaseViewModel
+
+<div class="section-wrapper">
+    <div class="section-header">// projects</div>
+
+    <div class="projects-list">
+        @foreach (var project in BaseViewModel.ProjectsInfo?.Projects ?? [])
+        {
+            <div class="project-card">
+                <div class="project-name">@project.Name
+                    @if (!string.IsNullOrEmpty(project.Status))
+                    {
+                        <span class="project-status @project.Status">[@project.Status]</span>
+                    }
+                </div>
+                <div class="project-description">@project.Description</div>
+                <div class="project-tech">
+                    @foreach (var tech in project.Technologies)
+                    {
+                        <span class="tech-tag">@tech</span>
+                    }
+                </div>
+                @if (!string.IsNullOrEmpty(project.Url))
+                {
+                    <a class="project-link" href="@project.Url" target="_blank">→ @project.Url</a>
+                }
+            </div>
+        }
+    </div>
+</div>
 
 @code {
-    
 }
