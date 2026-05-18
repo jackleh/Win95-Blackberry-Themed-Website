@@ -58,19 +58,6 @@
     margin-bottom: 4px;
 }
 
-.cmd-icon {
-    background-color: #000000;
-    color: #ffffff;
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-}
-
-.video-icon {
-    background-color: #111111;
-    color: #ffffff;
-    font-size: 20px;
-}
-
 .icon-label {
     color: white;
     text-shadow: 1px 1px 2px #000;
@@ -145,10 +132,6 @@
 .win95-btn:disabled {
     color: #808080;
     cursor: default;
-}
-
-.win95-btn-disabled {
-    color: #808080 !important;
 }
 
 .win95-body {
@@ -294,49 +277,6 @@
     cursor: pointer;
 }
 
-/* ── Portfolio Window (Reduce mode) ── */
-.portfolio-window {
-    width: 380px;
-    left: 80px;
-    top: 60px;
-}
-
-.portfolio-body {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-}
-
-.portfolio-preview-text {
-    margin: 0;
-    font-size: 12px;
-    color: #000000;
-}
-
-.portfolio-preview-text.secondary {
-    color: #444444;
-    font-style: italic;
-}
-
-.win95-restore-btn {
-    margin-top: 8px;
-    background-color: #c0c0c0;
-    border-top: 1px solid #ffffff;
-    border-left: 1px solid #ffffff;
-    border-right: 1px solid #808080;
-    border-bottom: 1px solid #808080;
-    padding: 4px 16px;
-    font-size: 11px;
-    cursor: pointer;
-    font-family: 'Arial', sans-serif;
-    align-self: flex-start;
-}
-
-.win95-restore-btn:hover {
-    background-color: #d4d4d4;
-}
-
 /* ── CMD Window ── */
 .cmd-window {
     width: 480px;
@@ -361,15 +301,6 @@
     margin: 0 0 2px;
 }
 
-.cmd-blink {
-    animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
 .cmd-prompt-line {
     margin: 0 0 2px;
     display: flex;
@@ -387,33 +318,6 @@
     flex: 1;
     min-width: 0;
     padding: 0;
-}
-    color: #888888 !important;
-    font-style: italic;
-    margin-top: 8px !important;
-}
-
-.cmd-cmd {
-    color: #6fcf97;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.cmd-restore-btn {
-    margin-top: 8px;
-    background-color: transparent;
-    border: 1px solid #6fcf97;
-    color: #6fcf97;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    padding: 2px 12px;
-    cursor: pointer;
-    display: block;
-}
-
-.cmd-restore-btn:hover {
-    background-color: #6fcf97;
-    color: #000;
 }
 
 /* ── Taskbar ── */
@@ -448,10 +352,6 @@
     gap: 4px;
     cursor: pointer;
     font-family: 'Arial', sans-serif;
-}
-
-.start-logo {
-    color: #00aa00;
 }
 
 .taskbar-divider {
@@ -713,6 +613,12 @@
     flex-direction: column;
 }
 
+/* Default open positions for the three text windows on the desktop.
+   They cascade so opening all three doesn't fully overlap. */
+.projects-window-default { left: 170px; top: 65px; }
+.resume-window-default   { left: 200px; top: 90px; }
+.contact-window-default  { left: 230px; top: 115px; }
+
 .txtfile-content {
     flex: 1;
     margin: 0;
@@ -728,33 +634,6 @@
     outline: none;
     box-sizing: border-box;
     width: 100%;
-}
-
-.resume-btn-row {
-    display: flex;
-    gap: 8px;
-    padding: 6px 8px;
-    background: #c0c0c0;
-    border-top: 1px solid #808080;
-    flex-shrink: 0;
-}
-
-.win95-file-btn {
-    background-color: #c0c0c0;
-    border-top: 1px solid #ffffff;
-    border-left: 1px solid #ffffff;
-    border-right: 1px solid #808080;
-    border-bottom: 1px solid #808080;
-    padding: 3px 10px;
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    color: #000000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.win95-file-btn:hover {
-    background-color: #d4d4d4;
 }
 
 /* ── Resume Markdown viewer ── */
@@ -986,29 +865,6 @@
     top: 60px;
     width: 580px;
     height: 480px;
-}
-
-/* Menu bar */
-.paint-menubar {
-    background-color: #c0c0c0;
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    padding: 1px 4px;
-    border-bottom: 1px solid #808080;
-    gap: 0;
-}
-
-.paint-menu-item {
-    padding: 2px 8px;
-    font-size: 11px;
-    cursor: default;
-    user-select: none;
-}
-
-.paint-menu-item:hover {
-    background-color: #000080;
-    color: #ffffff;
 }
 
 /* Main area: toolbar + canvas */

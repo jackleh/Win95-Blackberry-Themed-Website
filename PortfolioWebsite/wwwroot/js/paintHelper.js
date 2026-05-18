@@ -10,10 +10,13 @@ window.paintHelper = {
 
     init: function (canvasId, imageUrl) {
         const canvas = document.getElementById(canvasId);
-        if (!canvas || canvas.dataset.paintInit) return;
-        canvas.dataset.paintInit = 'true';
+        if (!canvas) return;
+        // Always refresh the cached refs — the canvas DOM element is recreated
+        // when the Paint window is closed and reopened.
         this._canvas = canvas;
         this._ctx = canvas.getContext('2d');
+        if (canvas.dataset.paintInit) return;
+        canvas.dataset.paintInit = 'true';
 
         // White background
         this._ctx.fillStyle = '#ffffff';
@@ -74,13 +77,15 @@ window.paintHelper = {
     loadImage: function (canvasId, url) {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Refresh cached refs so subsequent drawing ops target the live canvas.
+        this._canvas = canvas;
+        this._ctx = canvas.getContext('2d');
+        this._ctx.fillStyle = '#ffffff';
+        this._ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (url) {
             const img = new Image();
             img.crossOrigin = 'anonymous';
-            img.onload = () => { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
+            img.onload = () => { this._ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
             img.src = url;
         }
     },
