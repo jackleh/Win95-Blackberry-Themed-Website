@@ -1,0 +1,1212 @@
+.win95-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    font-family: 'Arial', 'Helvetica Neue', sans-serif;
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+/* ── Desktop ── */
+.win95-desktop {
+    flex: 1;
+    background-color: #008080;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ── Desktop Icons ── */
+.desktop-icons {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 64px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.desktop-icon:hover .icon-img {
+    background-color: rgba(0, 0, 128, 0.5);
+}
+
+.icon-img {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.cmd-icon {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+}
+
+.video-icon {
+    background-color: #111111;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.icon-label {
+    color: white;
+    text-shadow: 1px 1px 2px #000;
+    font-size: 11px;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* ── Window Panels ── */
+.win95-window {
+    position: absolute;
+    border: 2px solid #ffffff;
+    outline: 1px solid #000000;
+    box-shadow: 2px 2px 0 #000000;
+    background-color: #c0c0c0;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.win95-titlebar {
+    background: linear-gradient(to right, #000080, #1084d0);
+    color: white;
+    padding: 3px 4px;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    justify-content: space-between;
+    cursor: move;
+    user-select: none;
+    font-weight: bold;
+    font-size: 11px;
+    min-height: 20px;
+    box-sizing: border-box;
+}
+
+.win95-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 6px;
+}
+
+.win95-controls {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.win95-btn {
+    width: 16px;
+    height: 14px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    color: #000000;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.win95-btn:disabled {
+    color: #808080;
+    cursor: default;
+}
+
+.win95-btn-disabled {
+    color: #808080 !important;
+}
+
+.win95-body {
+    background-color: #c0c0c0;
+    padding: 8px;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+/* ── Video Window ── */
+.video-window {
+    /* Centered without transform so JS drag works cleanly */
+    left: calc(50% - 280px);
+    top: calc(50% - 170px);
+    width: 560px;
+    min-width: 300px;
+    min-height: 180px;
+}
+
+.video-body {
+    padding: 0;
+    flex: 1;
+    min-height: 0;
+    background: #000;
+    overflow: hidden;
+}
+
+.video-controls {
+    background-color: #c0c0c0;
+    border-top: 1px solid #808080;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 4px 8px;
+    flex: 0 0 auto;
+}
+
+.video-ctrl-btn {
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    min-width: 32px;
+    height: 22px;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    font-family: 'Arial', sans-serif;
+}
+
+.video-ctrl-btn:hover:not(:disabled) {
+    background-color: #d4d4d4;
+}
+
+.video-ctrl-btn:active:not(:disabled) {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.video-ctrl-btn:disabled {
+    color: #808080;
+    cursor: default;
+}
+
+.video-track-label {
+    font-size: 10px;
+    font-family: 'Courier New', monospace;
+    color: #000000;
+    padding: 0 4px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.video-vol-icon {
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+}
+
+.video-volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80px;
+    height: 20px;
+    background: transparent;
+    cursor: pointer;
+    vertical-align: middle;
+    outline: none;
+    padding: 0;
+}
+
+.video-volume-slider::-webkit-slider-runnable-track {
+    height: 3px;
+    background: #808080;
+    border-top: 1px solid #404040;
+    border-left: 1px solid #404040;
+    border-bottom: 1px solid #dfdfdf;
+    border-right: 1px solid #dfdfdf;
+}
+
+.video-volume-slider::-moz-range-track {
+    height: 3px;
+    background: #808080;
+    border-top: 1px solid #404040;
+    border-left: 1px solid #404040;
+    border-bottom: 1px solid #dfdfdf;
+    border-right: 1px solid #dfdfdf;
+}
+
+.video-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 11px;
+    height: 20px;
+    margin-top: -9px;
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    cursor: pointer;
+}
+
+.video-volume-slider::-moz-range-thumb {
+    width: 11px;
+    height: 20px;
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+/* ── Portfolio Window (Reduce mode) ── */
+.portfolio-window {
+    width: 380px;
+    left: 80px;
+    top: 60px;
+}
+
+.portfolio-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+}
+
+.portfolio-preview-text {
+    margin: 0;
+    font-size: 12px;
+    color: #000000;
+}
+
+.portfolio-preview-text.secondary {
+    color: #444444;
+    font-style: italic;
+}
+
+.win95-restore-btn {
+    margin-top: 8px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    padding: 4px 16px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+    align-self: flex-start;
+}
+
+.win95-restore-btn:hover {
+    background-color: #d4d4d4;
+}
+
+/* ── CMD Window ── */
+.cmd-window {
+    width: 480px;
+    left: 120px;
+    top: 140px;
+    max-height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+}
+
+.cmd-body {
+    background-color: #000000;
+    color: #c0c0c0;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 10px;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.cmd-body p {
+    margin: 0 0 2px;
+}
+
+.cmd-blink {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.cmd-prompt-line {
+    margin: 0 0 2px;
+    display: flex;
+    align-items: center;
+}
+
+.cmd-input {
+    background: transparent;
+    border: none;
+    color: #c0c0c0;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    outline: none;
+    caret-color: #c0c0c0;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+}
+    color: #888888 !important;
+    font-style: italic;
+    margin-top: 8px !important;
+}
+
+.cmd-cmd {
+    color: #6fcf97;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.cmd-restore-btn {
+    margin-top: 8px;
+    background-color: transparent;
+    border: 1px solid #6fcf97;
+    color: #6fcf97;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 2px 12px;
+    cursor: pointer;
+    display: block;
+}
+
+.cmd-restore-btn:hover {
+    background-color: #6fcf97;
+    color: #000;
+}
+
+/* ── Taskbar ── */
+.win95-taskbar {
+    height: 30px;
+    background-color: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    user-select: none;
+    -webkit-user-select: none;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.win95-start-btn {
+    height: 22px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+}
+
+.start-logo {
+    color: #00aa00;
+}
+
+.taskbar-divider {
+    width: 2px;
+    height: 20px;
+    background: #808080;
+    border-right: 1px solid #ffffff;
+}
+
+.taskbar-windows {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+    overflow: hidden;
+}
+
+.taskbar-item {
+    height: 22px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    padding: 0 8px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.taskbar-item.active {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    background-color: #b0b0b0;
+}
+
+.taskbar-cmd-btn {
+    height: 22px;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #808080;
+}
+
+.taskbar-cmd-btn:hover {
+    background-color: #222222;
+}
+
+.taskbar-clock {
+    font-size: 11px;
+    padding: 0 8px;
+    border: 1px solid #808080;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* ── Taskbar items ── */
+.taskbar-item {
+    cursor: pointer;
+}
+
+/* ── Start button active (menu open) ── */
+.win95-start-btn.active {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    background-color: #b0b0b0;
+}
+
+/* ── Window: Minimized ── */
+.win95-window.minimized {
+    display: none !important;
+}
+
+/* ── Window: Maximized ── */
+.win95-window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    box-shadow: none;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box;
+}
+
+.win95-window.maximized .win95-titlebar {
+    cursor: default;
+}
+
+/* ── Start Menu ── */
+.win95-start-menu {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    background-color: #c0c0c0;
+    border: 2px solid #ffffff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    box-shadow: 2px 2px 0 #000;
+    z-index: 10000;
+    display: flex !important;
+    flex-direction: row !important;
+    min-width: 180px;
+    user-select: none;
+}
+
+.start-menu-sidebar {
+    background: linear-gradient(to top, #000080, #1084d0);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 8px 4px;
+    flex-shrink: 0;
+}
+
+.start-menu-items {
+    flex: 1;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 2px 0;
+}
+
+.start-menu-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.start-menu-item:hover {
+    background-color: #000080;
+    color: white;
+}
+
+.start-menu-icon {
+    font-size: 14px;
+    width: 18px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.start-menu-divider {
+    height: 2px;
+    background: #808080;
+    border-bottom: 1px solid #ffffff;
+    margin: 2px 4px;
+}
+
+/* ── TXT file icon (generic text document) ── */
+.txt-icon {
+    background: #ffffff;
+    border: 1px solid #000000;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: 1px 1px 0 #808080;
+}
+
+/* Folded corner */
+.txt-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 0;
+    border-color: transparent #c0c0c0 transparent transparent;
+    filter: drop-shadow(-1px 1px 0 #808080);
+    z-index: 1;
+}
+
+/* Text lines on body */
+.txt-icon::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 5px,
+        #000080 5px,
+        #000080 6px
+    );
+}
+
+/* ── PDF icon ── */
+.pdf-icon {
+    background: #ffffff;
+    border: 1px solid #000000;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 1px 1px 0 #808080;
+}
+
+.pdf-icon::before {
+    content: 'PDF';
+    position: absolute;
+    top: 4px;
+    left: 2px;
+    right: 2px;
+    height: 12px;
+    background: #cc0000;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    font-size: 8px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.pdf-icon::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 4px,
+        #808080 4px,
+        #808080 5px
+    );
+}
+
+/* ── Text file viewer window ── */
+.txtfile-window {
+    width: 560px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.txtfile-content {
+    flex: 1;
+    margin: 0;
+    padding: 6px 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #000000;
+    background: #ffffff;
+    white-space: pre;
+    overflow: auto;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.resume-btn-row {
+    display: flex;
+    gap: 8px;
+    padding: 6px 8px;
+    background: #c0c0c0;
+    border-top: 1px solid #808080;
+    flex-shrink: 0;
+}
+
+.win95-file-btn {
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    padding: 3px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.win95-file-btn:hover {
+    background-color: #d4d4d4;
+}
+
+/* ── Resume Markdown viewer ── */
+.resume-md-body {
+    display: block !important;
+    overflow-y: auto;
+    background: #ffffff;
+    flex: 1;
+}
+
+.resume-doc {
+    padding: 16px 20px;
+    font-family: 'Arial', sans-serif;
+    color: #000000;
+    max-width: 600px;
+}
+
+.resume-doc h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 3px;
+    color: #000000;
+}
+
+.resume-doc .resume-tagline {
+    font-size: 13px;
+    color: #444444;
+    margin: 0 0 5px;
+}
+
+.resume-doc .resume-meta {
+    font-size: 10px;
+    color: #555555;
+    margin: 0 0 8px;
+}
+
+.resume-doc .resume-meta a {
+    color: #000080;
+    text-decoration: underline;
+}
+
+.resume-doc hr {
+    border: none;
+    border-top: 1px solid #000000;
+    margin: 8px 0 12px;
+}
+
+.resume-doc h2 {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 2px;
+    margin: 14px 0 6px;
+    color: #000000;
+}
+
+.resume-doc h3 {
+    font-size: 12px;
+    font-weight: bold;
+    margin: 10px 0 2px;
+    color: #000000;
+}
+
+.resume-doc .resume-date {
+    font-size: 10px;
+    color: #555555;
+    margin: 0 0 4px;
+    font-style: italic;
+}
+
+.resume-doc p {
+    font-size: 11px;
+    margin: 0 0 6px;
+    line-height: 1.5;
+}
+
+.resume-doc ul {
+    margin: 2px 0 8px 18px;
+    padding: 0;
+}
+
+.resume-doc li {
+    font-size: 11px;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+/* ── Notepad Icon ── */
+.notepad-icon {
+    background: #ffffff;
+    border: 1px solid #000000;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 1px 1px 0 #808080;
+}
+
+/* Blue ruled lines */
+.notepad-icon::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 4px;
+    right: 4px;
+    bottom: 3px;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 4px,
+        #6666cc 4px,
+        #6666cc 5px
+    );
+}
+
+/* Dark header bar with spiral-hole dots */
+.notepad-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 11px;
+    background: #000080;
+    border-bottom: 1px solid #000000;
+    z-index: 1;
+    box-shadow:
+        6px 3px 0 2px #c0c0c0,
+        16px 3px 0 2px #c0c0c0,
+        26px 3px 0 2px #c0c0c0;
+}
+
+/* ── Notepad Window ── */
+.notepad-window {
+    left: 200px;
+    top: 100px;
+    width: 480px;
+    height: 340px;
+    display: flex;
+    flex-direction: column;
+}
+
+.notepad-menubar {
+    background-color: #c0c0c0;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    padding: 1px 4px;
+    border-bottom: 1px solid #808080;
+    gap: 0;
+    flex-shrink: 0;
+}
+
+.notepad-menu-item {
+    padding: 2px 8px;
+    font-size: 11px;
+    cursor: default;
+    user-select: none;
+}
+
+.notepad-menu-item:hover {
+    background-color: #000080;
+    color: #ffffff;
+}
+
+.notepad-body {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    padding: 0;
+}
+
+.notepad-textarea {
+    flex: 1;
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    background-color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 4px;
+    box-sizing: border-box;
+    color: #000000;
+    line-height: 1.4;
+}
+
+/* ── Paint Icon ── */
+.paint-icon {
+    background: #c0c0c0;
+    border: 1px solid #000000;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 1px 1px 0 #808080;
+}
+
+/* White canvas inset */
+.paint-icon::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border: 1px solid #808080;
+    box-shadow: inset 1px 1px 0 #ffffff;
+}
+
+/* Paint blobs on canvas — each box-shadow is a different color dot */
+.paint-icon::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ff0000;
+    top: 8px;
+    left: 8px;
+    box-shadow:
+        9px 0   0 #0000cc,
+        0   9px 0 #008800,
+        9px 9px 0 #cc8800;
+}
+
+/* ── Paint Window ── */
+.paint-window {
+    left: 160px;
+    top: 60px;
+    width: 580px;
+    height: 480px;
+}
+
+/* Menu bar */
+.paint-menubar {
+    background-color: #c0c0c0;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    padding: 1px 4px;
+    border-bottom: 1px solid #808080;
+    gap: 0;
+}
+
+.paint-menu-item {
+    padding: 2px 8px;
+    font-size: 11px;
+    cursor: default;
+    user-select: none;
+}
+
+.paint-menu-item:hover {
+    background-color: #000080;
+    color: #ffffff;
+}
+
+/* Main area: toolbar + canvas */
+.paint-main {
+    display: flex !important;
+    flex-direction: row !important;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Left toolbar */
+.paint-toolbar {
+    width: 54px;
+    background-color: #c0c0c0;
+    border-right: 1px solid #808080;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    padding: 4px 2px;
+    gap: 4px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.paint-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    width: 100%;
+}
+
+.paint-tool-gap {
+    /* filler for odd-numbered tools */
+}
+
+.paint-tool {
+    width: 24px;
+    height: 24px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.paint-tool.active {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    background-color: #b0b0b0;
+}
+
+.paint-tool:hover:not(.active) {
+    background-color: #d4d4d4;
+}
+
+.paint-toolbar-sep {
+    width: 90%;
+    height: 1px;
+    background: #808080;
+    border-bottom: 1px solid #ffffff;
+    margin: 2px 0;
+}
+
+/* Color preview box */
+.paint-color-display {
+    width: 28px;
+    height: 22px;
+}
+
+.paint-fg-color {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #000;
+    box-sizing: border-box;
+}
+
+/* Brush sizes */
+.paint-sizes {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    width: 100%;
+}
+
+.paint-size-btn {
+    width: 44px;
+    height: 20px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #808080;
+    border-bottom: 1px solid #808080;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    outline: none;
+}
+
+.paint-size-btn.active {
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    background-color: #b0b0b0;
+}
+
+/* Dots representing brush sizes */
+.pdot {
+    display: inline-block;
+    background-color: #000000;
+    border-radius: 50%;
+}
+
+.pdot-sm { width: 3px;  height: 3px;  }
+.pdot-md { width: 6px;  height: 6px;  }
+.pdot-lg { width: 10px; height: 10px; }
+
+/* Canvas scroll area */
+.paint-canvas-area {
+    flex: 1;
+    overflow: auto;
+    background-color: #808080;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.paint-canvas {
+    cursor: crosshair;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Color palette strip */
+.paint-palette {
+    background-color: #c0c0c0;
+    border-top: 1px solid #808080;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    padding: 3px 4px;
+    gap: 2px;
+    flex-shrink: 0;
+    height: 26px;
+    overflow: hidden;
+}
+
+.paint-current-swatch {
+    width: 20px;
+    height: 18px;
+    border: 1px solid #000;
+    flex-shrink: 0;
+}
+
+.paint-palette-sep {
+    width: 2px;
+    height: 18px;
+    background: #808080;
+    border-right: 1px solid #ffffff;
+    margin: 0 2px;
+    flex-shrink: 0;
+}
+
+.paint-palette-color {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #808080;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.paint-palette-color:hover {
+    border: 1px solid #000000;
+    transform: scale(1.15);
+}
+
+.paint-palette-color.selected {
+    border: 2px solid #000000;
+    outline: 1px solid #ffffff;
+}
+

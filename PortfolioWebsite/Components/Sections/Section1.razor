@@ -1,5 +1,53 @@
-﻿<h3>Section1</h3>
+﻿@inject BaseViewModel BaseViewModel
+
+<div class="section-wrapper">
+    <div class="section-header">// about-me</div>
+
+    <div class="about-grid">
+        <div class="about-block">
+            <span class="about-label">name</span>
+            <span class="about-value">@BaseViewModel.Person?.Name</span>
+        </div>
+        <div class="about-block">
+            <span class="about-label">role</span>
+            <span class="about-value">@BaseViewModel.Person?.Title</span>
+        </div>
+        <div class="about-block">
+            <span class="about-label">location</span>
+            <span class="about-value">@BaseViewModel.AboutMe?.Location</span>
+        </div>
+        <div class="about-block about-block-full">
+            <span class="about-label">summary</span>
+            <span class="about-value">@BaseViewModel.AboutMe?.Summary</span>
+        </div>
+        <div class="about-block about-block-full">
+            <span class="about-label">skills</span>
+            <div class="tag-list">
+                @foreach (var skill in BaseViewModel.AboutMe?.Skills ?? [])
+                {
+                    <span class="tag">@skill</span>
+                }
+            </div>
+        </div>
+        <div class="about-block about-block-full">
+            <span class="about-label">languages</span>
+            <div class="tag-list">
+                @foreach (var lang in BaseViewModel.AboutMe?.Languages ?? [])
+                {
+                    <span class="tag">@lang</span>
+                }
+            </div>
+        </div>
+        <div class="about-block">
+            <span class="about-label">github</span>
+            <a class="about-link" href="@BaseViewModel.AboutMe?.GithubUrl" target="_blank">@BaseViewModel.AboutMe?.GithubUrl</a>
+        </div>
+        <div class="about-block">
+            <span class="about-label">linkedin</span>
+            <a class="about-link" href="@BaseViewModel.Person?.LinkedinUrl" target="_blank">@BaseViewModel.Person?.LinkedinUrl</a>
+        </div>
+    </div>
+</div>
 
 @code {
-    
 }

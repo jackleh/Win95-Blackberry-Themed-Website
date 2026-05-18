@@ -1,1 +1,78 @@
-﻿
+﻿.section-wrapper {
+    padding: 2rem 1.5rem 2rem;
+    color: white;
+}
+
+.section-header {
+    font-size: 1.2rem;
+    color: #aaaaaa;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+.resume-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 480px;
+}
+
+.resume-hint {
+    font-size: 0.9rem;
+    color: #888888;
+    margin: 0;
+}
+
+.prompt {
+    color: #6fcf97;
+    margin-right: 0.5rem;
+}
+
+.resume-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.resume-btn {
+    font-size: 0.9rem;
+    color: #000000;
+    background-color: #ffffff;
+    padding: 0.4rem 1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background-color 0.15s;
+}
+
+.resume-btn:hover {
+    background-color: #cccccc;
+    color: #000000;
+}
+
+.resume-btn-secondary {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #555;
+}
+
+.resume-btn-secondary:hover {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+.btn-icon {
+    font-size: 1rem;
+}
+
+.resume-note {
+    font-size: 0.75rem;
+    color: #555555;
+    margin: 0;
+}
+
+.path {
+    color: #7eb8f7;
+}

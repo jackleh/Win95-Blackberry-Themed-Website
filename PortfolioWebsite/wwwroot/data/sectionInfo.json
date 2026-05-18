@@ -4,19 +4,19 @@
   "Sections": [
     {
       "Title": "about-me",
-      "DisplayOrder": "0"
-    },
-    {
-      "Title": "projects",
       "DisplayOrder": "1"
     },
     {
-      "Title": "view-resume",
+      "Title": "projects",
       "DisplayOrder": "2"
     },
     {
-      "Title": "contact-me",
+      "Title": "view-resume",
       "DisplayOrder": "3"
+    },
+    {
+      "Title": "contact-me",
+      "DisplayOrder": "4"
     }
   ]
 }

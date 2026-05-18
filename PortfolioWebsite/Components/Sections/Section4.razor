@@ -1,5 +1,23 @@
-﻿<h3>Section4</h3>
+﻿@inject BaseViewModel BaseViewModel
+
+<div class="section-wrapper">
+    <div class="section-header">// contact-me</div>
+
+    <div class="contact-list">
+        <div class="contact-item">
+            <span class="contact-label">linkedin</span>
+            <a class="contact-link" href="@BaseViewModel.Person?.LinkedinUrl" target="_blank">@BaseViewModel.Person?.LinkedinUrl</a>
+        </div>
+        <div class="contact-item">
+            <span class="contact-label">github</span>
+            <a class="contact-link" href="@BaseViewModel.AboutMe?.GithubUrl" target="_blank">@BaseViewModel.AboutMe?.GithubUrl</a>
+        </div>
+    </div>
+
+    <p class="contact-note">
+        <span class="prompt">$</span> the best way to reach me is via LinkedIn.
+    </p>
+</div>
 
 @code {
-    
 }

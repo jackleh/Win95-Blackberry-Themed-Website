@@ -1,0 +1,797 @@
+@inject IJSRuntime JS
+@inject HttpClient Http
+@inject BaseViewModel BaseViewModel
+@implements IDisposable
+
+<div class="win95-overlay" @onclick="CloseStartMenu">
+    <!-- Desktop -->
+    <div class="win95-desktop" style="background-image: url('@_wallpaperUrl')">
+
+        <!-- Desktop icons -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" @ondblclick="OpenResumeWindow">
+                <div class="icon-img txt-icon"></div>
+                <div class="icon-label">resume.md</div>
+            </div>
+
+            <div class="desktop-icon" @ondblclick="OpenProjectsWindow">
+                <div class="icon-img txt-icon"></div>
+                <div class="icon-label">projects.txt</div>
+            </div>
+
+            <div class="desktop-icon" @ondblclick="OpenContactWindow">
+                <div class="icon-img txt-icon"></div>
+                <div class="icon-label">contact.txt</div>
+            </div>
+
+            @if (Mode != EasterEggMode.Standalone)
+            {
+                <div class="desktop-icon" @ondblclick="StartVideoSequence">
+                    <div class="icon-img video-icon">▶</div>
+                    <div class="icon-label">video.mp4</div>
+                </div>
+            }
+        </div>
+
+        <!-- Video window -->
+        @if (_videoSequenceActive)
+        {
+            <div class="win95-window video-window @(_videoMinimized ? "minimized" : "") @(_videoMaximized ? "maximized" : "")"
+                 id="videoWindow">
+                <div class="win95-titlebar" id="videoTitleBar">
+                    <span class="win95-title">@_currentVideoTitle</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick="MinimizeVideo">_</button>
+                        <button class="win95-btn" @onclick="ToggleMaximizeVideo">□</button>
+                        <button class="win95-btn" @onclick="CloseVideoWindow">×</button>
+                    </div>
+                </div>
+                <div class="win95-body video-body">
+                    <video @ref="_videoRef"
+                           src="@_currentVideoSrc"
+                           autoplay
+                           @onended="OnVideoEnded"
+                           style="width:100%;height:100%;display:block;background:#000;">
+                    </video>
+                </div>
+                <div class="video-controls">
+                    <button class="video-ctrl-btn" @onclick="VideoPrev" disabled="@(_videoIndex == 0)" title="Previous">◄◄</button>
+                    <button class="video-ctrl-btn" @onclick="ToggleVideoPause" title="@(_videoPaused ? "Play" : "Pause")">@(_videoPaused ? "▶" : "⏸")</button>
+                    <button class="video-ctrl-btn" @onclick="VideoNext" disabled="@(_videoIndex == _videoTitles.Length - 1)" title="Next">►►</button>
+                    <span class="video-track-label">@(_videoIndex + 1) / @_videoTitles.Length</span>
+                    <span class="video-vol-icon" @onclick="ToggleVideoMute" title="@(_videoMuted ? "Unmute" : "Mute")">@(_videoMuted ? "🔇" : "🔊")</span>
+                    <input type="range" class="video-volume-slider" min="0" max="100" value="@_videoVolume" @oninput="SetVideoVolume" title="Volume" />
+                </div>
+            </div>
+        }
+
+        <!-- Portfolio window (Reduce mode) -->
+        @if (Mode == EasterEggMode.Reduce)
+        {
+            <div class="win95-window portfolio-window @(_portfolioMinimized ? "minimized" : "") @(_portfolioMaximized ? "maximized" : "")"
+                 id="portfolioWindow">
+                <div class="win95-titlebar" id="portfolioTitleBar">
+                    <span class="win95-title">@_siteTitle</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick="MinimizePortfolio">_</button>
+                        <button class="win95-btn" @onclick="ToggleMaximizePortfolio">□</button>
+                        <button class="win95-btn" @onclick="OnExit">×</button>
+                    </div>
+                </div>
+                <div class="win95-body portfolio-body">
+                    <p class="portfolio-preview-text">[ @_siteTitle ]</p>
+                    <p class="portfolio-preview-text secondary">Double-click video.mp4 on the desktop to continue...</p>
+                    <button class="win95-restore-btn" @onclick="OnExit">Restore Site</button>
+                </div>
+            </div>
+        }
+
+        <!-- CMD window -->
+        @if (_cmdOpen)
+        {
+            <div class="win95-window cmd-window @(_cmdMinimized ? "minimized" : "") @(_cmdMaximized ? "maximized" : "")"
+                 id="cmdWindow" @onclick="FocusCmdInput">
+                <div class="win95-titlebar" id="cmdTitleBar">
+                    <span class="win95-title">C:\COPLAND\system32\cmd.exe</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizeCmd">_</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizeCmd">□</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="CloseCmd">×</button>
+                    </div>
+                </div>
+                <div class="win95-body cmd-body" id="cmdBody">
+                    <p>Copland OS Enterprise [Version 8.00.001]</p>
+                    <p>(C) Copyright Copland Corp 1994-1996.</p>
+                    @foreach (var line in _cmdHistory)
+                    {
+                        <p>@line</p>
+                    }
+                    <p class="cmd-prompt-line">@_cwd&gt;&nbsp;<input @ref="_cmdInputRef"
+                        class="cmd-input"
+                        value="@_cmdInput"
+                        @oninput="e => _cmdInput = e.Value?.ToString() ?? string.Empty"
+                        @onkeydown="OnCmdKeyDown"
+                        maxlength="100"
+                        autocomplete="off"
+                        spellcheck="false" /></p>
+                </div>
+            </div>
+        }
+
+        <!-- Projects window -->
+        @if (_projectsOpen)
+        {
+            <div class="win95-window txtfile-window @(_projectsMinimized ? "minimized" : "") @(_projectsMaximized ? "maximized" : "")"
+                 id="projectsWindow" style="left:170px;top:65px;">
+                <div class="win95-titlebar" id="projectsTitleBar">
+                    <span class="win95-title">projects.txt - Notepad</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _projectsMinimized = true">_</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _projectsMaximized = !_projectsMaximized">□</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _projectsOpen = false">×</button>
+                    </div>
+                </div>
+                <div class="notepad-menubar">
+                    <span class="notepad-menu-item">File</span>
+                    <span class="notepad-menu-item">Edit</span>
+                    <span class="notepad-menu-item">Format</span>
+                    <span class="notepad-menu-item">View</span>
+                    <span class="notepad-menu-item">Help</span>
+                </div>
+                <div class="notepad-body">
+                    <pre class="txtfile-content">@ProjectsText</pre>
+                </div>
+            </div>
+        }
+
+        <!-- Resume window -->
+        @if (_resumeOpen)
+        {
+            <div class="win95-window txtfile-window @(_resumeMinimized ? "minimized" : "") @(_resumeMaximized ? "maximized" : "")"
+                 id="resumeWindow" style="left:200px;top:90px;">
+                <div class="win95-titlebar" id="resumeTitleBar">
+                    <span class="win95-title">resume.md</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _resumeMinimized = true">_</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _resumeMaximized = !_resumeMaximized">□</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _resumeOpen = false">×</button>
+                    </div>
+                </div>
+                <div class="notepad-menubar">
+                    <span class="notepad-menu-item">File</span>
+                    <span class="notepad-menu-item">View</span>
+                    <span class="notepad-menu-item">Help</span>
+                </div>
+                <div class="notepad-body resume-md-body">
+                    @((MarkupString)ResumeHtml)
+                </div>
+            </div>
+        }
+
+        <!-- Contact window -->
+        @if (_contactOpen)
+        {
+            <div class="win95-window txtfile-window @(_contactMinimized ? "minimized" : "") @(_contactMaximized ? "maximized" : "")"
+                 id="contactWindow" style="left:230px;top:115px;">
+                <div class="win95-titlebar" id="contactTitleBar">
+                    <span class="win95-title">contact.txt - Notepad</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _contactMinimized = true">_</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _contactMaximized = !_contactMaximized">□</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="() => _contactOpen = false">×</button>
+                    </div>
+                </div>
+                <div class="notepad-menubar">
+                    <span class="notepad-menu-item">File</span>
+                    <span class="notepad-menu-item">Edit</span>
+                    <span class="notepad-menu-item">Format</span>
+                    <span class="notepad-menu-item">View</span>
+                    <span class="notepad-menu-item">Help</span>
+                </div>
+                <div class="notepad-body">
+                    <pre class="txtfile-content">@ContactText</pre>
+                </div>
+            </div>
+        }
+
+        <!-- Notepad window -->
+        @if (_notepadOpen)
+        {
+            <div class="win95-window notepad-window @(_notepadMinimized ? "minimized" : "") @(_notepadMaximized ? "maximized" : "")"
+                 id="notepadWindow">
+                <div class="win95-titlebar" id="notepadTitleBar">
+                    <span class="win95-title">Untitled - Notepad</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizeNotepad">_</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizeNotepad">□</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="CloseNotepad">×</button>
+                    </div>
+                </div>
+                <div class="notepad-body">
+                    <textarea class="notepad-textarea"
+                              @bind="_notepadText"
+                              @bind:event="oninput"
+                              spellcheck="false"></textarea>
+                </div>
+            </div>
+        }
+
+        <!-- Paint window -->
+        @if (_paintOpen)
+        {
+            <div class="win95-window paint-window @(_paintMinimized ? "minimized" : "") @(_paintMaximized ? "maximized" : "")"
+                 id="paintWindow">
+                <div class="win95-titlebar" id="paintTitleBar">
+                    <span class="win95-title">untitled - Paint</span>
+                    <div class="win95-controls">
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizePaint">_</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizePaint">□</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onclick="ClosePaint">×</button>
+                    </div>
+                </div>
+                <!-- Body: toolbar + canvas -->
+                <div class="paint-main">
+                    <!-- Left toolbar -->
+                    <div class="paint-toolbar">
+                        <div class="paint-tools-grid">
+                            <button class="paint-tool @(_paintTool == "draw"  ? "active" : "")" title="Pencil"  @onclick='() => SetPaintTool("draw")'>✏</button>
+                            <button class="paint-tool @(_paintTool == "erase" ? "active" : "")" title="Eraser"  @onclick='() => SetPaintTool("erase")'>◻</button>
+                            <button class="paint-tool @(_paintTool == "fill"  ? "active" : "")" title="Fill"    @onclick='() => SetPaintTool("fill")'>◈</button>
+                            <div class="paint-tool-gap"></div>
+                        </div>
+                        <div class="paint-toolbar-sep"></div>
+                        <!-- Current color preview -->
+                        <div class="paint-color-display">
+                            <div class="paint-fg-color" style="background-color:@_paintColor"></div>
+                        </div>
+                        <div class="paint-toolbar-sep"></div>
+                        <!-- Brush sizes -->
+                        <div class="paint-sizes">
+                            <button class="paint-size-btn @(_paintSize == 2  ? "active" : "")" @onclick='() => SetPaintSize(2)' ><span class="pdot pdot-sm"></span></button>
+                            <button class="paint-size-btn @(_paintSize == 5  ? "active" : "")" @onclick='() => SetPaintSize(5)' ><span class="pdot pdot-md"></span></button>
+                            <button class="paint-size-btn @(_paintSize == 10 ? "active" : "")" @onclick='() => SetPaintSize(10)'><span class="pdot pdot-lg"></span></button>
+                        </div>
+                    </div>
+                    <!-- Canvas scroll area -->
+                    <div class="paint-canvas-area">
+                        <canvas id="paintCanvas" width="480" height="360" class="paint-canvas"></canvas>
+                    </div>
+                </div>
+                <!-- Color palette -->
+                <div class="paint-palette">
+                    <div class="paint-current-swatch" style="background-color:@_paintColor" title="Current color"></div>
+                    <div class="paint-palette-sep"></div>
+                    @foreach (var col in _paletteColors)
+                    {
+                        var c = col;
+                        <div class="paint-palette-color @(_paintColor == c ? "selected" : "")"
+                             style="background-color:@c"
+                             @onclick='() => SetPaintColor(c)'
+                             title="@c"></div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Start menu (rendered above taskbar) -->
+    @if (_startMenuOpen)
+    {
+        <div class="win95-start-menu" @onclick:stopPropagation>
+            <div class="start-menu-sidebar">Copland OS</div>
+            <div class="start-menu-items">
+                <div class="start-menu-item" @onclick="OpenPaintWindow">
+                    <span class="start-menu-icon">🖌</span>
+                    <span>paint.exe</span>
+                </div>
+                <div class="start-menu-item" @onclick="OpenNotepadWindow">
+                    <span class="start-menu-icon">📝</span>
+                    <span>notepad.exe</span>
+                </div>
+                <div class="start-menu-divider"></div>
+                @for (int i = 0; i < _videoTitles.Length; i++)
+                {
+                    var idx = i;
+                    <div class="start-menu-item" @onclick="() => OpenVideoFromMenu(idx)">
+                        <span class="start-menu-icon">▶</span>
+                        <span>@_videoTitles[idx]</span>
+                    </div>
+                }
+                @if (Mode != EasterEggMode.Standalone)
+                {
+                    <div class="start-menu-divider"></div>
+                    <div class="start-menu-item" @onclick="OnExit">
+                        <span class="start-menu-icon">⏻</span>
+                        <span>Restore Site</span>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <!-- Taskbar -->
+    <div class="win95-taskbar">
+        <button class="win95-start-btn @(_startMenuOpen ? "active" : "")"
+                @onclick="ToggleStartMenu"
+                @onclick:stopPropagation>
+            Menu
+        </button>
+        <div class="taskbar-divider"></div>
+        <div class="taskbar-windows">
+            @if (_projectsOpen)
+            {
+                <div class="taskbar-item @(!_projectsMinimized ? "active" : "")"
+                     @onclick="() => _projectsMinimized = !_projectsMinimized">
+                    projects.txt
+                </div>
+            }
+            @if (_resumeOpen)
+            {
+                <div class="taskbar-item @(!_resumeMinimized ? "active" : "")"
+                     @onclick="() => _resumeMinimized = !_resumeMinimized">
+                    resume.md
+                </div>
+            }
+            @if (_contactOpen)
+            {
+                <div class="taskbar-item @(!_contactMinimized ? "active" : "")"
+                     @onclick="() => _contactMinimized = !_contactMinimized">
+                    contact.txt
+                </div>
+            }
+            @if (_videoSequenceActive)
+            {
+                <div class="taskbar-item @(!_videoMinimized ? "active" : "")"
+                     @onclick="ToggleVideoFromTaskbar">
+                    @_currentVideoTitle
+                </div>
+            }
+            @if (Mode == EasterEggMode.Reduce)
+            {
+                <div class="taskbar-item @(!_portfolioMinimized ? "active" : "")"
+                     @onclick="TogglePortfolioFromTaskbar">
+                    @_siteTitle
+                </div>
+            }
+            @if (_cmdOpen)
+            {
+                <div class="taskbar-item @(!_cmdMinimized ? "active" : "")"
+                     @onclick="ToggleCmdFromTaskbar">
+                    cmd.exe
+                </div>
+            }
+            @if (_notepadOpen)
+            {
+                <div class="taskbar-item @(!_notepadMinimized ? "active" : "")"
+                     @onclick="ToggleNotepadFromTaskbar">
+                    Untitled - Notepad
+                </div>
+            }
+            @if (_paintOpen)
+            {
+                <div class="taskbar-item @(!_paintMinimized ? "active" : "")"
+                     @onclick="TogglePaintFromTaskbar">
+                    untitled - Paint
+                </div>
+            }
+        </div>
+        <div class="taskbar-cmd-btn" @onclick="OpenCmdWindow" title="Open CMD">
+            <span>C:\</span>
+        </div>
+        <div class="taskbar-clock">@_clock</div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public EasterEggMode Mode { get; set; }
+
+    [Parameter]
+    public EventCallback OnExit { get; set; }
+
+    private string _wallpaperUrl => BaseViewModel.SiteConfig?.EasterEggDesktopPictureUrl ?? string.Empty;
+    private string _siteTitle => BaseViewModel.SiteConfig?.SiteTitle ?? "Portfolio";
+
+    private bool _videoSequenceActive;
+    private bool _cmdOpen;
+    private int _videoIndex;
+    private string _clock = string.Empty;
+
+    // Per-window state
+    private bool _videoMinimized;
+    private bool _videoMaximized;
+    private bool _videoPaused;
+    private int  _videoVolume    = 100;
+    private int  _videoVolumePre = 100;
+    private bool _videoMuted;
+    private bool _portfolioMinimized;
+    private bool _portfolioMaximized;
+    private bool _cmdMinimized;
+    private bool _cmdMaximized;
+    private string _cmdInput = string.Empty;
+    private readonly List<string> _cmdHistory = new();
+    private ElementReference _cmdInputRef;
+    private bool _cmdShouldFocus;
+    private bool _cmdShouldScroll;
+
+    private bool _startMenuOpen;
+
+    // ── Content file state ───────────────────────────────────────────────────
+    private bool _projectsOpen, _projectsMinimized, _projectsMaximized;
+    private bool _resumeOpen,   _resumeMinimized,   _resumeMaximized;
+    private bool _contactOpen,  _contactMinimized,  _contactMaximized;
+
+    // Content text properties are in Win95Desktop.razor.cs (partial class)
+
+    // ── Notepad state ────────────────────────────────────────────────────────
+    private bool _notepadOpen;
+    private bool _notepadMinimized;
+    private bool _notepadMaximized;
+    private string _notepadText = string.Empty;
+
+    // ── Paint state ──────────────────────────────────────────────────────────
+    private bool _paintOpen;
+    private bool _paintMinimized;
+    private bool _paintMaximized;
+    private string _paintTool  = "draw";
+    private string _paintColor = "#000000";
+    private int    _paintSize  = 3;
+
+    private readonly string[] _paletteColors =
+    [
+        "#000000","#808080","#800000","#808000","#008000","#008080","#000080","#800080",
+        "#c0c0c0","#ffffff","#ff0000","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff",
+        "#ff8040","#804000","#ffff80","#80ff80"
+    ];
+
+    private ElementReference _videoRef;
+    private System.Timers.Timer? _clockTimer;
+
+    private readonly string[] _videoTitles = ["lain_phone.mp4", "lain_vhs.mp4", "lain_falling_dance.mp4"];
+
+    private string _currentVideoTitle => _videoIndex < _videoTitles.Length
+        ? _videoTitles[_videoIndex]
+        : string.Empty;
+
+    private string _currentVideoSrc => _videoIndex switch
+    {
+        0 => BaseViewModel.SiteConfig?.EasterEggVideo1Url ?? string.Empty,
+        1 => BaseViewModel.SiteConfig?.EasterEggVideo2Url ?? string.Empty,
+        2 => BaseViewModel.SiteConfig?.EasterEggVideo3Url ?? string.Empty,
+        _ => string.Empty
+    };
+
+    protected override void OnInitialized()
+    {
+        _clock = DateTime.Now.ToString("HH:mm");
+
+        _clockTimer = new System.Timers.Timer(1000);
+        _clockTimer.Elapsed += async (_, _) =>
+        {
+            _clock = DateTime.Now.ToString("HH:mm");
+            await InvokeAsync(StateHasChanged);
+        };
+        _clockTimer.AutoReset = true;
+        _clockTimer.Start();
+
+        if (Mode == EasterEggMode.VideoSequence)
+        {
+            _videoSequenceActive = true;
+            _videoIndex = 0;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // enableDrag/enableResize are idempotent — JS guards via data-*-enabled attributes
+        if (_videoSequenceActive)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag",   "videoWindow", "videoTitleBar");
+            await JS.InvokeVoidAsync("dragHelper.enableResize", "videoWindow");
+        }
+
+        if (Mode == EasterEggMode.Reduce)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag",   "portfolioWindow", "portfolioTitleBar");
+            await JS.InvokeVoidAsync("dragHelper.enableResize", "portfolioWindow");
+        }
+
+        if (_cmdOpen)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag",   "cmdWindow", "cmdTitleBar");
+            await JS.InvokeVoidAsync("dragHelper.enableResize", "cmdWindow");
+        }
+
+        if (_projectsOpen)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag",   "projectsWindow", "projectsTitleBar");
+            await JS.InvokeVoidAsync("dragHelper.enableResize", "projectsWindow");
+        }
+
+        if (_resumeOpen)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag",   "resumeWindow",  "resumeTitleBar");
+            await JS.InvokeVoidAsync("dragHelper.enableResize", "resumeWindow");
+        }
+
+        if (_contactOpen)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag",   "contactWindow", "contactTitleBar");
+            await JS.InvokeVoidAsync("dragHelper.enableResize", "contactWindow");
+        }
+
+        if (_notepadOpen)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag",   "notepadWindow", "notepadTitleBar");
+            await JS.InvokeVoidAsync("dragHelper.enableResize", "notepadWindow");
+        }
+
+        if (_paintOpen)
+        {
+            await JS.InvokeVoidAsync("dragHelper.enableDrag",   "paintWindow", "paintTitleBar");
+            await JS.InvokeVoidAsync("dragHelper.enableResize", "paintWindow");
+            // JS data-paint-init guard prevents re-init on clock-tick re-renders
+            await JS.InvokeVoidAsync("paintHelper.init", "paintCanvas", _paintInitImageUrl);
+        }
+
+        if (_cmdShouldScroll)
+        {
+            _cmdShouldScroll = false;
+            try { await JS.InvokeVoidAsync("dragHelper.scrollToBottom", "cmdBody"); } catch { }
+        }
+
+        if (_cmdShouldFocus)
+        {
+            _cmdShouldFocus = false;
+            try { await _cmdInputRef.FocusAsync(); } catch { }
+        }
+    }
+
+    // ── Video window ────────────────────────────────────────────────────────
+    private void StartVideoSequence()
+    {
+        _videoIndex = 0;
+        _videoSequenceActive = true;
+        _videoMinimized = false;
+        _videoMaximized = false;
+        _videoPaused = false;
+    }
+
+    private Task OnVideoEnded()
+    {
+        _videoIndex++;
+        _videoPaused = false;
+        if (_videoIndex >= _videoTitles.Length)
+            CloseVideoWindow();
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private void MinimizeVideo() => _videoMinimized = true;
+    private void ToggleMaximizeVideo() => _videoMaximized = !_videoMaximized;
+    private void CloseVideoWindow()
+    {
+        _videoSequenceActive = false;
+        _videoMinimized = false;
+        _videoMaximized = false;
+        _videoPaused    = false;
+        _videoVolume    = 100;
+        _videoVolumePre = 100;
+        _videoMuted     = false;
+    }
+
+    private void VideoPrev()
+    {
+        if (_videoIndex > 0) { _videoIndex--; _videoPaused = false; }
+    }
+
+    private void VideoNext()
+    {
+        _videoIndex++;
+        _videoPaused = false;
+        if (_videoIndex >= _videoTitles.Length)
+            CloseVideoWindow();
+    }
+
+    private async Task ToggleVideoPause()
+    {
+        _videoPaused = !_videoPaused;
+        if (_videoPaused)
+            await JS.InvokeVoidAsync("dragHelper.videoPause", _videoRef);
+        else
+            await JS.InvokeVoidAsync("dragHelper.videoPlay", _videoRef);
+    }
+
+    private async Task SetVideoVolume(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var v))
+        {
+            _videoVolume = v;
+            _videoMuted  = v == 0;
+            if (v > 0) _videoVolumePre = v;
+            await JS.InvokeVoidAsync("dragHelper.videoSetVolume", _videoRef, v / 100.0);
+        }
+    }
+
+    private async Task ToggleVideoMute()
+    {
+        if (_videoMuted)
+        {
+            _videoMuted  = false;
+            _videoVolume = _videoVolumePre > 0 ? _videoVolumePre : 100;
+        }
+        else
+        {
+            _videoVolumePre = _videoVolume > 0 ? _videoVolume : 100;
+            _videoMuted     = true;
+            _videoVolume    = 0;
+        }
+        await JS.InvokeVoidAsync("dragHelper.videoSetVolume", _videoRef, _videoVolume / 100.0);
+    }
+
+    // ── Portfolio window ─────────────────────────────────────────────────────
+    private void MinimizePortfolio() => _portfolioMinimized = true;
+    private void ToggleMaximizePortfolio() => _portfolioMaximized = !_portfolioMaximized;
+
+    // ── CMD window ───────────────────────────────────────────────────────────
+    private void OpenCmdWindow()
+    {
+        _cmdOpen = true;
+        _cmdMinimized = false;
+        _cmdShouldFocus = true;
+    }
+
+    private void MinimizeCmd() => _cmdMinimized = true;
+    private void ToggleMaximizeCmd() => _cmdMaximized = !_cmdMaximized;
+    private void CloseCmd()
+    {
+        _cmdOpen = false;
+        _cmdMinimized = false;
+        _cmdMaximized = false;
+        _cmdInput = string.Empty;
+        _cmdHistory.Clear();
+    }
+
+    private async Task FocusCmdInput()
+    {
+        try { await _cmdInputRef.FocusAsync(); } catch { }
+    }
+
+    private async Task OnCmdKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key != "Enter") return;
+
+        var raw     = _cmdInput;
+        var trimmed = raw.Trim();
+        _cmdHistory.Add($"{_cwd}> {raw}");
+        _cmdInput = string.Empty;
+
+        if (trimmed.Length > 0)
+        {
+            // Normalize no-space cd variants: cd.. → cd ..   cd\ → cd \   cd\folder → cd \folder
+            var normalized = trimmed;
+            if (normalized.Length >= 3 && normalized[..2].Equals("cd", StringComparison.OrdinalIgnoreCase) && normalized[2] != ' ')
+                normalized = "cd " + normalized[2..];
+
+            var spaceIdx = normalized.IndexOf(' ');
+            var verb = (spaceIdx < 0 ? normalized : normalized[..spaceIdx]).ToLower();
+            var arg  = spaceIdx < 0 ? "" : normalized[(spaceIdx + 1)..].Trim();
+
+            switch (verb)
+            {
+                case "cls":
+                    _cmdHistory.Clear();
+                    _projectsOpen = _resumeOpen = _contactOpen = _notepadOpen = _paintOpen = false;
+                    _videoSequenceActive = false;
+                    break;
+                case "ver":
+                    _cmdHistory.Add("Copland OS Enterprise [Version 8.00.001]");
+                    break;
+                case "help":
+                    _cmdHistory.Add("Available commands:");
+                    _cmdHistory.Add("  CLS      Clear screen and close all windows");
+                    _cmdHistory.Add("  DIR      List directory contents");
+                    _cmdHistory.Add("  CD       Change directory  (CD .. / CD <folder>)");
+                    _cmdHistory.Add("  VER      Display OS version");
+                    _cmdHistory.Add("  <file>   Open a file");
+                    break;
+                case "dir":
+                    foreach (var line in CmdDir())
+                        _cmdHistory.Add(line);
+                    break;
+                case "cd":
+                    CmdCd(arg);
+                    break;
+                default:
+                    foreach (var line in await CmdOpen(trimmed))
+                        _cmdHistory.Add(line);
+                    break;
+            }
+        }
+
+        _cmdShouldFocus  = true;
+        _cmdShouldScroll = true;
+    }
+
+    // ── Taskbar ──────────────────────────────────────────────────────────────
+    private void ToggleVideoFromTaskbar() => _videoMinimized = !_videoMinimized;
+    private void TogglePortfolioFromTaskbar() => _portfolioMinimized = !_portfolioMinimized;
+    private void ToggleCmdFromTaskbar() => _cmdMinimized = !_cmdMinimized;
+    private void ToggleNotepadFromTaskbar() => _notepadMinimized = !_notepadMinimized;
+    private void TogglePaintFromTaskbar() => _paintMinimized = !_paintMinimized;
+
+    // ── Content file windows ─────────────────────────────────────────────────
+    private void OpenProjectsWindow() { _projectsOpen = true; _projectsMinimized = false; }
+    private void OpenResumeWindow()   { _resumeOpen   = true; _resumeMinimized   = false; }
+    private void OpenContactWindow()  { _contactOpen  = true; _contactMinimized  = false; }
+
+    // ── Notepad window ───────────────────────────────────────────────────────
+    private void OpenNotepadWindow()
+    {
+        _notepadOpen = true;
+        _notepadMinimized = false;
+    }
+
+    private void MinimizeNotepad() => _notepadMinimized = true;
+    private void ToggleMaximizeNotepad() => _notepadMaximized = !_notepadMaximized;
+    private void CloseNotepad()
+    {
+        _notepadOpen = false;
+        _notepadMinimized = false;
+        _notepadMaximized = false;
+        _notepadText = string.Empty;
+    }
+
+    // ── Paint window ─────────────────────────────────────────────────────────
+    private void OpenPaintWindow()
+    {
+        _paintOpen = true;
+        _paintMinimized = false;
+    }
+
+    private void MinimizePaint() => _paintMinimized = true;
+    private void ToggleMaximizePaint() => _paintMaximized = !_paintMaximized;
+    private void ClosePaint()
+    {
+        _paintOpen = false;
+        _paintMinimized = false;
+        _paintMaximized = false;
+    }
+
+    private async Task SetPaintTool(string tool)
+    {
+        _paintTool = tool;
+        await JS.InvokeVoidAsync("paintHelper.setTool", tool);
+    }
+
+    private async Task SetPaintColor(string color)
+    {
+        _paintColor = color;
+        await JS.InvokeVoidAsync("paintHelper.setColor", color);
+    }
+
+    private async Task SetPaintSize(int size)
+    {
+        _paintSize = size;
+        await JS.InvokeVoidAsync("paintHelper.setSize", size);
+    }
+
+    // ── Start menu ───────────────────────────────────────────────────────────
+    private void ToggleStartMenu() => _startMenuOpen = !_startMenuOpen;
+    private void CloseStartMenu() { if (_startMenuOpen) _startMenuOpen = false; }
+
+    private void OpenVideoFromMenu(int index)
+    {
+        _videoIndex = index;
+        _videoSequenceActive = true;
+        _videoMinimized = false;
+        _videoMaximized = false;
+        _startMenuOpen = false;
+    }
+
+    public void Dispose()
+    {
+        _clockTimer?.Stop();
+        _clockTimer?.Dispose();
+    }
+}

@@ -1,203 +1,22 @@
-﻿@page "/"
+@page "/"
 @using PortfolioWebsite.Models
 @using PortfolioWebsite.ViewModels
+@using PortfolioWebsite.Components.EasterEgg
 @inject BaseViewModel BaseViewModel
-@inject NavigationManager NavigationManager
 
-<PageTitle>@SiteTitle</PageTitle>
+<PageTitle>Jack Lehman</PageTitle>
 
-<div style="height: 100vh; width: 100vw; display: flex; flex-direction: column;" @onkeydown="HandleKeyDown" tabindex="0" @ref="_mainDiv">
-    
-    @if (!_isContentVisible)
-    {
-        <div class="temporary-container @(!string.IsNullOrEmpty(_introClass) ? _introClass : "")">
-            <div class="temporary-container-content">
-                <div class="text-large">@PersonName</div>
-                <div class="text-regular">@PersonTitle</div>
-            </div>
-        </div>
-    }
-
-    <div class="@(_isContentVisible ? "visible-content" : "hidden-content")">
-        <div class="top-bar">
-            <div class="back-tab">
-                <span style="font-weight: bold; font-size: .7rem;">@SiteTitle</span>
-                <span style="padding-left: 2rem; font-size: .9rem;" @onclick="CloseEasterEgg">x</span>
-            </div>
-            <div class="top-bar-controls">
-                <span @onclick="MinimizeEasterEgg">-</span>
-                <span @onclick="ReduceWindowEasterEgg">□</span>
-                <span @onclick="CloseEasterEgg">x</span>
-            </div>
-        </div>
-        <div class="p-3 pt-5">
-            <div id="person-info">
-                <div class="text-regular text-white">@PersonName</div>
-                <div class="text-regular text-white">@PersonTitle</div>
-            </div>
-
-            <div id="selection-menu">
-                <div class="text-regular text-white">Directory</div>
-                <div id="selection-items">
-                    @if (Sections != null)
-                    {
-                        for (int i = 0; i < Sections.Count; i++)
-                        {
-                            var localIteration = i;
-                            <div class="section-item"
-                                 @onclick="() => ShowSection(Sections[localIteration].DisplayOrder)"
-                                 @onmouseover="() => UpdateSelectionIndex(localIteration)">
-                                <div class="section-item-container">
-                                    <span class="selection-icon @SelectionFlashAnimationClass">
-                                        @if (localIteration == _selectedItemIndex)
-                                        {
-                                            @SectionSelection
-                                        }
-                                    </span>
-                                    <div class="section-item-title">
-                                        <span>@SectionPrepend</span>
-                                        <span>@Sections[localIteration].Title</span>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-        
-
-        @if (ShownSection != null)
-        {
-            <DynamicComponent Type="ShownSection" />
-        }
-
-    </div>
-</div>
+@if (_ready)
+{
+    <Win95Desktop Mode="EasterEggMode.Standalone" OnExit="@(() => { })" />
+}
 
 @code {
-    /// <summary>
-    /// Properties
-    /// </summary>
-    private int OpeningHoldTimeMs => BaseViewModel.SiteConfig?.OpeningSectionHoldDurationInMs ?? 0;
-    private int OpeningFadeTimeMs => BaseViewModel.SiteConfig?.OpeningSectionFadeDurationInMs ?? 0;
-    private int SectionSelectionFlashTimeMs => BaseViewModel.SiteConfig?.SectionSelectionFlashTimeDurationInMs ?? 0;
-    private string PersonName => BaseViewModel.Person?.Name ?? string.Empty;
-    private string PersonTitle => BaseViewModel.Person?.Title ?? string.Empty;
-    private string SiteTitle => BaseViewModel.SiteConfig?.SiteTitle ?? string.Empty;
-    private string FadeOutClass => $"fade-out-{OpeningFadeTimeMs}ms";
-    private string SelectionFlashAnimationClass => $"flash-animation-{SectionSelectionFlashTimeMs}ms";
-    private List<SectionInfo.Section>? Sections => BaseViewModel.SectionInfo?.Sections;
-    private string? SectionPrepend => BaseViewModel.SectionInfo?.SectionPrepend;
-    private string? SectionSelection => BaseViewModel.SectionInfo?.SectionSelection;
-    public bool? EasterEggsEnabled => BaseViewModel.SiteConfig?.EnableEasterEggs;
-    private int _selectedItemIndex;
-    private int _showSectionIndex = -1;
+    private bool _ready;
 
-    private bool _isContentVisible = false;
-    private string _introClass = string.Empty;
-    
-    
     protected override async Task OnInitializedAsync()
     {
         await BaseViewModel.InitializeAsync();
-        StateHasChanged();
-        await Task.Delay(OpeningHoldTimeMs);
-        _introClass = FadeOutClass;
-        StateHasChanged();
-        await Task.Delay(OpeningFadeTimeMs); 
-        _isContentVisible = true;
-        StateHasChanged();
-    }
-    
-    private ElementReference _mainDiv;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await _mainDiv.FocusAsync();
-        }
-    }
-    
-    
-    private void UpdateSelectionIndex(int index)
-    {
-        _selectedItemIndex = index;
-        StateHasChanged();
-    }
-    
-    private void HandleKeyDown(KeyboardEventArgs e)
-    {
-        if (Sections == null || Sections.Count == 0)
-        {
-            return;
-        }
-
-        int updateToIndex = e.Key switch
-        {
-            "ArrowDown" => (_selectedItemIndex + 1) % Sections.Count,
-            "ArrowUp" => (_selectedItemIndex - 1 + Sections.Count) % Sections.Count,
-            _ => 0
-        };
-
-        UpdateSelectionIndex(updateToIndex);
-    }
-
-    public void ShowSection(string section) => ShownSection = GetSectionComponent(Convert.ToInt16(section));
-
-    public Type? ShownSection = null;
-    
-    /// <summary>
-    /// Dynamically resolves section components using naming convention Section{N}
-    /// Searches current assembly for components matching the pattern
-    /// </summary>
-    private Type? GetSectionComponent(int index)
-    {
-        if (index <= 0) return null;
-        
-        var componentName = $"Section{index}";
-        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-        return assembly.GetTypes()
-            .FirstOrDefault(t => t.Name == componentName && t.IsSubclassOf(typeof(ComponentBase)));
-    }
-
-    public void CloseEasterEgg()
-    {
-        if ((bool)!EasterEggsEnabled) return;
-        /* todo you keep going and exhaust all your warnings, minimize the window and show a windows 95 desktop with
-         * the lain_phone playing in a unclosable desktop window with the navi computer as the BG. after that video plays
-         * play the lain_vhs, then lain_falling_dance video, after which it will close.
-         *
-         * there will also have a cmd on the desktop and one in the fake task bar on the desktop which will
-         * restore the webpage back to its original state.
-         */
-        
-        throw new NotImplementedException();
-    }
-    
-    public void ReduceWindowEasterEgg()
-    {
-        if ((bool)!EasterEggsEnabled) return;
-
-        //todo show a windows 95 desktop with the window free to drag around on it with
-        //lain_navi as the background cleaned up to remove
-        //the "created by" text. there will be a app on the desktop called video.mp4 which will kick of the video
-        //easter eggs
-        throw new NotImplementedException();
-    }
-    
-    public void MinimizeEasterEgg()
-    {
-        if ((bool)!EasterEggsEnabled) return;
-
-        /* todo you keep going and exhaust all your warnings, minimize the window and show a windows 95 desktop with
-         * the lain_phone playing in a unclosable desktop window with the navi computer as the BG. after that video plays
-         * play the lain_vhs, then lain_falling_dance video, after which it will close.
-         *
-         * there will also have a cmd on the desktop and one in the fake task bar on the desktop which will
-         * restore the webpage back to its original state.
-         */
-        throw new NotImplementedException();
+        _ready = true;
     }
 }
