@@ -1,8 +1,38 @@
 
+# ── Build outputs ──────────────────────────────
+**/bin/
+**/obj/
+
+# ── Visual Studio ──────────────────────────────
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sln.DotSettings.user
+
+# ── JetBrains Rider ────────────────────────────
 .idea/
 
-PortfolioWebsite/bin/
+# ── NuGet ──────────────────────────────────────
+*.nupkg
+*.snupkg
+packages/
 
-PortfolioWebsite/obj/
+# ── Publish output ─────────────────────────────
+publish/
+**/Properties/PublishProfiles/
 
-PortfolioWebsite.sln.DotSettings.user
+# ── Test results ───────────────────────────────
+TestResults/
+*.coverage
+*.coveragexml
+
+# ── OS ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Secrets / local config ─────────────────────
+*.env
+appsettings.local.json
