@@ -105,6 +105,9 @@ window.paintHelper = {
         const canvas = this._canvas;
         const ctx    = this._ctx;
         const w = canvas.width, h = canvas.height;
+        if (w === 0 || h === 0) return;
+        startX = Math.max(0, Math.min(w - 1, Math.round(startX)));
+        startY = Math.max(0, Math.min(h - 1, Math.round(startY)));
         const imageData = ctx.getImageData(0, 0, w, h);
         const data = imageData.data;
         const fc   = this._hexToRgb(this._color);
