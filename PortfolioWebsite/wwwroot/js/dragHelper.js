@@ -43,6 +43,7 @@ window.dragHelper = {
 
         let resizing = false, dir = '';
         let startX, startY, startW, startH, startL, startT;
+        let moveHandler, upHandler;
 
         el.addEventListener('mousemove', e => {
             if (!resizing) setCursor(getDir(e) || null);
@@ -67,31 +68,41 @@ window.dragHelper = {
             setCursor(dir);
             e.preventDefault();
             e.stopPropagation();
-        });
 
-        document.addEventListener('mousemove', e => {
-            if (!resizing) return;
-            const cs   = getComputedStyle(el);
-            const minW = Math.max(FALLBACK_W, parseInt(cs.minWidth)  || 0);
-            const minH = Math.max(FALLBACK_H, parseInt(cs.minHeight) || 0);
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
-            if (dir.includes('e')) el.style.width  = Math.max(minW, startW + dx) + 'px';
-            if (dir.includes('s')) el.style.height = Math.max(minH, startH + dy) + 'px';
-            if (dir.includes('w')) {
-                const w = Math.max(minW, startW - dx);
-                el.style.width = w + 'px';
-                el.style.left  = (startL + startW - w) + 'px';
-            }
-            if (dir.includes('n')) {
-                const h = Math.max(minH, startH - dy);
-                el.style.height = h + 'px';
-                el.style.top    = (startT + startH - h) + 'px';
-            }
-        });
+            // Attach document listeners only during active resize
+            moveHandler = e => {
+                if (!resizing) return;
+                const cs   = getComputedStyle(el);
+                const minW = Math.max(FALLBACK_W, parseInt(cs.minWidth)  || 0);
+                const minH = Math.max(FALLBACK_H, parseInt(cs.minHeight) || 0);
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                if (dir.includes('e')) el.style.width  = Math.max(minW, startW + dx) + 'px';
+                if (dir.includes('s')) el.style.height = Math.max(minH, startH + dy) + 'px';
+                if (dir.includes('w')) {
+                    const w = Math.max(minW, startW - dx);
+                    el.style.width = w + 'px';
+                    el.style.left  = (startL + startW - w) + 'px';
+                }
+                if (dir.includes('n')) {
+                    const h = Math.max(minH, startH - dy);
+                    el.style.height = h + 'px';
+                    el.style.top    = (startT + startH - h) + 'px';
+                }
+            };
 
-        document.addEventListener('mouseup', () => {
-            if (resizing) { resizing = false; setCursor(null); }
+            upHandler = () => {
+                if (resizing) {
+                    resizing = false;
+                    setCursor(null);
+                    // Remove document listeners after resize completes
+                    document.removeEventListener('mousemove', moveHandler);
+                    document.removeEventListener('mouseup', upHandler);
+                }
+            };
+
+            document.addEventListener('mousemove', moveHandler);
+            document.addEventListener('mouseup', upHandler);
         });
     },
 
@@ -105,6 +116,7 @@ window.dragHelper = {
 
         let dragging = false;
         let offsetX = 0, offsetY = 0;
+        let moveHandler, upHandler;
 
         handle.addEventListener('mousedown', (e) => {
             if (el.classList.contains('maximized')) return;
@@ -118,14 +130,23 @@ window.dragHelper = {
             offsetX = e.clientX - rect.left;
             offsetY = e.clientY - rect.top;
             e.preventDefault();
-        });
 
-        document.addEventListener('mousemove', (e) => {
-            if (!dragging) return;
-            el.style.left = (e.clientX - offsetX) + 'px';
-            el.style.top  = (e.clientY - offsetY) + 'px';
-        });
+            // Attach document listeners only during active drag
+            moveHandler = e => {
+                if (!dragging) return;
+                el.style.left = (e.clientX - offsetX) + 'px';
+                el.style.top  = (e.clientY - offsetY) + 'px';
+            };
 
-        document.addEventListener('mouseup', () => { dragging = false; });
+            upHandler = () => {
+                dragging = false;
+                // Remove document listeners after drag completes
+                document.removeEventListener('mousemove', moveHandler);
+                document.removeEventListener('mouseup', upHandler);
+            };
+
+            document.addEventListener('mousemove', moveHandler);
+            document.addEventListener('mouseup', upHandler);
+        });
     }
 };

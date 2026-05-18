@@ -1,6 +1,7 @@
 using Microsoft.JSInterop;
 using System.Net.Http;
 using System.Text;
+using System.Text.Encodings.Web;
 
 namespace PortfolioWebsite.Components.EasterEgg;
 
@@ -300,6 +301,15 @@ public partial class Win95Desktop
             var linkedin = BaseViewModel.Person?.LinkedinUrl ?? "#";
             var github   = BaseViewModel.AboutMe?.GithubUrl  ?? "#";
 
+            // Validate and encode URLs to prevent XSS
+            if (!Uri.TryCreate(linkedin, UriKind.Absolute, out _) && linkedin != "#")
+                linkedin = "#";
+            if (!Uri.TryCreate(github, UriKind.Absolute, out _) && github != "#")
+                github = "#";
+
+            var linkedinEncoded = HtmlEncoder.Default.Encode(linkedin);
+            var githubEncoded = HtmlEncoder.Default.Encode(github);
+
             var sb = new StringBuilder();
             sb.AppendLine("<div class='resume-doc'>");
 
@@ -310,8 +320,8 @@ public partial class Win95Desktop
             sb.AppendLine("    jackrlehman05@gmail.com &nbsp;&middot;&nbsp;");
             sb.AppendLine("    210-429-3959 &nbsp;&middot;&nbsp;");
             sb.AppendLine("    Las Vegas, NV &mdash; Open to Remote &nbsp;&middot;&nbsp;");
-            sb.AppendLine($"    <a href='{linkedin}' target='_blank'>LinkedIn</a> &nbsp;&middot;&nbsp;");
-            sb.AppendLine($"    <a href='{github}' target='_blank'>GitHub</a>");
+            sb.AppendLine($"    <a href='{linkedinEncoded}' target='_blank'>LinkedIn</a> &nbsp;&middot;&nbsp;");
+            sb.AppendLine($"    <a href='{githubEncoded}' target='_blank'>GitHub</a>");
             sb.AppendLine("  </p>");
             sb.AppendLine("  <hr/>");
 
