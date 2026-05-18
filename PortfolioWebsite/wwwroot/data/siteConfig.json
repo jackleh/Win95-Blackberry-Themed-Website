@@ -4,8 +4,8 @@
   "SectionSelectionFlashTimeDurationInMs": 2000,
   "SiteTitle": ".NET Developer - Jack Lehman",
   "EnableEasterEggs": true,
-  "EasterEggVideo1Url": "media/video/lain_phone.mp4",
-  "EasterEggVideo2Url": "media/video/lain_vhs.mp4",
-  "EasterEggVideo3Url": "media/video/lain_falling_dance.mp4",
+  "EasterEggVideo1Url": "https://github.com/jackrlehman/PortfolioWebsite/releases/download/v1.0-media/lain_phone.mp4",
+  "EasterEggVideo2Url": "https://github.com/jackrlehman/PortfolioWebsite/releases/download/v1.0-media/lain_vhs.mp4",
+  "EasterEggVideo3Url": "https://github.com/jackrlehman/PortfolioWebsite/releases/download/v1.0-media/lain_falling_dance.mp4",
   "EasterEggDesktopPictureUrl": "media/image/lain_navi.png"
 }

@@ -3,5 +3,6 @@ namespace PortfolioWebsite.Models;
 public enum EasterEggMode
 {
     VideoSequence,
-    Reduce
+    Reduce,
+    Standalone
 }
