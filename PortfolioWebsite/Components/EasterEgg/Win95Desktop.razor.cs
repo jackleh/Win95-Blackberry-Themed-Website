@@ -256,9 +256,24 @@ public partial class Win95Desktop
                         break;
                     case "paint.exe":
                         _paintInitImageUrl = "media/image/lain.png";
-                        _paintOpen         = true;
-                        _paintMinimized    = false;
-                        _paintNeedsInit    = true;
+                        if (_paintOpen)
+                        {
+                            _paintMinimized = false;
+                            try
+                            {
+                                await JS.InvokeVoidAsync("paintHelper.loadImage", "paintCanvas", _paintInitImageUrl);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.Error.WriteLine($"paintHelper.loadImage failed: {ex.Message}");
+                            }
+                        }
+                        else
+                        {
+                            _paintOpen      = true;
+                            _paintMinimized = false;
+                            _paintNeedsInit = true;
+                        }
                         Raise("paint");
                         break;
                     case "notepad.exe":
