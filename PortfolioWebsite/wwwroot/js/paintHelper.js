@@ -79,13 +79,14 @@ window.paintHelper = {
         if (!canvas) return;
         // Refresh cached refs so subsequent drawing ops target the live canvas.
         this._canvas = canvas;
-        this._ctx = canvas.getContext('2d');
-        this._ctx.fillStyle = '#ffffff';
-        this._ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const ctx = canvas.getContext('2d');
+        this._ctx = ctx;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (url) {
             const img = new Image();
             img.crossOrigin = 'anonymous';
-            img.onload = () => { this._ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
+            img.onload = () => { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
             img.src = url;
         }
     },
