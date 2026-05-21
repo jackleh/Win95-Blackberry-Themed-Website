@@ -1,0 +1,66 @@
+{
+  "TagLine": "Mobile Software Developer",
+  "JobHistory": [
+    {
+      "Company": "Circa Resort & Casino",
+      "Location": "Las Vegas",
+      "Roles": [
+        {
+          "Title": "Senior Software Engineer",
+          "DateRange": "2025 – 2026",
+          "Bullets": [
+            "Continued leading mobile development efforts on Circa Sports' MAUI Blazor Mobile and Desktop real money Sports Betting app, issuing large quarterly updates.",
+            "Continued to concept and create new innovative features in the Sports Betting industry which resulted in increased user engagement and reception — including a stats tracker on win/losses, create quick parlay by shaking your phone, and the ability to track bets by various categories."
+          ]
+        },
+        {
+          "Title": "Mobile Developer",
+          "DateRange": "2024 – 2025",
+          "Bullets": [
+            "Responsible for leading mobile development efforts on Circa Sports' MAUI Blazor Mobile and Desktop Sports Betting app from conception to release.",
+            "Creator of the \"Round Robin Parlay Inspector\" — a new and first-of-its-kind feature in Sports Betting focusing on transparency and unraveling confusing aspects of round robins by showing bet item groupings per \"by\" and the potential win on each parlay."
+          ]
+        }
+      ]
+    },
+    {
+      "Company": "ReactorNet Technologies",
+      "Location": "San Antonio",
+      "Roles": [
+        {
+          "Title": "Software Developer",
+          "DateRange": "2021 – 2024",
+          "Bullets": [
+            "Lead developer on \"EPRO Mobile\" — a .NET MAUI XAML Mobile procure-to-pay application on the Apple App Store and Google Play Store, brought from concept phase to live production with constant new features and fixes.",
+            "Created innovative features including a liquid level detector using the phone's camera and AI for auto re-ordering based on predicted consumption levels.",
+            "Adhered to the company's stack by developing a Delphi Berlin API to communicate between EPRO Mobile and the backend.",
+            "Assisted with development of ReactorNet's procure-to-pay application built in Delphi."
+          ]
+        }
+      ]
+    }
+  ],
+  "SkillsByDomain": [
+    "Sports Betting and Prediction Markets — Strong industry level knowledge",
+    "Frontend — Subject Matter Expert",
+    "Backend — Mid Level Knowledge",
+    "Database — Jr Level Knowledge"
+  ],
+  "SkillsBreakdown": [
+    { "Name": "UI, UX, and Asset Design", "Detail": "From concepting to implementation (Photoshop, Figma, HTML, CSS, JS)" },
+    { "Name": ".NET MAUI", "Detail": "Working with MAUI since RC2 1.0; prior Xamarin experience for several years" },
+    { "Name": "Blazor", "Detail": "Highly experienced creating scalable frontend code via components and MVVM architecture" },
+    { "Name": "C#", "Detail": "Highly confident C# developer focused on performant, reusable code" },
+    { "Name": "Delphi Berlin (10.1, Pascal)", "Detail": "Learnt to meet ReactorNet's stack expectations; responsible for mobile product and supporting backend" },
+    { "Name": "AI Agentic Workflows", "Detail": "Custom agents for planning features, coding assistance, documentation, and unit tests" },
+    { "Name": "Sports Betting, Prediction Markets, Options Markets", "Detail": "2+ years in a highly technical sports betting role; prior options trading experience" },
+    { "Name": "Leadership", "Detail": "Led a team of 6 overseas developers; later transitioned to local talent to increase Sports Betting domain knowledge" }
+  ],
+  "Education": [
+    {
+      "School": "San Antonio College",
+      "Degree": "AAS in Computer Science",
+      "Year": "2020"
+    }
+  ]
+}

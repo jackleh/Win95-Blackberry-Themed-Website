@@ -4,7 +4,7 @@
 @using PortfolioWebsite.Components.Win95
 @inject BaseViewModel BaseViewModel
 
-<PageTitle>Jack Lehman</PageTitle>
+<PageTitle>@(BaseViewModel.Person?.Name ?? string.Empty)</PageTitle>
 
 @if (_ready)
 {

@@ -12,6 +12,7 @@ namespace PortfolioWebsite.ViewModels
         public SectionInfo? SectionInfo { get; private set; }
         public AboutMe? AboutMe { get; private set; }
         public ProjectsInfo? ProjectsInfo { get; private set; }
+        public Resume? Resume { get; private set; }
 
         public async Task InitializeAsync()
         {
@@ -20,6 +21,7 @@ namespace PortfolioWebsite.ViewModels
             SectionInfo = await GetSectionInfo();
             AboutMe = await GetAboutMe();
             ProjectsInfo = await GetProjectsInfo();
+            Resume = await GetResume();
         }
         
         private async Task<Person?> GetPerson()
@@ -50,6 +52,12 @@ namespace PortfolioWebsite.ViewModels
         {
             const string url = "data/projects.json";
             return await httpClient.GetFromJsonAsync<ProjectsInfo>(url);
+        }
+
+        private async Task<Resume?> GetResume()
+        {
+            const string url = "data/resume.json";
+            return await httpClient.GetFromJsonAsync<Resume>(url);
         }
     }
 }

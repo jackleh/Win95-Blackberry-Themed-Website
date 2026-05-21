@@ -81,6 +81,7 @@ public partial class Win95Desktop
                 new("aboutMe.json",     IsDir: false, FileUrl: "data/aboutMe.json",     FileType: "text"),
                 new("person.json",      IsDir: false, FileUrl: "data/person.json",      FileType: "text"),
                 new("projects.json",    IsDir: false, FileUrl: "data/projects.json",    FileType: "text"),
+                new("resume.json",      IsDir: false, FileUrl: "data/resume.json",      FileType: "text"),
                 new("sectionInfo.json", IsDir: false, FileUrl: "data/sectionInfo.json", FileType: "text"),
                 new("siteConfig.json",  IsDir: false, FileUrl: "data/siteConfig.json",  FileType: "text"),
             ],
@@ -327,87 +328,102 @@ public partial class Win95Desktop
     {
         get
         {
-            var linkedin = BaseViewModel.Person?.LinkedinUrl ?? "#";
-            var github   = BaseViewModel.AboutMe?.GithubUrl  ?? "#";
+            var person  = BaseViewModel.Person;
+            var about   = BaseViewModel.AboutMe;
+            var resume  = BaseViewModel.Resume;
+
+            var linkedin = person?.LinkedinUrl ?? "#";
+            var github   = about?.GithubUrl    ?? "#";
 
             // Validate and encode URLs to prevent XSS
-            if (!Uri.TryCreate(linkedin, UriKind.Absolute, out _) && linkedin != "#")
-                linkedin = "#";
-            if (!Uri.TryCreate(github, UriKind.Absolute, out _) && github != "#")
-                github = "#";
+            if (!Uri.TryCreate(linkedin, UriKind.Absolute, out _) && linkedin != "#") linkedin = "#";
+            if (!Uri.TryCreate(github,   UriKind.Absolute, out _) && github   != "#") github   = "#";
 
-            var linkedinEncoded = HtmlEncoder.Default.Encode(linkedin);
-            var githubEncoded = HtmlEncoder.Default.Encode(github);
-
+            var E = HtmlEncoder.Default;
             var sb = new StringBuilder();
             sb.AppendLine("<div class='resume-doc'>");
 
             // Header
-            sb.AppendLine("  <h1>Jack Lehman</h1>");
-            sb.AppendLine("  <p class='resume-tagline'>Mobile Software Developer</p>");
+            sb.AppendLine($"  <h1>{E.Encode(person?.Name ?? string.Empty)}</h1>");
+            if (!string.IsNullOrEmpty(resume?.TagLine))
+                sb.AppendLine($"  <p class='resume-tagline'>{E.Encode(resume.TagLine)}</p>");
             sb.AppendLine("  <p class='resume-meta'>");
-            sb.AppendLine("    jackrlehman05@gmail.com &nbsp;&middot;&nbsp;");
-            sb.AppendLine("    210-429-3959 &nbsp;&middot;&nbsp;");
-            sb.AppendLine("    Las Vegas, NV &mdash; Open to Remote &nbsp;&middot;&nbsp;");
-            sb.AppendLine($"    <a href='{linkedinEncoded}' target='_blank'>LinkedIn</a> &nbsp;&middot;&nbsp;");
-            sb.AppendLine($"    <a href='{githubEncoded}' target='_blank'>GitHub</a>");
+            if (!string.IsNullOrEmpty(person?.Email))
+                sb.AppendLine($"    {E.Encode(person.Email)} &nbsp;&middot;&nbsp;");
+            if (!string.IsNullOrEmpty(person?.Phone))
+                sb.AppendLine($"    {E.Encode(person.Phone)} &nbsp;&middot;&nbsp;");
+            if (!string.IsNullOrEmpty(about?.Location))
+                sb.AppendLine($"    {E.Encode(about.Location)} &nbsp;&middot;&nbsp;");
+            sb.AppendLine($"    <a href='{E.Encode(linkedin)}' target='_blank'>LinkedIn</a> &nbsp;&middot;&nbsp;");
+            sb.AppendLine($"    <a href='{E.Encode(github)}' target='_blank'>GitHub</a>");
             sb.AppendLine("  </p>");
             sb.AppendLine("  <hr/>");
 
             // About
-            sb.AppendLine("  <h2>About</h2>");
-            sb.AppendLine("  <p>Senior Software Developer specialized in .NET MAUI, Blazor Software Development, and Sports Betting. I am committed to and take pride in developing quality software products. I excel at problem solving, leadership, teamwork, and adaptability.</p>");
+            if (!string.IsNullOrEmpty(about?.Summary))
+            {
+                sb.AppendLine("  <h2>About</h2>");
+                sb.AppendLine($"  <p>{E.Encode(about.Summary)}</p>");
+            }
 
             // Job History
-            sb.AppendLine("  <h2>Job History</h2>");
-
-            sb.AppendLine("  <h3>Circa Resort &amp; Casino &mdash; Las Vegas</h3>");
-
-            sb.AppendLine("  <p class='resume-role'>Senior Software Engineer &nbsp;&middot;&nbsp; <span class='resume-date'>2025 &ndash; 2026</span></p>");
-            sb.AppendLine("  <ul>");
-            sb.AppendLine("    <li>Continued leading mobile development efforts on Circa Sports&rsquo; MAUI Blazor Mobile and Desktop real money Sports Betting app, issuing large quarterly updates.</li>");
-            sb.AppendLine("    <li>Continued to concept and create new innovative features in the Sports Betting industry which resulted in increased user engagement and reception &mdash; including a stats tracker on win/losses, create quick parlay by shaking your phone, and the ability to track bets by various categories.</li>");
-            sb.AppendLine("  </ul>");
-
-            sb.AppendLine("  <p class='resume-role'>Mobile Developer &nbsp;&middot;&nbsp; <span class='resume-date'>2024 &ndash; 2025</span></p>");
-            sb.AppendLine("  <ul>");
-            sb.AppendLine("    <li>Responsible for leading mobile development efforts on Circa Sports&rsquo; MAUI Blazor Mobile and Desktop Sports Betting app from conception to release.</li>");
-            sb.AppendLine("    <li>Creator of the &ldquo;Round Robin Parlay Inspector&rdquo; &mdash; a new and first-of-its-kind feature in Sports Betting focusing on transparency and unraveling confusing aspects of round robins by showing bet item groupings per &ldquo;by&rdquo; and the potential win on each parlay.</li>");
-            sb.AppendLine("  </ul>");
-
-            sb.AppendLine("  <h3>ReactorNet Technologies &mdash; San Antonio</h3>");
-            sb.AppendLine("  <p class='resume-role'>Software Developer &nbsp;&middot;&nbsp; <span class='resume-date'>2021 &ndash; 2024</span></p>");
-            sb.AppendLine("  <ul>");
-            sb.AppendLine("    <li>Lead developer on &ldquo;EPRO Mobile&rdquo; &mdash; a .NET MAUI XAML Mobile procure-to-pay application on the Apple App Store and Google Play Store, brought from concept phase to live production with constant new features and fixes.</li>");
-            sb.AppendLine("    <li>Created innovative features including a liquid level detector using the phone&rsquo;s camera and AI for auto re-ordering based on predicted consumption levels.</li>");
-            sb.AppendLine("    <li>Adhered to the company&rsquo;s stack by developing a Delphi Berlin API to communicate between EPRO Mobile and the backend.</li>");
-            sb.AppendLine("    <li>Assisted with development of ReactorNet&rsquo;s procure-to-pay application built in Delphi.</li>");
-            sb.AppendLine("  </ul>");
+            if (resume?.JobHistory?.Count > 0)
+            {
+                sb.AppendLine("  <h2>Job History</h2>");
+                foreach (var job in resume.JobHistory)
+                {
+                    var heading = string.IsNullOrEmpty(job.Location)
+                        ? E.Encode(job.Company)
+                        : $"{E.Encode(job.Company)} &mdash; {E.Encode(job.Location)}";
+                    sb.AppendLine($"  <h3>{heading}</h3>");
+                    foreach (var role in job.Roles)
+                    {
+                        sb.AppendLine($"  <p class='resume-role'>{E.Encode(role.Title)} &nbsp;&middot;&nbsp; <span class='resume-date'>{E.Encode(role.DateRange)}</span></p>");
+                        if (role.Bullets?.Count > 0)
+                        {
+                            sb.AppendLine("  <ul>");
+                            foreach (var bullet in role.Bullets)
+                                sb.AppendLine($"    <li>{E.Encode(bullet)}</li>");
+                            sb.AppendLine("  </ul>");
+                        }
+                    }
+                }
+            }
 
             // Skills
-            sb.AppendLine("  <h2>Skills</h2>");
-            sb.AppendLine("  <p class='resume-role'>By Domain</p>");
-            sb.AppendLine("  <ul>");
-            sb.AppendLine("    <li>Sports Betting and Prediction Markets &mdash; Strong industry level knowledge</li>");
-            sb.AppendLine("    <li>Frontend &mdash; Subject Matter Expert</li>");
-            sb.AppendLine("    <li>Backend &mdash; Mid Level Knowledge</li>");
-            sb.AppendLine("    <li>Database &mdash; Jr Level Knowledge</li>");
-            sb.AppendLine("  </ul>");
-            sb.AppendLine("  <p class='resume-role'>Breakdown</p>");
-            sb.AppendLine("  <ul>");
-            sb.AppendLine("    <li><strong>UI, UX, and Asset Design</strong> &mdash; From concepting to implementation (Photoshop, Figma, HTML, CSS, JS)</li>");
-            sb.AppendLine("    <li><strong>.NET MAUI</strong> &mdash; Working with MAUI since RC2 1.0; prior Xamarin experience for several years</li>");
-            sb.AppendLine("    <li><strong>Blazor</strong> &mdash; Highly experienced creating scalable frontend code via components and MVVM architecture</li>");
-            sb.AppendLine("    <li><strong>C#</strong> &mdash; Highly confident C# developer focused on performant, reusable code</li>");
-            sb.AppendLine("    <li><strong>Delphi Berlin (10.1, Pascal)</strong> &mdash; Learnt to meet ReactorNet&rsquo;s stack expectations; responsible for mobile product and supporting backend</li>");
-            sb.AppendLine("    <li><strong>AI Agentic Workflows</strong> &mdash; Custom agents for planning features, coding assistance, documentation, and unit tests</li>");
-            sb.AppendLine("    <li><strong>Sports Betting, Prediction Markets, Options Markets</strong> &mdash; 2+ years in a highly technical sports betting role; prior options trading experience</li>");
-            sb.AppendLine("    <li><strong>Leadership</strong> &mdash; Led a team of 6 overseas developers; later transitioned to local talent to increase Sports Betting domain knowledge</li>");
-            sb.AppendLine("  </ul>");
+            if (resume?.SkillsByDomain?.Count > 0 || resume?.SkillsBreakdown?.Count > 0)
+            {
+                sb.AppendLine("  <h2>Skills</h2>");
+                if (resume?.SkillsByDomain?.Count > 0)
+                {
+                    sb.AppendLine("  <p class='resume-role'>By Domain</p>");
+                    sb.AppendLine("  <ul>");
+                    foreach (var s in resume.SkillsByDomain)
+                        sb.AppendLine($"    <li>{E.Encode(s)}</li>");
+                    sb.AppendLine("  </ul>");
+                }
+                if (resume?.SkillsBreakdown?.Count > 0)
+                {
+                    sb.AppendLine("  <p class='resume-role'>Breakdown</p>");
+                    sb.AppendLine("  <ul>");
+                    foreach (var s in resume.SkillsBreakdown)
+                        sb.AppendLine($"    <li><strong>{E.Encode(s.Name)}</strong> &mdash; {E.Encode(s.Detail)}</li>");
+                    sb.AppendLine("  </ul>");
+                }
+            }
 
             // Education
-            sb.AppendLine("  <h2>Education</h2>");
-            sb.AppendLine("  <p>San Antonio College &mdash; AAS in Computer Science &nbsp;&middot;&nbsp; 2020</p>");
+            if (resume?.Education?.Count > 0)
+            {
+                sb.AppendLine("  <h2>Education</h2>");
+                foreach (var ed in resume.Education)
+                {
+                    var entry = $"{E.Encode(ed.School)} &mdash; {E.Encode(ed.Degree)}";
+                    if (!string.IsNullOrEmpty(ed.Year))
+                        entry += $" &nbsp;&middot;&nbsp; {E.Encode(ed.Year)}";
+                    sb.AppendLine($"  <p>{entry}</p>");
+                }
+            }
 
             sb.AppendLine("</div>");
             return sb.ToString();
@@ -420,14 +436,16 @@ public partial class Win95Desktop
         {
             var linkedin = BaseViewModel.Person?.LinkedinUrl ?? "N/A";
             var github   = BaseViewModel.AboutMe?.GithubUrl  ?? "N/A";
+            var email    = BaseViewModel.Person?.Email        ?? "N/A";
+            var location = BaseViewModel.AboutMe?.Location    ?? "N/A";
 
             var sb = new StringBuilder();
             sb.AppendLine("  Best way to reach me: LinkedIn");
             sb.AppendLine();
             sb.AppendLine($"  LinkedIn >> {linkedin}");
             sb.AppendLine($"  GitHub   >> {github}");
-            sb.AppendLine($"  Email    >> jackrlehman05@gmail.com");
-            sb.AppendLine($"  Location >> Las Vegas, NV — Open to Remote");
+            sb.AppendLine($"  Email    >> {email}");
+            sb.AppendLine($"  Location >> {location}");
             sb.AppendLine();
             sb.AppendLine("  +---------------------------------------------+");
             sb.AppendLine("  | Feel free to reach out for opportunities,   |");
