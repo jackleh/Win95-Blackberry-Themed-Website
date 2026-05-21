@@ -1,0 +1,72 @@
+{
+  "Tagline": "Mobile Software Developer",
+  "Email": "jackrlehman05@gmail.com",
+  "Phone": "210-429-3959",
+  "Location": "Las Vegas, NV — Open to Remote",
+  "About": "Senior Software Developer specialized in .NET MAUI, Blazor Software Development, and Sports Betting. I am committed to and take pride in developing quality software products. I excel at problem solving, leadership, teamwork, and adaptability.",
+  "Companies": [
+    {
+      "Name": "Circa Resort & Casino — Las Vegas",
+      "Roles": [
+        {
+          "Title": "Senior Software Engineer",
+          "Dates": "2025 – 2026",
+          "Bullets": [
+            "Continued leading mobile development efforts on Circa Sports' MAUI Blazor Mobile and Desktop real money Sports Betting app, issuing large quarterly updates.",
+            "Continued to concept and create new innovative features in the Sports Betting industry which resulted in increased user engagement and reception — including a stats tracker on win/losses, create quick parlay by shaking your phone, and the ability to track bets by various categories."
+          ]
+        },
+        {
+          "Title": "Mobile Developer",
+          "Dates": "2024 – 2025",
+          "Bullets": [
+            "Responsible for leading mobile development efforts on Circa Sports' MAUI Blazor Mobile and Desktop Sports Betting app from conception to release.",
+            "Creator of the \"Round Robin Parlay Inspector\" — a new and first-of-its-kind feature in Sports Betting focusing on transparency and unraveling confusing aspects of round robins by showing bet item groupings per \"by\" and the potential win on each parlay."
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "ReactorNet Technologies — San Antonio",
+      "Roles": [
+        {
+          "Title": "Software Developer",
+          "Dates": "2021 – 2024",
+          "Bullets": [
+            "Lead developer on \"EPRO Mobile\" — a .NET MAUI XAML Mobile procure-to-pay application on the Apple App Store and Google Play Store, brought from concept phase to live production with constant new features and fixes.",
+            "Created innovative features including a liquid level detector using the phone's camera and AI for auto re-ordering based on predicted consumption levels.",
+            "Adhered to the company's stack by developing a Delphi Berlin API to communicate between EPRO Mobile and the backend.",
+            "Assisted with development of ReactorNet's procure-to-pay application built in Delphi."
+          ]
+        }
+      ]
+    }
+  ],
+  "SkillGroups": [
+    {
+      "Heading": "By Domain",
+      "Items": [
+        { "Label": "Sports Betting and Prediction Markets", "Detail": "Strong industry level knowledge" },
+        { "Label": "Frontend", "Detail": "Subject Matter Expert" },
+        { "Label": "Backend", "Detail": "Mid Level Knowledge" },
+        { "Label": "Database", "Detail": "Jr Level Knowledge" }
+      ]
+    },
+    {
+      "Heading": "Breakdown",
+      "Items": [
+        { "Label": "UI, UX, and Asset Design", "Detail": "From concepting to implementation (Photoshop, Figma, HTML, CSS, JS)" },
+        { "Label": ".NET MAUI", "Detail": "Working with MAUI since RC2 1.0; prior Xamarin experience for several years" },
+        { "Label": "Blazor", "Detail": "Highly experienced creating scalable frontend code via components and MVVM architecture" },
+        { "Label": "C#", "Detail": "Highly confident C# developer focused on performant, reusable code" },
+        { "Label": "Delphi Berlin (10.1, Pascal)", "Detail": "Learnt to meet ReactorNet's stack expectations; responsible for mobile product and supporting backend" },
+        { "Label": "AI Agentic Workflows", "Detail": "Custom agents for planning features, coding assistance, documentation, and unit tests" },
+        { "Label": "Sports Betting, Prediction Markets, Options Markets", "Detail": "2+ years in a highly technical sports betting role; prior options trading experience" },
+        { "Label": "Leadership", "Detail": "Led a team of 6 overseas developers; later transitioned to local talent to increase Sports Betting domain knowledge" }
+      ]
+    }
+  ],
+  "Education": [
+    { "School": "San Antonio College", "Degree": "AAS in Computer Science", "Year": "2020" }
+  ]
+}
