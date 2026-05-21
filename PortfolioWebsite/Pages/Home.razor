@@ -4,6 +4,7 @@
 @using PortfolioWebsite.ViewModels
 @inject BaseViewModel BaseViewModel
 @inject IJSRuntime JS
+@implements IAsyncDisposable
 
 <PageTitle>Jack Lehman</PageTitle>
 
@@ -20,8 +21,11 @@
 }
 
 @code {
+    private const int MobileBreakpoint = 820;
+
     private bool _ready;
     private bool _isMobile;
+    private DotNetObjectReference<Home>? _selfRef;
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,5 +39,26 @@
             _isMobile = false;
         }
         _ready = true;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        _selfRef = DotNetObjectReference.Create(this);
+        await JS.InvokeVoidAsync("deviceHelper.onViewportChange", _selfRef, nameof(OnBreakpointChanged), MobileBreakpoint);
+    }
+
+    [JSInvokable]
+    public void OnBreakpointChanged(bool isNarrow)
+    {
+        if (_isMobile == isNarrow) return;
+        _isMobile = isNarrow;
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _selfRef?.Dispose();
+        await Task.CompletedTask;
     }
 }

@@ -9,7 +9,7 @@
             <span class="bb-signal">
                 <i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><i class="b5"></i>
             </span>
-            BlackBerry
+            Copland OS
         </span>
         <span class="bb-status-right">
             <span class="bb-net">3G</span>
@@ -20,11 +20,9 @@
 
     @if (_app == App.Home)
     {
-        <div class="bb-home">
+        <div class="bb-home" style="background-image: url('media/image/lain_navi_mobile.png')">
             <div class="bb-banner">
                 <div class="bb-date">@_dateLine</div>
-                <div class="bb-owner">@(_person?.Name ?? "Jack Lehman")</div>
-                <div class="bb-owner-sub">@(_person?.Title)</div>
             </div>
 
             <div class="bb-grid">
@@ -32,7 +30,7 @@
                 {
                     var target = icon.Target;
                     <button class="bb-app-icon" @onclick="() => Open(target)">
-                        <span class="bb-icon-tile @icon.TileClass">@icon.Glyph</span>
+                        <span class="bb-icon-tile @icon.TileClass">@icon.Svg</span>
                         <span class="bb-icon-label">@icon.Label</span>
                     </button>
                 }
@@ -43,11 +41,13 @@
     {
         <div class="bb-app">
             <div class="bb-app-header">
-                <button class="bb-back-chip" @onclick="GoHome">‹</button>
+                <button class="bb-back-chip" @onclick="GoHome">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
                 <span class="bb-app-title">@_appTitle</span>
             </div>
             <div class="bb-app-content">
-                @if (_app == App.Profile)
+                @if (_app == App.About)
                 {
                     <div class="bb-section">
                         <h2 class="bb-name">@(_person?.Name)</h2>
@@ -149,7 +149,7 @@
                         <div class="bb-empty">No projects found.</div>
                     }
                 }
-                else if (_app == App.Messages)
+                else if (_app == App.Contacts)
                 {
                     <div class="bb-section">
                         <h3 class="bb-h3">Get in touch</h3>
@@ -199,90 +199,25 @@
                         }
                     </div>
                 }
-                else if (_app == App.About)
-                {
-                    @{ var about = BaseViewModel.AboutMe; }
-                    @if (!string.IsNullOrWhiteSpace(about?.Summary))
-                    {
-                        <div class="bb-section">
-                            <h3 class="bb-h3">Summary</h3>
-                            <p class="bb-body">@about!.Summary</p>
-                        </div>
-                    }
-                    @if (about?.Skills is { Count: > 0 })
-                    {
-                        <div class="bb-section">
-                            <h3 class="bb-h3">Skills</h3>
-                            <div class="bb-chips">
-                                @foreach (var skill in about.Skills)
-                                {
-                                    <span class="bb-chip">@skill</span>
-                                }
-                            </div>
-                        </div>
-                    }
-                    @if (about?.Languages is { Count: > 0 })
-                    {
-                        <div class="bb-section">
-                            <h3 class="bb-h3">Languages</h3>
-                            <div class="bb-chips">
-                                @foreach (var lang in about.Languages)
-                                {
-                                    <span class="bb-chip">@lang</span>
-                                }
-                            </div>
-                        </div>
-                    }
-                }
-                else if (_app == App.Browser)
-                {
-                    <div class="bb-section">
-                        <h3 class="bb-h3">Bookmarks</h3>
-                    </div>
-                    <div class="bb-contact-list">
-                        @{ var li = SafeHref(_person?.LinkedinUrl); }
-                        @if (!string.IsNullOrWhiteSpace(li))
-                        {
-                            <a class="bb-contact-row" href="@li" target="_blank" rel="noopener noreferrer">
-                                <span class="bb-contact-key">LinkedIn</span>
-                                <span class="bb-contact-val">@DisplayUrl(li)</span>
-                            </a>
-                        }
-                        @{ var gh = SafeHref(BaseViewModel.AboutMe?.GithubUrl); }
-                        @if (!string.IsNullOrWhiteSpace(gh))
-                        {
-                            <a class="bb-contact-row" href="@gh" target="_blank" rel="noopener noreferrer">
-                                <span class="bb-contact-key">GitHub</span>
-                                <span class="bb-contact-val">@DisplayUrl(gh)</span>
-                            </a>
-                        }
-                    </div>
-                }
             </div>
         </div>
     }
 
-    <div class="bb-toolbar">
-        <button class="bb-key bb-key-send" title="Call">
-            <span class="bb-key-glyph">📞</span>
-        </button>
-        <button class="bb-key bb-key-menu" @onclick="GoHome" title="Menu">
-            <span class="bb-key-glyph bb-bblogo">::::</span>
-        </button>
-        <button class="bb-key bb-key-track" @onclick="GoHome" title="Trackpad"></button>
-        <button class="bb-key bb-key-back" @onclick="GoHome" title="Back">
-            <span class="bb-key-glyph">↩</span>
-        </button>
-        <button class="bb-key bb-key-end" title="End">
-            <span class="bb-key-glyph">⌐</span>
-        </button>
-    </div>
 </div>
 
 @code {
-    private enum App { Home, Profile, Projects, Messages, About, Browser }
+    private enum App { Home, About, Projects, Contacts }
 
-    private record IconDef(string Label, string Glyph, string TileClass, App Target);
+    private record IconDef(string Label, MarkupString Svg, string TileClass, App Target);
+
+    private static readonly MarkupString SvgAbout = new(
+        @"<svg viewBox=""0 0 24 24"" fill=""currentColor"" xmlns=""http://www.w3.org/2000/svg""><circle cx=""12"" cy=""7"" r=""4""/><path d=""M12 13c-5 0-8 2.2-8 4v1h16v-1c0-1.8-3-4-8-4z""/></svg>");
+
+    private static readonly MarkupString SvgProjects = new(
+        @"<svg viewBox=""0 0 24 24"" fill=""currentColor"" xmlns=""http://www.w3.org/2000/svg""><path d=""M8.5 5L2 12l6.5 7 1.5-1.5L4.5 12 10 6.5 8.5 5zm7 0L14 6.5 19.5 12 14 17.5l1.5 1.5L22 12l-6.5-7z""/></svg>");
+
+    private static readonly MarkupString SvgContacts = new(
+        @"<svg viewBox=""0 0 24 24"" fill=""currentColor"" xmlns=""http://www.w3.org/2000/svg""><path d=""M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z""/></svg>");
 
     private App _app = App.Home;
 
@@ -297,21 +232,16 @@
 
     private readonly IconDef[] _icons =
     [
-        new("Profile",  "👤", "tile-blue",   App.Profile),
-        new("Projects", "🛠",  "tile-orange", App.Projects),
-        new("Messages", "✉",  "tile-green",  App.Messages),
-        new("About",    "i",   "tile-purple", App.About),
-        new("Browser",  "🌐", "tile-teal",   App.Browser),
-        new("Phone",    "📞", "tile-red",    App.Messages),
+        new("About",    SvgAbout,    "tile-blue",   App.About),
+        new("Projects", SvgProjects, "tile-orange", App.Projects),
+        new("Contacts", SvgContacts, "tile-green",  App.Contacts),
     ];
 
     private string _appTitle => _app switch
     {
-        App.Profile  => "Profile",
+        App.About    => "About",
         App.Projects => "Projects",
-        App.Messages => "Messages",
-        App.About    => "About Me",
-        App.Browser  => "Browser",
+        App.Contacts => "Contacts",
         _            => string.Empty
     };
 
@@ -325,9 +255,7 @@
             if (_disposed) return;
             try
             {
-                var prev = _clock;
                 UpdateClock();
-                if (prev == _clock) return;
                 await InvokeAsync(StateHasChanged);
             }
             catch (ObjectDisposedException) { }

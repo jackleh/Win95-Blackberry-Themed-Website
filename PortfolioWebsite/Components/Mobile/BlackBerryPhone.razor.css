@@ -66,20 +66,19 @@
 .bb-home {
     flex: 1;
     overflow-y: auto;
-    background:
-        radial-gradient(120% 80% at 50% 0%, #2b3a55 0%, #16203a 45%, #070b16 100%);
+    background-color: #070b16;
+    background-size: cover;
+    background-position: center;
     display: flex;
     flex-direction: column;
 }
 
 .bb-banner {
-    padding: 22px 18px 14px;
+    padding: 16px 18px 10px;
     text-align: center;
     text-shadow: 0 1px 3px rgba(0,0,0,.8);
 }
 .bb-date { font-size: 12px; color: #b9c6db; letter-spacing: .5px; }
-.bb-owner { font-size: 26px; font-weight: 700; margin-top: 4px; color: #fff; }
-.bb-owner-sub { font-size: 13px; color: #9fb6d6; margin-top: 2px; }
 
 .bb-grid {
     margin-top: auto;
@@ -110,12 +109,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
     color: #fff;
     box-shadow: inset 0 1px 1px rgba(255,255,255,.5), inset 0 -3px 6px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.5);
     position: relative;
     overflow: hidden;
 }
+.bb-icon-tile svg { width: 26px; height: 26px; }
 .bb-icon-tile::after {
     content: "";
     position: absolute;
@@ -127,9 +126,6 @@
 .tile-blue   { background: linear-gradient(#5aa0f0, #1f5bb8); }
 .tile-orange { background: linear-gradient(#ffb24d, #d9711a); }
 .tile-green  { background: linear-gradient(#7ed957, #2f9e2f); }
-.tile-purple { background: linear-gradient(#b07ce6, #6f33b8); font-style: italic; font-weight: 700; font-family: Georgia, serif; }
-.tile-teal   { background: linear-gradient(#4fd4d4, #128a8a); }
-.tile-red    { background: linear-gradient(#ff6b6b, #c01f1f); }
 
 .bb-icon-label {
     font-size: 11px;
@@ -166,10 +162,13 @@
     color: #fff;
     width: 30px; height: 26px;
     border-radius: 6px;
-    font-size: 20px;
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    padding: 0;
 }
+.bb-back-chip svg { width: 18px; height: 18px; }
 .bb-back-chip:active { background: #2a313b; }
 .bb-app-title { font-size: 15px; font-weight: 600; color: #fff; }
 
@@ -257,48 +256,3 @@ div.bb-contact-row .bb-contact-val { color: #d4dce8; }
 
 .bb-empty { color: #8492a6; text-align: center; margin-top: 40px; }
 
-/* ── Bottom toolbar (physical keys) ── */
-.bb-toolbar {
-    flex: 0 0 auto;
-    height: 52px;
-    display: flex;
-    align-items: stretch;
-    background: linear-gradient(#2a2e35, #111317);
-    border-top: 1px solid #000;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-.bb-key {
-    flex: 1;
-    appearance: none;
-    border: 0;
-    border-right: 1px solid rgba(0,0,0,.5);
-    background: transparent;
-    color: #cfd6df;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-.bb-key:last-child { border-right: 0; }
-.bb-key:active { background: rgba(255,255,255,.06); }
-.bb-key-glyph { font-size: 18px; }
-.bb-key-send .bb-key-glyph { filter: hue-rotate(80deg); }
-.bb-key-send { color: #6ee06e; }
-.bb-key-end { color: #ff6b6b; font-weight: 700; }
-
-.bb-key-track {
-    flex: 0 0 56px;
-    position: relative;
-}
-.bb-key-track::after {
-    content: "";
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #6a737f, #2a2e35);
-    box-shadow: inset 0 1px 2px rgba(255,255,255,.3), 0 1px 2px rgba(0,0,0,.6);
-}
-.bb-bblogo {
-    font-size: 12px;
-    letter-spacing: -1px;
-    color: #cfd6df;
-}
