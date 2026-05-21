@@ -32,9 +32,9 @@
                 <div class="win95-titlebar" id="videoTitleBar">
                     <span class="win95-title">@_currentVideoTitle</span>
                     <div class="win95-controls">
-                        <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizeVideo">_</button>
-                        <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizeVideo">□</button>
-                        <button class="win95-btn" @onclick:stopPropagation @onclick="CloseVideoWindow">×</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onmousedown:stopPropagation @onclick="MinimizeVideo">_</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onmousedown:stopPropagation @onclick="ToggleMaximizeVideo">□</button>
+                        <button class="win95-btn" @onclick:stopPropagation @onmousedown:stopPropagation @onclick="CloseVideoWindow">×</button>
                     </div>
                 </div>
                 <div class="win95-body video-body">
