@@ -26,9 +26,7 @@
         @if (_videoOpen)
         {
             <div class="win95-window video-window @(_videoMinimized ? "minimized" : "") @(_videoMaximized ? "maximized" : "")"
-                 id="videoWindow"
-                 style="z-index:@Z("video")"
-                 @onmousedown="() => Raise("video")">
+                 id="videoWindow">
                 <div class="win95-titlebar" id="videoTitleBar">
                     <span class="win95-title">@_currentVideoTitle</span>
                     <div class="win95-controls">
@@ -60,8 +58,6 @@
         {
             <div class="win95-window cmd-window @(_cmdMinimized ? "minimized" : "") @(_cmdMaximized ? "maximized" : "")"
                  id="cmdWindow"
-                 style="z-index:@Z("cmd")"
-                 @onmousedown="() => Raise("cmd")"
                  @onclick="FocusCmdInput">
                 <div class="win95-titlebar" id="cmdTitleBar">
                     <span class="win95-title">C:\COPLAND\system32\cmd.exe</span>
@@ -93,9 +89,7 @@
         @if (_projectsOpen)
         {
             <div class="win95-window txtfile-window projects-window-default @(_projectsMinimized ? "minimized" : "") @(_projectsMaximized ? "maximized" : "")"
-                 id="projectsWindow"
-                 style="z-index:@Z("projects")"
-                 @onmousedown="() => Raise("projects")">
+                 id="projectsWindow">
                 <div class="win95-titlebar" id="projectsTitleBar">
                     <span class="win95-title">projects.txt - Notepad</span>
                     <div class="win95-controls">
@@ -120,9 +114,7 @@
         @if (_resumeOpen)
         {
             <div class="win95-window txtfile-window resume-window-default @(_resumeMinimized ? "minimized" : "") @(_resumeMaximized ? "maximized" : "")"
-                 id="resumeWindow"
-                 style="z-index:@Z("resume")"
-                 @onmousedown="() => Raise("resume")">
+                 id="resumeWindow">
                 <div class="win95-titlebar" id="resumeTitleBar">
                     <span class="win95-title">resume.md</span>
                     <div class="win95-controls">
@@ -248,9 +240,7 @@
         @if (_contactOpen)
         {
             <div class="win95-window txtfile-window contact-window-default @(_contactMinimized ? "minimized" : "") @(_contactMaximized ? "maximized" : "")"
-                 id="contactWindow"
-                 style="z-index:@Z("contact")"
-                 @onmousedown="() => Raise("contact")">
+                 id="contactWindow">
                 <div class="win95-titlebar" id="contactTitleBar">
                     <span class="win95-title">contact.txt - Notepad</span>
                     <div class="win95-controls">
@@ -275,9 +265,7 @@
         @if (_notepadOpen)
         {
             <div class="win95-window notepad-window @(_notepadMinimized ? "minimized" : "") @(_notepadMaximized ? "maximized" : "")"
-                 id="notepadWindow"
-                 style="z-index:@Z("notepad")"
-                 @onmousedown="() => Raise("notepad")">
+                 id="notepadWindow">
                 <div class="win95-titlebar" id="notepadTitleBar">
                     <span class="win95-title">Untitled - Notepad</span>
                     <div class="win95-controls">
@@ -298,9 +286,7 @@
         @if (_paintOpen)
         {
             <div class="win95-window paint-window @(_paintMinimized ? "minimized" : "") @(_paintMaximized ? "maximized" : "")"
-                 id="paintWindow"
-                 style="z-index:@Z("paint")"
-                 @onmousedown="() => Raise("paint")">
+                 id="paintWindow">
                 <div class="win95-titlebar" id="paintTitleBar">
                     <span class="win95-title">untitled - Paint</span>
                     <div class="win95-controls">
@@ -442,12 +428,6 @@
 @code {
     private string _wallpaperUrl => BaseViewModel.SiteConfig?.EasterEggDesktopPictureUrl ?? string.Empty;
 
-    // Z-order tracking — each window gets a stable z-index; clicking raises it.
-    private readonly Dictionary<string, int> _windowZ = new();
-    private int _zCounter = 100;
-    private int Z(string key) => _windowZ.TryGetValue(key, out var z) ? z : (_windowZ[key] = ++_zCounter);
-    private void Raise(string key) => _windowZ[key] = ++_zCounter;
-
     // Clock
     private string _clock = string.Empty;
     private System.Timers.Timer? _clockTimer;
@@ -550,6 +530,7 @@
             _videoVolumeNeedsSync = true;
             await JS.InvokeVoidAsync("dragHelper.enableDrag",   "videoWindow", "videoTitleBar");
             await JS.InvokeVoidAsync("dragHelper.enableResize", "videoWindow");
+            await JS.InvokeVoidAsync("dragHelper.raiseWindow",  "videoWindow");
         }
 
         if (_videoVolumeNeedsSync && _videoOpen && !_videoMinimized)
@@ -563,6 +544,7 @@
             _cmdNeedsInit = false;
             await JS.InvokeVoidAsync("dragHelper.enableDrag",   "cmdWindow", "cmdTitleBar");
             await JS.InvokeVoidAsync("dragHelper.enableResize", "cmdWindow");
+            await JS.InvokeVoidAsync("dragHelper.raiseWindow",  "cmdWindow");
         }
 
         if (_projectsNeedsInit && _projectsOpen)
@@ -570,6 +552,7 @@
             _projectsNeedsInit = false;
             await JS.InvokeVoidAsync("dragHelper.enableDrag",   "projectsWindow", "projectsTitleBar");
             await JS.InvokeVoidAsync("dragHelper.enableResize", "projectsWindow");
+            await JS.InvokeVoidAsync("dragHelper.raiseWindow",  "projectsWindow");
         }
 
         if (_resumeNeedsInit && _resumeOpen)
@@ -577,6 +560,7 @@
             _resumeNeedsInit = false;
             await JS.InvokeVoidAsync("dragHelper.enableDrag",   "resumeWindow", "resumeTitleBar");
             await JS.InvokeVoidAsync("dragHelper.enableResize", "resumeWindow");
+            await JS.InvokeVoidAsync("dragHelper.raiseWindow",  "resumeWindow");
         }
 
         if (_contactNeedsInit && _contactOpen)
@@ -584,6 +568,7 @@
             _contactNeedsInit = false;
             await JS.InvokeVoidAsync("dragHelper.enableDrag",   "contactWindow", "contactTitleBar");
             await JS.InvokeVoidAsync("dragHelper.enableResize", "contactWindow");
+            await JS.InvokeVoidAsync("dragHelper.raiseWindow",  "contactWindow");
         }
 
         if (_notepadNeedsInit && _notepadOpen)
@@ -591,6 +576,7 @@
             _notepadNeedsInit = false;
             await JS.InvokeVoidAsync("dragHelper.enableDrag",   "notepadWindow", "notepadTitleBar");
             await JS.InvokeVoidAsync("dragHelper.enableResize", "notepadWindow");
+            await JS.InvokeVoidAsync("dragHelper.raiseWindow",  "notepadWindow");
         }
 
         if (_paintNeedsInit && _paintOpen)
@@ -598,6 +584,7 @@
             _paintNeedsInit = false;
             await JS.InvokeVoidAsync("dragHelper.enableDrag",   "paintWindow", "paintTitleBar");
             await JS.InvokeVoidAsync("dragHelper.enableResize", "paintWindow");
+            await JS.InvokeVoidAsync("dragHelper.raiseWindow",  "paintWindow");
             await JS.InvokeVoidAsync("paintHelper.init", "paintCanvas", _paintInitImageUrl);
         }
 
@@ -707,7 +694,6 @@
         _cmdMinimized = false;
         _cmdShouldFocus = true;
         _cmdNeedsInit = true;
-        Raise("cmd");
     }
 
     private void MinimizeCmd() => _cmdMinimized = true;
@@ -786,40 +772,40 @@
     }
 
     // ── Taskbar toggles (raise on restore) ───────────────────────────────────
-    private void ToggleVideoFromTaskbar()
+    private async Task ToggleVideoFromTaskbar()
     {
         _videoMinimized = !_videoMinimized;
-        if (!_videoMinimized) Raise("video");
+        if (!_videoMinimized) await JS.InvokeVoidAsync("dragHelper.raiseWindow", "videoWindow");
     }
-    private void ToggleCmdFromTaskbar()
+    private async Task ToggleCmdFromTaskbar()
     {
         _cmdMinimized = !_cmdMinimized;
-        if (!_cmdMinimized) Raise("cmd");
+        if (!_cmdMinimized) await JS.InvokeVoidAsync("dragHelper.raiseWindow", "cmdWindow");
     }
-    private void ToggleNotepadFromTaskbar()
+    private async Task ToggleNotepadFromTaskbar()
     {
         _notepadMinimized = !_notepadMinimized;
-        if (!_notepadMinimized) Raise("notepad");
+        if (!_notepadMinimized) await JS.InvokeVoidAsync("dragHelper.raiseWindow", "notepadWindow");
     }
-    private void TogglePaintFromTaskbar()
+    private async Task TogglePaintFromTaskbar()
     {
         _paintMinimized = !_paintMinimized;
-        if (!_paintMinimized) Raise("paint");
+        if (!_paintMinimized) await JS.InvokeVoidAsync("dragHelper.raiseWindow", "paintWindow");
     }
-    private void ToggleProjectsFromTaskbar()
+    private async Task ToggleProjectsFromTaskbar()
     {
         _projectsMinimized = !_projectsMinimized;
-        if (!_projectsMinimized) Raise("projects");
+        if (!_projectsMinimized) await JS.InvokeVoidAsync("dragHelper.raiseWindow", "projectsWindow");
     }
-    private void ToggleResumeFromTaskbar()
+    private async Task ToggleResumeFromTaskbar()
     {
         _resumeMinimized = !_resumeMinimized;
-        if (!_resumeMinimized) Raise("resume");
+        if (!_resumeMinimized) await JS.InvokeVoidAsync("dragHelper.raiseWindow", "resumeWindow");
     }
-    private void ToggleContactFromTaskbar()
+    private async Task ToggleContactFromTaskbar()
     {
         _contactMinimized = !_contactMinimized;
-        if (!_contactMinimized) Raise("contact");
+        if (!_contactMinimized) await JS.InvokeVoidAsync("dragHelper.raiseWindow", "contactWindow");
     }
 
     // ── Content file windows ─────────────────────────────────────────────────
@@ -828,21 +814,18 @@
         _projectsOpen = true;
         _projectsMinimized = false;
         _projectsNeedsInit = true;
-        Raise("projects");
     }
     private void OpenResumeWindow()
     {
         _resumeOpen = true;
         _resumeMinimized = false;
         _resumeNeedsInit = true;
-        Raise("resume");
     }
     private void OpenContactWindow()
     {
         _contactOpen = true;
         _contactMinimized = false;
         _contactNeedsInit = true;
-        Raise("contact");
     }
 
     // ── Notepad ──────────────────────────────────────────────────────────────
@@ -851,7 +834,6 @@
         _notepadOpen = true;
         _notepadMinimized = false;
         _notepadNeedsInit = true;
-        Raise("notepad");
     }
 
     private void MinimizeNotepad() => _notepadMinimized = true;
@@ -870,7 +852,6 @@
         _paintOpen = true;
         _paintMinimized = false;
         _paintNeedsInit = true;
-        Raise("paint");
     }
 
     private void MinimizePaint() => _paintMinimized = true;
@@ -913,7 +894,6 @@
         _videoNeedsInit = true;
         _videoVolumeNeedsSync = true;
         _startMenuOpen = false;
-        Raise("video");
     }
 
     public void Dispose()

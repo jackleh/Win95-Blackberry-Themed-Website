@@ -213,7 +213,6 @@ public partial class Win95Desktop
                     _notepadMinimized = false;
                     _notepadMaximized = false;
                     _notepadNeedsInit = true;
-                    Raise("notepad");
                 }
                 catch (Exception ex)
                 {
@@ -229,6 +228,7 @@ public partial class Win95Desktop
                     try
                     {
                         await JS.InvokeVoidAsync("paintHelper.loadImage", "paintCanvas", entry.FileUrl);
+                        await JS.InvokeVoidAsync("dragHelper.raiseWindow", "paintWindow");
                     }
                     catch (Exception ex)
                     {
@@ -241,7 +241,6 @@ public partial class Win95Desktop
                     _paintMinimized = false;
                     _paintNeedsInit = true;
                 }
-                Raise("paint");
                 break;
 
             case "binary":
@@ -262,6 +261,7 @@ public partial class Win95Desktop
                             try
                             {
                                 await JS.InvokeVoidAsync("paintHelper.loadImage", "paintCanvas", _paintInitImageUrl);
+                                await JS.InvokeVoidAsync("dragHelper.raiseWindow", "paintWindow");
                             }
                             catch (Exception ex)
                             {
@@ -274,13 +274,11 @@ public partial class Win95Desktop
                             _paintMinimized = false;
                             _paintNeedsInit = true;
                         }
-                        Raise("paint");
                         break;
                     case "notepad.exe":
                         _notepadOpen      = true;
                         _notepadMinimized = false;
                         _notepadNeedsInit = true;
-                        Raise("notepad");
                         break;
                 }
                 break;
