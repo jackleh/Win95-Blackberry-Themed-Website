@@ -147,11 +147,49 @@
                         <h1>@(person?.Name)</h1>
                         <p class="resume-tagline">@(resume?.Tagline)</p>
                         <p class="resume-meta">
-                            @resume?.Email &nbsp;&middot;&nbsp;
-                            @resume?.Phone &nbsp;&middot;&nbsp;
-                            @resume?.Location &nbsp;&middot;&nbsp;
-                            <a href="@linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a> &nbsp;&middot;&nbsp;
-                            <a href="@github" target="_blank" rel="noopener noreferrer">GitHub</a>
+                            @{
+                                var hasMeta = false;
+                            }
+                            @if (!string.IsNullOrWhiteSpace(resume?.Email))
+                            {
+                                @resume!.Email
+                                hasMeta = true;
+                            }
+                            @if (!string.IsNullOrWhiteSpace(resume?.Phone))
+                            {
+                                @if (hasMeta)
+                                {
+                                    <text>&nbsp;&middot;&nbsp;</text>
+                                }
+                                @resume!.Phone
+                                hasMeta = true;
+                            }
+                            @if (!string.IsNullOrWhiteSpace(resume?.Location))
+                            {
+                                @if (hasMeta)
+                                {
+                                    <text>&nbsp;&middot;&nbsp;</text>
+                                }
+                                @resume!.Location
+                                hasMeta = true;
+                            }
+                            @if (!string.IsNullOrWhiteSpace(linkedin))
+                            {
+                                @if (hasMeta)
+                                {
+                                    <text>&nbsp;&middot;&nbsp;</text>
+                                }
+                                <a href="@linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                                hasMeta = true;
+                            }
+                            @if (!string.IsNullOrWhiteSpace(github))
+                            {
+                                @if (hasMeta)
+                                {
+                                    <text>&nbsp;&middot;&nbsp;</text>
+                                }
+                                <a href="@github" target="_blank" rel="noopener noreferrer">GitHub</a>
+                            }
                         </p>
                         <hr/>
 
