@@ -128,6 +128,7 @@ window.dragHelper = {
 
         handle.addEventListener('mousedown', (e) => {
             if (el.classList.contains('maximized')) return;
+            el.style.zIndex = ++_zTop;
             dragging = true;
             // Use getBoundingClientRect so CSS transform/calc positioning is accounted for,
             // then lock in explicit left/top and clear any transform so dragging works correctly.
