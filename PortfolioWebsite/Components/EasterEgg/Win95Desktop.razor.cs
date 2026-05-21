@@ -346,9 +346,9 @@ public partial class Win95Desktop
     // (e.g. javascript:, data:) is replaced with "#".
     private static string SafeHref(string? url)
     {
-        if (string.IsNullOrWhiteSpace(url)) return "#";
-        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri)) return "#";
-        if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps) return "#";
+        if (string.IsNullOrWhiteSpace(url)) return string.Empty;
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri)) return string.Empty;
+        if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps) return string.Empty;
         return url;
     }
 }
