@@ -1,21 +1,39 @@
 @page "/"
 @using PortfolioWebsite.Components.EasterEgg
+@using PortfolioWebsite.Components.Mobile
 @using PortfolioWebsite.ViewModels
 @inject BaseViewModel BaseViewModel
+@inject IJSRuntime JS
 
 <PageTitle>Jack Lehman</PageTitle>
 
 @if (_ready)
 {
-    <Win95Desktop />
+    @if (_isMobile)
+    {
+        <BlackBerryPhone />
+    }
+    else
+    {
+        <Win95Desktop />
+    }
 }
 
 @code {
     private bool _ready;
+    private bool _isMobile;
 
     protected override async Task OnInitializedAsync()
     {
         await BaseViewModel.InitializeAsync();
+        try
+        {
+            _isMobile = await JS.InvokeAsync<bool>("deviceHelper.isMobilePhone");
+        }
+        catch
+        {
+            _isMobile = false;
+        }
         _ready = true;
     }
 }

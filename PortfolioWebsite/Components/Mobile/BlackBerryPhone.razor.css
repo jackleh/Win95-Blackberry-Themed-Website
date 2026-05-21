@@ -1,0 +1,304 @@
+/* ── BlackBerry OS style mobile UI ── */
+.bb-device {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    color: #e9eef5;
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* ── Status bar ── */
+.bb-statusbar {
+    flex: 0 0 auto;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #cfd6df;
+    background: linear-gradient(#3a3f47, #1c1f24);
+    border-bottom: 1px solid #000;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.6);
+}
+
+.bb-carrier { display: flex; align-items: center; gap: 6px; letter-spacing: .3px; }
+
+.bb-signal { display: inline-flex; align-items: flex-end; gap: 1px; height: 11px; }
+.bb-signal i { width: 2px; background: #8fa0b3; display: inline-block; }
+.bb-signal .b1 { height: 3px; }
+.bb-signal .b2 { height: 5px; }
+.bb-signal .b3 { height: 7px; }
+.bb-signal .b4 { height: 9px; }
+.bb-signal .b5 { height: 11px; background: #4a5563; }
+
+.bb-status-right { display: flex; align-items: center; gap: 8px; }
+.bb-net { font-size: 10px; color: #9fb0c2; }
+.bb-clock { color: #fff; }
+
+.bb-battery {
+    position: relative;
+    width: 22px; height: 11px;
+    border: 1px solid #9fb0c2;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    padding: 1px;
+}
+.bb-batt-fill { width: 80%; height: 100%; background: #8fe08f; border-radius: 1px; }
+.bb-batt-cap {
+    position: absolute;
+    right: -3px; top: 3px;
+    width: 2px; height: 5px;
+    background: #9fb0c2;
+    border-radius: 0 1px 1px 0;
+}
+
+/* ── Home screen ── */
+.bb-home {
+    flex: 1;
+    overflow-y: auto;
+    background:
+        radial-gradient(120% 80% at 50% 0%, #2b3a55 0%, #16203a 45%, #070b16 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+.bb-banner {
+    padding: 22px 18px 14px;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,.8);
+}
+.bb-date { font-size: 12px; color: #b9c6db; letter-spacing: .5px; }
+.bb-owner { font-size: 26px; font-weight: 700; margin-top: 4px; color: #fff; }
+.bb-owner-sub { font-size: 13px; color: #9fb6d6; margin-top: 2px; }
+
+.bb-grid {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px 6px;
+    padding: 16px 12px calc(16px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(transparent, rgba(0,0,0,.55));
+}
+
+.bb-app-icon {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: #eef3fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 2px;
+}
+.bb-app-icon:active { transform: scale(.92); }
+
+.bb-icon-tile {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.5), inset 0 -3px 6px rgba(0,0,0,.35), 0 2px 4px rgba(0,0,0,.5);
+    position: relative;
+    overflow: hidden;
+}
+.bb-icon-tile::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 45%;
+    background: linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,0));
+    border-radius: 12px 12px 40% 40%;
+}
+.tile-blue   { background: linear-gradient(#5aa0f0, #1f5bb8); }
+.tile-orange { background: linear-gradient(#ffb24d, #d9711a); }
+.tile-green  { background: linear-gradient(#7ed957, #2f9e2f); }
+.tile-purple { background: linear-gradient(#b07ce6, #6f33b8); font-style: italic; font-weight: 700; font-family: Georgia, serif; }
+.tile-teal   { background: linear-gradient(#4fd4d4, #128a8a); }
+.tile-red    { background: linear-gradient(#ff6b6b, #c01f1f); }
+
+.bb-icon-label {
+    font-size: 11px;
+    color: #e7eefb;
+    text-shadow: 0 1px 2px rgba(0,0,0,.9);
+    max-width: 70px;
+    text-align: center;
+}
+
+/* ── App view ── */
+.bb-app {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(#11161f, #0a0d14);
+    overflow: hidden;
+}
+
+.bb-app-header {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 8px;
+    background: linear-gradient(#3a4452, #232a34);
+    border-bottom: 1px solid #000;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+}
+.bb-back-chip {
+    appearance: none;
+    border: 1px solid #5a6675;
+    background: linear-gradient(#566276, #333c49);
+    color: #fff;
+    width: 30px; height: 26px;
+    border-radius: 6px;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+.bb-back-chip:active { background: #2a313b; }
+.bb-app-title { font-size: 15px; font-weight: 600; color: #fff; }
+
+.bb-app-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 14px calc(16px + env(safe-area-inset-bottom, 0px));
+    user-select: text;
+}
+
+.bb-section { margin-bottom: 16px; }
+.bb-name { font-size: 22px; font-weight: 700; margin: 0; color: #fff; }
+.bb-tagline { margin: 2px 0 0; color: #6fb6ff; font-size: 14px; }
+.bb-meta { margin: 2px 0 0; color: #93a2b8; font-size: 12px; }
+
+.bb-h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6fb6ff;
+    margin: 0 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #232c39;
+}
+.bb-body { margin: 0 0 8px; line-height: 1.45; color: #d4dce8; font-size: 13px; }
+
+.bb-job { margin-bottom: 14px; }
+.bb-job-company { font-weight: 700; color: #fff; font-size: 14px; }
+.bb-role-title { color: #cdd7e6; font-size: 13px; margin-top: 4px; }
+.bb-role-dates { color: #8492a6; font-size: 11px; }
+.bb-bullets { margin: 4px 0 8px; padding-left: 18px; }
+.bb-bullets li { font-size: 12.5px; line-height: 1.4; color: #c4cedd; margin-bottom: 4px; }
+
+.bb-skill-heading { font-weight: 600; color: #9fb6d6; margin: 8px 0 4px; font-size: 12px; }
+.bb-skill-row { display: flex; flex-direction: column; padding: 5px 0; border-bottom: 1px solid #1a212c; }
+.bb-skill-label { color: #fff; font-size: 13px; }
+.bb-skill-detail { color: #93a2b8; font-size: 12px; }
+
+.bb-edu { color: #d4dce8; font-size: 13px; padding: 4px 0; }
+
+/* lists / projects */
+.bb-list-item {
+    background: rgba(255,255,255,.03);
+    border: 1px solid #1d2530;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+.bb-list-title { font-weight: 700; color: #fff; font-size: 15px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bb-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    color: #0a2a0a;
+    background: #7ed957;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+.bb-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.bb-chip {
+    font-size: 11px;
+    color: #cfe0f5;
+    background: #1c2734;
+    border: 1px solid #2c3a4c;
+    border-radius: 12px;
+    padding: 3px 9px;
+}
+.bb-link { display: inline-block; margin-top: 10px; color: #6fb6ff; font-size: 13px; text-decoration: none; }
+
+.bb-contact-list { border-top: 1px solid #1a212c; }
+.bb-contact-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 12px 4px;
+    border-bottom: 1px solid #1a212c;
+    text-decoration: none;
+    color: inherit;
+}
+.bb-contact-row:active { background: rgba(255,255,255,.05); }
+.bb-contact-key { width: 70px; flex: 0 0 auto; color: #8492a6; font-size: 12px; }
+.bb-contact-val { color: #6fb6ff; font-size: 13px; word-break: break-word; }
+div.bb-contact-row .bb-contact-val { color: #d4dce8; }
+
+.bb-empty { color: #8492a6; text-align: center; margin-top: 40px; }
+
+/* ── Bottom toolbar (physical keys) ── */
+.bb-toolbar {
+    flex: 0 0 auto;
+    height: 52px;
+    display: flex;
+    align-items: stretch;
+    background: linear-gradient(#2a2e35, #111317);
+    border-top: 1px solid #000;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.bb-key {
+    flex: 1;
+    appearance: none;
+    border: 0;
+    border-right: 1px solid rgba(0,0,0,.5);
+    background: transparent;
+    color: #cfd6df;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.bb-key:last-child { border-right: 0; }
+.bb-key:active { background: rgba(255,255,255,.06); }
+.bb-key-glyph { font-size: 18px; }
+.bb-key-send .bb-key-glyph { filter: hue-rotate(80deg); }
+.bb-key-send { color: #6ee06e; }
+.bb-key-end { color: #ff6b6b; font-weight: 700; }
+
+.bb-key-track {
+    flex: 0 0 56px;
+    position: relative;
+}
+.bb-key-track::after {
+    content: "";
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #6a737f, #2a2e35);
+    box-shadow: inset 0 1px 2px rgba(255,255,255,.3), 0 1px 2px rgba(0,0,0,.6);
+}
+.bb-bblogo {
+    font-size: 12px;
+    letter-spacing: -1px;
+    color: #cfd6df;
+}

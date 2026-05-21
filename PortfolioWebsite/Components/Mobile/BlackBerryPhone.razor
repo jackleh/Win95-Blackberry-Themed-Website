@@ -1,0 +1,371 @@
+@using PortfolioWebsite.Models
+@inject BaseViewModel BaseViewModel
+@implements IDisposable
+
+<div class="bb-device">
+
+    <div class="bb-statusbar">
+        <span class="bb-carrier">
+            <span class="bb-signal">
+                <i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><i class="b5"></i>
+            </span>
+            BlackBerry
+        </span>
+        <span class="bb-status-right">
+            <span class="bb-net">3G</span>
+            <span class="bb-clock">@_clock</span>
+            <span class="bb-battery"><span class="bb-batt-fill"></span><span class="bb-batt-cap"></span></span>
+        </span>
+    </div>
+
+    @if (_app == App.Home)
+    {
+        <div class="bb-home">
+            <div class="bb-banner">
+                <div class="bb-date">@_dateLine</div>
+                <div class="bb-owner">@(_person?.Name ?? "Jack Lehman")</div>
+                <div class="bb-owner-sub">@(_person?.Title)</div>
+            </div>
+
+            <div class="bb-grid">
+                @foreach (var icon in _icons)
+                {
+                    var target = icon.Target;
+                    <button class="bb-app-icon" @onclick="() => Open(target)">
+                        <span class="bb-icon-tile @icon.TileClass">@icon.Glyph</span>
+                        <span class="bb-icon-label">@icon.Label</span>
+                    </button>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="bb-app">
+            <div class="bb-app-header">
+                <button class="bb-back-chip" @onclick="GoHome">‹</button>
+                <span class="bb-app-title">@_appTitle</span>
+            </div>
+            <div class="bb-app-content">
+                @if (_app == App.Profile)
+                {
+                    <div class="bb-section">
+                        <h2 class="bb-name">@(_person?.Name)</h2>
+                        <p class="bb-tagline">@(_resume?.Tagline)</p>
+                        <p class="bb-meta">@(_resume?.Location)</p>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(_resume?.About))
+                    {
+                        <div class="bb-section">
+                            <h3 class="bb-h3">About</h3>
+                            <p class="bb-body">@_resume!.About</p>
+                        </div>
+                    }
+                    @if (_resume?.Companies is { Count: > 0 })
+                    {
+                        <div class="bb-section">
+                            <h3 class="bb-h3">Experience</h3>
+                            @foreach (var company in _resume.Companies)
+                            {
+                                <div class="bb-job">
+                                    <div class="bb-job-company">@company.Name</div>
+                                    @foreach (var role in company.Roles)
+                                    {
+                                        <div class="bb-role-title">@role.Title</div>
+                                        <div class="bb-role-dates">@role.Dates</div>
+                                        <ul class="bb-bullets">
+                                            @foreach (var bullet in role.Bullets)
+                                            {
+                                                <li>@bullet</li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                    @if (_resume?.SkillGroups is { Count: > 0 })
+                    {
+                        <div class="bb-section">
+                            <h3 class="bb-h3">Skills</h3>
+                            @foreach (var group in _resume.SkillGroups)
+                            {
+                                <div class="bb-skill-heading">@group.Heading</div>
+                                @foreach (var item in group.Items)
+                                {
+                                    <div class="bb-skill-row">
+                                        <span class="bb-skill-label">@item.Label</span>
+                                        <span class="bb-skill-detail">@item.Detail</span>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                    @if (_resume?.Education is { Count: > 0 })
+                    {
+                        <div class="bb-section">
+                            <h3 class="bb-h3">Education</h3>
+                            @foreach (var ed in _resume.Education)
+                            {
+                                <div class="bb-edu">@ed.School — @ed.Degree (@ed.Year)</div>
+                            }
+                        </div>
+                    }
+                }
+                else if (_app == App.Projects)
+                {
+                    @if (_projects is { Count: > 0 })
+                    {
+                        @foreach (var p in _projects)
+                        {
+                            <div class="bb-list-item">
+                                <div class="bb-list-title">
+                                    @p.Name
+                                    @if (!string.IsNullOrWhiteSpace(p.Status))
+                                    {
+                                        <span class="bb-badge">@p.Status.ToUpper()</span>
+                                    }
+                                </div>
+                                <div class="bb-body">@p.Description</div>
+                                @if (p.Technologies is { Count: > 0 })
+                                {
+                                    <div class="bb-chips">
+                                        @foreach (var tech in p.Technologies)
+                                        {
+                                            <span class="bb-chip">@tech</span>
+                                        }
+                                    </div>
+                                }
+                                @{ var repo = SafeHref(p.Url); }
+                                @if (!string.IsNullOrWhiteSpace(repo))
+                                {
+                                    <a class="bb-link" href="@repo" target="_blank" rel="noopener noreferrer">Open repository ›</a>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="bb-empty">No projects found.</div>
+                    }
+                }
+                else if (_app == App.Messages)
+                {
+                    <div class="bb-section">
+                        <h3 class="bb-h3">Get in touch</h3>
+                        <p class="bb-body">Best way to reach me is LinkedIn.</p>
+                    </div>
+                    <div class="bb-contact-list">
+                        @{ var email = _resume?.Email; }
+                        @if (!string.IsNullOrWhiteSpace(email))
+                        {
+                            <a class="bb-contact-row" href="mailto:@email">
+                                <span class="bb-contact-key">Email</span>
+                                <span class="bb-contact-val">@email</span>
+                            </a>
+                        }
+                        @{ var phone = _resume?.Phone; }
+                        @if (!string.IsNullOrWhiteSpace(phone))
+                        {
+                            var telHref = "tel:" + new string(phone.Where(c => char.IsDigit(c) || c == '+').ToArray());
+                            <a class="bb-contact-row" href="@telHref">
+                                <span class="bb-contact-key">Phone</span>
+                                <span class="bb-contact-val">@phone</span>
+                            </a>
+                        }
+                        @{ var linkedin = SafeHref(_person?.LinkedinUrl); }
+                        @if (!string.IsNullOrWhiteSpace(linkedin))
+                        {
+                            <a class="bb-contact-row" href="@linkedin" target="_blank" rel="noopener noreferrer">
+                                <span class="bb-contact-key">LinkedIn</span>
+                                <span class="bb-contact-val">@DisplayUrl(linkedin)</span>
+                            </a>
+                        }
+                        @{ var github = SafeHref(BaseViewModel.AboutMe?.GithubUrl); }
+                        @if (!string.IsNullOrWhiteSpace(github))
+                        {
+                            <a class="bb-contact-row" href="@github" target="_blank" rel="noopener noreferrer">
+                                <span class="bb-contact-key">GitHub</span>
+                                <span class="bb-contact-val">@DisplayUrl(github)</span>
+                            </a>
+                        }
+                        @{ var location = _resume?.Location ?? BaseViewModel.AboutMe?.Location; }
+                        @if (!string.IsNullOrWhiteSpace(location))
+                        {
+                            <div class="bb-contact-row">
+                                <span class="bb-contact-key">Location</span>
+                                <span class="bb-contact-val">@location</span>
+                            </div>
+                        }
+                    </div>
+                }
+                else if (_app == App.About)
+                {
+                    @{ var about = BaseViewModel.AboutMe; }
+                    @if (!string.IsNullOrWhiteSpace(about?.Summary))
+                    {
+                        <div class="bb-section">
+                            <h3 class="bb-h3">Summary</h3>
+                            <p class="bb-body">@about!.Summary</p>
+                        </div>
+                    }
+                    @if (about?.Skills is { Count: > 0 })
+                    {
+                        <div class="bb-section">
+                            <h3 class="bb-h3">Skills</h3>
+                            <div class="bb-chips">
+                                @foreach (var skill in about.Skills)
+                                {
+                                    <span class="bb-chip">@skill</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                    @if (about?.Languages is { Count: > 0 })
+                    {
+                        <div class="bb-section">
+                            <h3 class="bb-h3">Languages</h3>
+                            <div class="bb-chips">
+                                @foreach (var lang in about.Languages)
+                                {
+                                    <span class="bb-chip">@lang</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else if (_app == App.Browser)
+                {
+                    <div class="bb-section">
+                        <h3 class="bb-h3">Bookmarks</h3>
+                    </div>
+                    <div class="bb-contact-list">
+                        @{ var li = SafeHref(_person?.LinkedinUrl); }
+                        @if (!string.IsNullOrWhiteSpace(li))
+                        {
+                            <a class="bb-contact-row" href="@li" target="_blank" rel="noopener noreferrer">
+                                <span class="bb-contact-key">LinkedIn</span>
+                                <span class="bb-contact-val">@DisplayUrl(li)</span>
+                            </a>
+                        }
+                        @{ var gh = SafeHref(BaseViewModel.AboutMe?.GithubUrl); }
+                        @if (!string.IsNullOrWhiteSpace(gh))
+                        {
+                            <a class="bb-contact-row" href="@gh" target="_blank" rel="noopener noreferrer">
+                                <span class="bb-contact-key">GitHub</span>
+                                <span class="bb-contact-val">@DisplayUrl(gh)</span>
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="bb-toolbar">
+        <button class="bb-key bb-key-send" title="Call">
+            <span class="bb-key-glyph">📞</span>
+        </button>
+        <button class="bb-key bb-key-menu" @onclick="GoHome" title="Menu">
+            <span class="bb-key-glyph bb-bblogo">::::</span>
+        </button>
+        <button class="bb-key bb-key-track" @onclick="GoHome" title="Trackpad"></button>
+        <button class="bb-key bb-key-back" @onclick="GoHome" title="Back">
+            <span class="bb-key-glyph">↩</span>
+        </button>
+        <button class="bb-key bb-key-end" title="End">
+            <span class="bb-key-glyph">⌐</span>
+        </button>
+    </div>
+</div>
+
+@code {
+    private enum App { Home, Profile, Projects, Messages, About, Browser }
+
+    private record IconDef(string Label, string Glyph, string TileClass, App Target);
+
+    private App _app = App.Home;
+
+    private string _clock = string.Empty;
+    private string _dateLine = string.Empty;
+    private System.Timers.Timer? _clockTimer;
+    private volatile bool _disposed;
+
+    private Person? _person => BaseViewModel.Person;
+    private Resume? _resume => BaseViewModel.Resume;
+    private List<ProjectsInfo.Project>? _projects => BaseViewModel.ProjectsInfo?.Projects;
+
+    private readonly IconDef[] _icons =
+    [
+        new("Profile",  "👤", "tile-blue",   App.Profile),
+        new("Projects", "🛠",  "tile-orange", App.Projects),
+        new("Messages", "✉",  "tile-green",  App.Messages),
+        new("About",    "i",   "tile-purple", App.About),
+        new("Browser",  "🌐", "tile-teal",   App.Browser),
+        new("Phone",    "📞", "tile-red",    App.Messages),
+    ];
+
+    private string _appTitle => _app switch
+    {
+        App.Profile  => "Profile",
+        App.Projects => "Projects",
+        App.Messages => "Messages",
+        App.About    => "About Me",
+        App.Browser  => "Browser",
+        _            => string.Empty
+    };
+
+    protected override void OnInitialized()
+    {
+        UpdateClock();
+
+        _clockTimer = new System.Timers.Timer(30_000);
+        _clockTimer.Elapsed += async (_, _) =>
+        {
+            if (_disposed) return;
+            try
+            {
+                var prev = _clock;
+                UpdateClock();
+                if (prev == _clock) return;
+                await InvokeAsync(StateHasChanged);
+            }
+            catch (ObjectDisposedException) { }
+            catch (Exception ex) { Console.Error.WriteLine($"BB clock tick failed: {ex.Message}"); }
+        };
+        _clockTimer.AutoReset = true;
+        _clockTimer.Start();
+    }
+
+    private void UpdateClock()
+    {
+        var now = DateTime.Now;
+        _clock    = now.ToString("h:mm");
+        _dateLine = now.ToString("dddd, MMM d");
+    }
+
+    private void Open(App app) => _app = app;
+    private void GoHome() => _app = App.Home;
+
+    private static string SafeHref(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return string.Empty;
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri)) return string.Empty;
+        if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps) return string.Empty;
+        return url;
+    }
+
+    private static string DisplayUrl(string url)
+    {
+        if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
+            return (uri.Host + uri.AbsolutePath).TrimEnd('/');
+        return url;
+    }
+
+    public void Dispose()
+    {
+        _disposed = true;
+        _clockTimer?.Stop();
+        _clockTimer?.Dispose();
+    }
+}
