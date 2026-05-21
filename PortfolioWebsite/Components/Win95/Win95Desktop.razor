@@ -24,7 +24,7 @@
                 <div class="icon-label">@ContactFileName</div>
             </div>
 
-            @if (Mode != EasterEggMode.Standalone)
+            @if (Mode != Win95Mode.Standalone)
             {
                 <div class="desktop-icon" @ondblclick="StartVideoSequence">
                     <div class="icon-img video-icon">▶</div>
@@ -66,7 +66,7 @@
         }
 
         <!-- Portfolio window (Reduce mode) -->
-        @if (Mode == EasterEggMode.Reduce)
+        @if (Mode == Win95Mode.Reduce)
         {
             <div class="win95-window portfolio-window @(_portfolioMinimized ? "minimized" : "") @(_portfolioMaximized ? "maximized" : "")"
                  id="portfolioWindow">
@@ -297,7 +297,7 @@
                         <span>@_videoTitles[idx]</span>
                     </div>
                 }
-                @if (Mode != EasterEggMode.Standalone)
+                @if (Mode != Win95Mode.Standalone)
                 {
                     <div class="start-menu-divider"></div>
                     <div class="start-menu-item" @onclick="OnExit">
@@ -346,7 +346,7 @@
                     @_currentVideoTitle
                 </div>
             }
-            @if (Mode == EasterEggMode.Reduce)
+            @if (Mode == Win95Mode.Reduce)
             {
                 <div class="taskbar-item @(!_portfolioMinimized ? "active" : "")"
                      @onclick="TogglePortfolioFromTaskbar">
@@ -384,12 +384,12 @@
 
 @code {
     [Parameter, EditorRequired]
-    public EasterEggMode Mode { get; set; }
+    public Win95Mode Mode { get; set; }
 
     [Parameter]
     public EventCallback OnExit { get; set; }
 
-    private string _wallpaperUrl => BaseViewModel.SiteConfig?.EasterEggDesktopPictureUrl ?? string.Empty;
+    private string _wallpaperUrl => BaseViewModel.SiteConfig?.Win95DesktopPictureUrl ?? string.Empty;
     private string _siteTitle => BaseViewModel.SiteConfig?.SiteTitle ?? "Portfolio";
 
     private bool _videoSequenceActive;
@@ -455,9 +455,9 @@
 
     private string _currentVideoSrc => _videoIndex switch
     {
-        0 => BaseViewModel.SiteConfig?.EasterEggVideo1Url ?? string.Empty,
-        1 => BaseViewModel.SiteConfig?.EasterEggVideo2Url ?? string.Empty,
-        2 => BaseViewModel.SiteConfig?.EasterEggVideo3Url ?? string.Empty,
+        0 => BaseViewModel.SiteConfig?.Win95Video1Url ?? string.Empty,
+        1 => BaseViewModel.SiteConfig?.Win95Video2Url ?? string.Empty,
+        2 => BaseViewModel.SiteConfig?.Win95Video3Url ?? string.Empty,
         _ => string.Empty
     };
 
@@ -477,7 +477,7 @@
         _clockTimer.AutoReset = true;
         _clockTimer.Start();
 
-        if (Mode == EasterEggMode.VideoSequence)
+        if (Mode == Win95Mode.VideoSequence)
         {
             _videoSequenceActive = true;
             _videoIndex = 0;
@@ -493,7 +493,7 @@
             await JS.InvokeVoidAsync("dragHelper.enableResize", "videoWindow");
         }
 
-        if (Mode == EasterEggMode.Reduce)
+        if (Mode == Win95Mode.Reduce)
         {
             await JS.InvokeVoidAsync("dragHelper.enableDrag",   "portfolioWindow", "portfolioTitleBar");
             await JS.InvokeVoidAsync("dragHelper.enableResize", "portfolioWindow");

@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Encodings.Web;
 
-namespace PortfolioWebsite.Components.EasterEgg;
+namespace PortfolioWebsite.Components.Win95;
 
 public partial class Win95Desktop
 {
@@ -16,22 +16,22 @@ public partial class Win95Desktop
     private Dictionary<string, List<FsEntry>>? _vfs;
 
     // ── Config helpers ────────────────────────────────────────────────────────
-    private string OsName             => BaseViewModel.SiteConfig?.EasterEggOsName             ?? "Copland OS";
-    private string OsVersion          => BaseViewModel.SiteConfig?.EasterEggOsVersion          ?? "Copland OS Enterprise [Version 8.00.001]";
-    private string OsCopyright        => BaseViewModel.SiteConfig?.EasterEggOsCopyright        ?? "(C) Copyright Copland Corp 1994-1996.";
-    private string OsDirName          => BaseViewModel.SiteConfig?.EasterEggOsDirName          ?? "COPLAND";
-    private string PaintExeName       => BaseViewModel.SiteConfig?.EasterEggPaintExeName       ?? "paint.exe";
-    private string PaintDisplayName   => BaseViewModel.SiteConfig?.EasterEggPaintDisplayName   ?? "Paint";
-    private string NotepadExeName     => BaseViewModel.SiteConfig?.EasterEggNotepadExeName     ?? "notepad.exe";
-    private string NotepadDisplayName => BaseViewModel.SiteConfig?.EasterEggNotepadDisplayName ?? "Notepad";
-    private string CmdExeName         => BaseViewModel.SiteConfig?.EasterEggCmdExeName         ?? "cmd.exe";
-    private string ResumeFileName     => BaseViewModel.SiteConfig?.EasterEggResumeFileName     ?? "resume.md";
-    private string ProjectsFileName   => BaseViewModel.SiteConfig?.EasterEggProjectsFileName   ?? "projects.txt";
-    private string ContactFileName    => BaseViewModel.SiteConfig?.EasterEggContactFileName    ?? "contact.txt";
-    private string Video1Title        => BaseViewModel.SiteConfig?.EasterEggVideo1Title        ?? "lain_phone.mp4";
-    private string Video2Title        => BaseViewModel.SiteConfig?.EasterEggVideo2Title        ?? "lain_vhs.mp4";
-    private string Video3Title        => BaseViewModel.SiteConfig?.EasterEggVideo3Title        ?? "lain_falling_dance.mp4";
-    private string PaintInitImageUrl  => BaseViewModel.SiteConfig?.EasterEggPaintInitImageUrl  ?? "media/image/lain.png";
+    private string OsName             => BaseViewModel.SiteConfig?.Win95OsName             ?? "Copland OS";
+    private string OsVersion          => BaseViewModel.SiteConfig?.Win95OsVersion          ?? "Copland OS Enterprise [Version 8.00.001]";
+    private string OsCopyright        => BaseViewModel.SiteConfig?.Win95OsCopyright        ?? "(C) Copyright Copland Corp 1994-1996.";
+    private string OsDirName          => BaseViewModel.SiteConfig?.Win95OsDirName          ?? "COPLAND";
+    private string PaintExeName       => BaseViewModel.SiteConfig?.Win95PaintExeName       ?? "paint.exe";
+    private string PaintDisplayName   => BaseViewModel.SiteConfig?.Win95PaintDisplayName   ?? "Paint";
+    private string NotepadExeName     => BaseViewModel.SiteConfig?.Win95NotepadExeName     ?? "notepad.exe";
+    private string NotepadDisplayName => BaseViewModel.SiteConfig?.Win95NotepadDisplayName ?? "Notepad";
+    private string CmdExeName         => BaseViewModel.SiteConfig?.Win95CmdExeName         ?? "cmd.exe";
+    private string ResumeFileName     => BaseViewModel.SiteConfig?.Win95ResumeFileName     ?? "resume.md";
+    private string ProjectsFileName   => BaseViewModel.SiteConfig?.Win95ProjectsFileName   ?? "projects.txt";
+    private string ContactFileName    => BaseViewModel.SiteConfig?.Win95ContactFileName    ?? "contact.txt";
+    private string Video1Title        => BaseViewModel.SiteConfig?.Win95Video1Title        ?? "lain_phone.mp4";
+    private string Video2Title        => BaseViewModel.SiteConfig?.Win95Video2Title        ?? "lain_vhs.mp4";
+    private string Video3Title        => BaseViewModel.SiteConfig?.Win95Video3Title        ?? "lain_falling_dance.mp4";
+    private string PaintInitImageUrl  => BaseViewModel.SiteConfig?.Win95PaintInitImageUrl  ?? "media/image/lain.png";
     private string CmdTitle           => $"C:\\{OsDirName}\\system32\\{CmdExeName}";
 
     private void InitVfs()

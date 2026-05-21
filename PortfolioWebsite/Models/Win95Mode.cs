@@ -1,6 +1,6 @@
 namespace PortfolioWebsite.Models;
 
-public enum EasterEggMode
+public enum Win95Mode
 {
     VideoSequence,
     Reduce,

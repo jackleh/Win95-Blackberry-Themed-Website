@@ -1,14 +1,14 @@
 @page "/"
 @using PortfolioWebsite.Models
 @using PortfolioWebsite.ViewModels
-@using PortfolioWebsite.Components.EasterEgg
+@using PortfolioWebsite.Components.Win95
 @inject BaseViewModel BaseViewModel
 
 <PageTitle>Jack Lehman</PageTitle>
 
 @if (_ready)
 {
-    <Win95Desktop Mode="EasterEggMode.Standalone" OnExit="@(() => { })" />
+    <Win95Desktop Mode="Win95Mode.Standalone" OnExit="@(() => { })" />
 }
 
 @code {

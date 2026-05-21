@@ -35,26 +35,26 @@ public class SiteConfig
     }
     public string SiteTitle { get; set; }
     
-    public bool EnableEasterEggs { get; set; }
-    public string EasterEggVideo1Url { get; set; }
-    public string EasterEggVideo2Url { get; set; }
-    public string EasterEggVideo3Url { get; set; }
-    public string EasterEggDesktopPictureUrl { get; set; }
+    public bool Win95Enabled { get; set; }
+    public string Win95Video1Url { get; set; }
+    public string Win95Video2Url { get; set; }
+    public string Win95Video3Url { get; set; }
+    public string Win95DesktopPictureUrl { get; set; }
 
-    public string EasterEggOsName { get; set; } = "Copland OS";
-    public string EasterEggOsVersion { get; set; } = "Copland OS Enterprise [Version 8.00.001]";
-    public string EasterEggOsCopyright { get; set; } = "(C) Copyright Copland Corp 1994-1996.";
-    public string EasterEggOsDirName { get; set; } = "COPLAND";
-    public string EasterEggPaintExeName { get; set; } = "paint.exe";
-    public string EasterEggPaintDisplayName { get; set; } = "Paint";
-    public string EasterEggNotepadExeName { get; set; } = "notepad.exe";
-    public string EasterEggNotepadDisplayName { get; set; } = "Notepad";
-    public string EasterEggCmdExeName { get; set; } = "cmd.exe";
-    public string EasterEggResumeFileName { get; set; } = "resume.md";
-    public string EasterEggProjectsFileName { get; set; } = "projects.txt";
-    public string EasterEggContactFileName { get; set; } = "contact.txt";
-    public string EasterEggVideo1Title { get; set; } = "lain_phone.mp4";
-    public string EasterEggVideo2Title { get; set; } = "lain_vhs.mp4";
-    public string EasterEggVideo3Title { get; set; } = "lain_falling_dance.mp4";
-    public string EasterEggPaintInitImageUrl { get; set; } = "media/image/lain.png";
+    public string Win95OsName { get; set; } = "Copland OS";
+    public string Win95OsVersion { get; set; } = "Copland OS Enterprise [Version 8.00.001]";
+    public string Win95OsCopyright { get; set; } = "(C) Copyright Copland Corp 1994-1996.";
+    public string Win95OsDirName { get; set; } = "COPLAND";
+    public string Win95PaintExeName { get; set; } = "paint.exe";
+    public string Win95PaintDisplayName { get; set; } = "Paint";
+    public string Win95NotepadExeName { get; set; } = "notepad.exe";
+    public string Win95NotepadDisplayName { get; set; } = "Notepad";
+    public string Win95CmdExeName { get; set; } = "cmd.exe";
+    public string Win95ResumeFileName { get; set; } = "resume.md";
+    public string Win95ProjectsFileName { get; set; } = "projects.txt";
+    public string Win95ContactFileName { get; set; } = "contact.txt";
+    public string Win95Video1Title { get; set; } = "lain_phone.mp4";
+    public string Win95Video2Title { get; set; } = "lain_vhs.mp4";
+    public string Win95Video3Title { get; set; } = "lain_falling_dance.mp4";
+    public string Win95PaintInitImageUrl { get; set; } = "media/image/lain.png";
 }
