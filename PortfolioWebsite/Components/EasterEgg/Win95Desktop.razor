@@ -11,17 +11,17 @@
         <div class="desktop-icons">
             <div class="desktop-icon" @ondblclick="OpenResumeWindow">
                 <div class="icon-img txt-icon"></div>
-                <div class="icon-label">resume.md</div>
+                <div class="icon-label">@ResumeFileName</div>
             </div>
 
             <div class="desktop-icon" @ondblclick="OpenProjectsWindow">
                 <div class="icon-img txt-icon"></div>
-                <div class="icon-label">projects.txt</div>
+                <div class="icon-label">@ProjectsFileName</div>
             </div>
 
             <div class="desktop-icon" @ondblclick="OpenContactWindow">
                 <div class="icon-img txt-icon"></div>
-                <div class="icon-label">contact.txt</div>
+                <div class="icon-label">@ContactFileName</div>
             </div>
 
             @if (Mode != EasterEggMode.Standalone)
@@ -92,7 +92,7 @@
             <div class="win95-window cmd-window @(_cmdMinimized ? "minimized" : "") @(_cmdMaximized ? "maximized" : "")"
                  id="cmdWindow" @onclick="FocusCmdInput">
                 <div class="win95-titlebar" id="cmdTitleBar">
-                    <span class="win95-title">C:\COPLAND\system32\cmd.exe</span>
+                    <span class="win95-title">@CmdTitle</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizeCmd">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizeCmd">□</button>
@@ -100,8 +100,8 @@
                     </div>
                 </div>
                 <div class="win95-body cmd-body" id="cmdBody">
-                    <p>Copland OS Enterprise [Version 8.00.001]</p>
-                    <p>(C) Copyright Copland Corp 1994-1996.</p>
+                    <p>@OsVersion</p>
+                    <p>@OsCopyright</p>
                     @foreach (var line in _cmdHistory)
                     {
                         <p>@line</p>
@@ -124,7 +124,7 @@
             <div class="win95-window txtfile-window @(_projectsMinimized ? "minimized" : "") @(_projectsMaximized ? "maximized" : "")"
                  id="projectsWindow" style="left:170px;top:65px;">
                 <div class="win95-titlebar" id="projectsTitleBar">
-                    <span class="win95-title">projects.txt - Notepad</span>
+                    <span class="win95-title">@ProjectsFileName - @NotepadDisplayName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _projectsMinimized = true">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _projectsMaximized = !_projectsMaximized">□</button>
@@ -150,7 +150,7 @@
             <div class="win95-window txtfile-window @(_resumeMinimized ? "minimized" : "") @(_resumeMaximized ? "maximized" : "")"
                  id="resumeWindow" style="left:200px;top:90px;">
                 <div class="win95-titlebar" id="resumeTitleBar">
-                    <span class="win95-title">resume.md</span>
+                    <span class="win95-title">@ResumeFileName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _resumeMinimized = true">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _resumeMaximized = !_resumeMaximized">□</button>
@@ -174,7 +174,7 @@
             <div class="win95-window txtfile-window @(_contactMinimized ? "minimized" : "") @(_contactMaximized ? "maximized" : "")"
                  id="contactWindow" style="left:230px;top:115px;">
                 <div class="win95-titlebar" id="contactTitleBar">
-                    <span class="win95-title">contact.txt - Notepad</span>
+                    <span class="win95-title">@ContactFileName - @NotepadDisplayName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _contactMinimized = true">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _contactMaximized = !_contactMaximized">□</button>
@@ -200,7 +200,7 @@
             <div class="win95-window notepad-window @(_notepadMinimized ? "minimized" : "") @(_notepadMaximized ? "maximized" : "")"
                  id="notepadWindow">
                 <div class="win95-titlebar" id="notepadTitleBar">
-                    <span class="win95-title">Untitled - Notepad</span>
+                    <span class="win95-title">Untitled - @NotepadDisplayName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizeNotepad">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizeNotepad">□</button>
@@ -222,7 +222,7 @@
             <div class="win95-window paint-window @(_paintMinimized ? "minimized" : "") @(_paintMaximized ? "maximized" : "")"
                  id="paintWindow">
                 <div class="win95-titlebar" id="paintTitleBar">
-                    <span class="win95-title">untitled - Paint</span>
+                    <span class="win95-title">untitled - @PaintDisplayName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizePaint">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizePaint">□</button>
@@ -278,15 +278,15 @@
     @if (_startMenuOpen)
     {
         <div class="win95-start-menu" @onclick:stopPropagation>
-            <div class="start-menu-sidebar">Copland OS</div>
+            <div class="start-menu-sidebar">@OsName</div>
             <div class="start-menu-items">
                 <div class="start-menu-item" @onclick="OpenPaintWindow">
                     <span class="start-menu-icon">🖌</span>
-                    <span>paint.exe</span>
+                    <span>@PaintExeName</span>
                 </div>
                 <div class="start-menu-item" @onclick="OpenNotepadWindow">
                     <span class="start-menu-icon">📝</span>
-                    <span>notepad.exe</span>
+                    <span>@NotepadExeName</span>
                 </div>
                 <div class="start-menu-divider"></div>
                 @for (int i = 0; i < _videoTitles.Length; i++)
@@ -322,21 +322,21 @@
             {
                 <div class="taskbar-item @(!_projectsMinimized ? "active" : "")"
                      @onclick="() => _projectsMinimized = !_projectsMinimized">
-                    projects.txt
+                    @ProjectsFileName
                 </div>
             }
             @if (_resumeOpen)
             {
                 <div class="taskbar-item @(!_resumeMinimized ? "active" : "")"
                      @onclick="() => _resumeMinimized = !_resumeMinimized">
-                    resume.md
+                    @ResumeFileName
                 </div>
             }
             @if (_contactOpen)
             {
                 <div class="taskbar-item @(!_contactMinimized ? "active" : "")"
                      @onclick="() => _contactMinimized = !_contactMinimized">
-                    contact.txt
+                    @ContactFileName
                 </div>
             }
             @if (_videoSequenceActive)
@@ -357,21 +357,21 @@
             {
                 <div class="taskbar-item @(!_cmdMinimized ? "active" : "")"
                      @onclick="ToggleCmdFromTaskbar">
-                    cmd.exe
+                    @CmdExeName
                 </div>
             }
             @if (_notepadOpen)
             {
                 <div class="taskbar-item @(!_notepadMinimized ? "active" : "")"
                      @onclick="ToggleNotepadFromTaskbar">
-                    Untitled - Notepad
+                    Untitled - @NotepadDisplayName
                 </div>
             }
             @if (_paintOpen)
             {
                 <div class="taskbar-item @(!_paintMinimized ? "active" : "")"
                      @onclick="TogglePaintFromTaskbar">
-                    untitled - Paint
+                    untitled - @PaintDisplayName
                 </div>
             }
         </div>
@@ -447,7 +447,7 @@
     private ElementReference _videoRef;
     private System.Timers.Timer? _clockTimer;
 
-    private readonly string[] _videoTitles = ["lain_phone.mp4", "lain_vhs.mp4", "lain_falling_dance.mp4"];
+    private string[] _videoTitles = [];
 
     private string _currentVideoTitle => _videoIndex < _videoTitles.Length
         ? _videoTitles[_videoIndex]
@@ -463,6 +463,9 @@
 
     protected override void OnInitialized()
     {
+        InitVfs();
+        _videoTitles = [Video1Title, Video2Title, Video3Title];
+
         _clock = DateTime.Now.ToString("HH:mm");
 
         _clockTimer = new System.Timers.Timer(1000);
@@ -685,7 +688,7 @@
                     _videoSequenceActive = false;
                     break;
                 case "ver":
-                    _cmdHistory.Add("Copland OS Enterprise [Version 8.00.001]");
+                    _cmdHistory.Add(OsVersion);
                     break;
                 case "help":
                     _cmdHistory.Add("Available commands:");

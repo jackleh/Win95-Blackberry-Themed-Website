@@ -8,77 +8,104 @@ namespace PortfolioWebsite.Components.EasterEgg;
 public partial class Win95Desktop
 {
     // ── CMD virtual filesystem ────────────────────────────────────────────────
-    private record FsEntry(string Name, bool IsDir, string? FileUrl = null, string? FileType = null);
+    private record FsEntry(string Name, bool IsDir, string? FileUrl = null, string? FileType = null, string? Action = null);
 
-    private string _cwd = "C:\\COPLAND";
+    private string _cwd = "C:\\";
     private string _paintInitImageUrl = "media/image/lain.png";
 
-    private static readonly Dictionary<string, List<FsEntry>> _vfs = new(StringComparer.OrdinalIgnoreCase)
+    private Dictionary<string, List<FsEntry>>? _vfs;
+
+    // ── Config helpers ────────────────────────────────────────────────────────
+    private string OsName             => BaseViewModel.SiteConfig?.EasterEggOsName             ?? "Copland OS";
+    private string OsVersion          => BaseViewModel.SiteConfig?.EasterEggOsVersion          ?? "Copland OS Enterprise [Version 8.00.001]";
+    private string OsCopyright        => BaseViewModel.SiteConfig?.EasterEggOsCopyright        ?? "(C) Copyright Copland Corp 1994-1996.";
+    private string OsDirName          => BaseViewModel.SiteConfig?.EasterEggOsDirName          ?? "COPLAND";
+    private string PaintExeName       => BaseViewModel.SiteConfig?.EasterEggPaintExeName       ?? "paint.exe";
+    private string PaintDisplayName   => BaseViewModel.SiteConfig?.EasterEggPaintDisplayName   ?? "Paint";
+    private string NotepadExeName     => BaseViewModel.SiteConfig?.EasterEggNotepadExeName     ?? "notepad.exe";
+    private string NotepadDisplayName => BaseViewModel.SiteConfig?.EasterEggNotepadDisplayName ?? "Notepad";
+    private string CmdExeName         => BaseViewModel.SiteConfig?.EasterEggCmdExeName         ?? "cmd.exe";
+    private string ResumeFileName     => BaseViewModel.SiteConfig?.EasterEggResumeFileName     ?? "resume.md";
+    private string ProjectsFileName   => BaseViewModel.SiteConfig?.EasterEggProjectsFileName   ?? "projects.txt";
+    private string ContactFileName    => BaseViewModel.SiteConfig?.EasterEggContactFileName    ?? "contact.txt";
+    private string Video1Title        => BaseViewModel.SiteConfig?.EasterEggVideo1Title        ?? "lain_phone.mp4";
+    private string Video2Title        => BaseViewModel.SiteConfig?.EasterEggVideo2Title        ?? "lain_vhs.mp4";
+    private string Video3Title        => BaseViewModel.SiteConfig?.EasterEggVideo3Title        ?? "lain_falling_dance.mp4";
+    private string PaintInitImageUrl  => BaseViewModel.SiteConfig?.EasterEggPaintInitImageUrl  ?? "media/image/lain.png";
+    private string CmdTitle           => $"C:\\{OsDirName}\\system32\\{CmdExeName}";
+
+    private void InitVfs()
     {
-        ["C:\\"] =
-        [
-            new("Desktop", IsDir: true),
-            new("COPLAND", IsDir: true),
-            new("WWWROOT", IsDir: true),
-        ],
-        ["C:\\Desktop"] =
-        [
-            new("resume.md",    IsDir: false, FileUrl: null, FileType: "desktop"),
-            new("projects.txt", IsDir: false, FileUrl: null, FileType: "desktop"),
-            new("contact.txt",  IsDir: false, FileUrl: null, FileType: "desktop"),
-        ],
-        ["C:\\COPLAND"] =
-        [
-            new("System32", IsDir: true),
-        ],
-        ["C:\\COPLAND\\System32"] =
-        [
-            new("cmd.exe",      IsDir: false, FileUrl: null, FileType: "exe"),
-            new("paint.exe",    IsDir: false, FileUrl: null, FileType: "exe"),
-            new("notepad.exe",  IsDir: false, FileUrl: null, FileType: "exe"),
-        ],
-        ["C:\\WWWROOT"] =
-        [
-            new("css",          IsDir: true),
-            new("data",         IsDir: true),
-            new("js",           IsDir: true),
-            new("media",        IsDir: true),
-            new("favicon.png",  IsDir: false, FileUrl: "favicon.png",  FileType: "image"),
-            new("index.html",   IsDir: false, FileUrl: "index.html",   FileType: "text"),
-        ],
-        ["C:\\WWWROOT\\css"] =
-        [
-            new("app.css", IsDir: false, FileUrl: "css/app.css", FileType: "text"),
-        ],
-        ["C:\\WWWROOT\\data"] =
-        [
-            new("aboutMe.json",    IsDir: false, FileUrl: "data/aboutMe.json",     FileType: "text"),
-            new("person.json",     IsDir: false, FileUrl: "data/person.json",      FileType: "text"),
-            new("projects.json",   IsDir: false, FileUrl: "data/projects.json",    FileType: "text"),
-            new("sectionInfo.json",IsDir: false, FileUrl: "data/sectionInfo.json", FileType: "text"),
-            new("siteConfig.json", IsDir: false, FileUrl: "data/siteConfig.json",  FileType: "text"),
-        ],
-        ["C:\\WWWROOT\\js"] =
-        [
-            new("dragHelper.js",  IsDir: false, FileUrl: "js/dragHelper.js",  FileType: "text"),
-            new("paintHelper.js", IsDir: false, FileUrl: "js/paintHelper.js", FileType: "text"),
-        ],
-        ["C:\\WWWROOT\\media"] =
-        [
-            new("image",       IsDir: true),
-            new("resume.docx", IsDir: false, FileUrl: null, FileType: "binary"),
-        ],
-        ["C:\\WWWROOT\\media\\image"] =
-        [
-            new("lain.png",      IsDir: false, FileUrl: "media/image/lain.png",      FileType: "image"),
-            new("lain_navi.png", IsDir: false, FileUrl: "media/image/lain_navi.png", FileType: "image"),
-        ],
-    };
+        _cwd               = $"C:\\{OsDirName}";
+        _paintInitImageUrl = PaintInitImageUrl;
+
+        _vfs = new Dictionary<string, List<FsEntry>>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["C:\\"] =
+            [
+                new("Desktop", IsDir: true),
+                new(OsDirName, IsDir: true),
+                new("WWWROOT", IsDir: true),
+            ],
+            ["C:\\Desktop"] =
+            [
+                new(ResumeFileName,   IsDir: false, FileUrl: null, FileType: "desktop", Action: "open-resume"),
+                new(ProjectsFileName, IsDir: false, FileUrl: null, FileType: "desktop", Action: "open-projects"),
+                new(ContactFileName,  IsDir: false, FileUrl: null, FileType: "desktop", Action: "open-contact"),
+            ],
+            [$"C:\\{OsDirName}"] =
+            [
+                new("System32", IsDir: true),
+            ],
+            [$"C:\\{OsDirName}\\System32"] =
+            [
+                new(CmdExeName,     IsDir: false, FileUrl: null, FileType: "exe", Action: "run-cmd"),
+                new(PaintExeName,   IsDir: false, FileUrl: null, FileType: "exe", Action: "run-paint"),
+                new(NotepadExeName, IsDir: false, FileUrl: null, FileType: "exe", Action: "run-notepad"),
+            ],
+            ["C:\\WWWROOT"] =
+            [
+                new("css",         IsDir: true),
+                new("data",        IsDir: true),
+                new("js",          IsDir: true),
+                new("media",       IsDir: true),
+                new("favicon.png", IsDir: false, FileUrl: "favicon.png", FileType: "image"),
+                new("index.html",  IsDir: false, FileUrl: "index.html",  FileType: "text"),
+            ],
+            ["C:\\WWWROOT\\css"] =
+            [
+                new("app.css", IsDir: false, FileUrl: "css/app.css", FileType: "text"),
+            ],
+            ["C:\\WWWROOT\\data"] =
+            [
+                new("aboutMe.json",     IsDir: false, FileUrl: "data/aboutMe.json",     FileType: "text"),
+                new("person.json",      IsDir: false, FileUrl: "data/person.json",      FileType: "text"),
+                new("projects.json",    IsDir: false, FileUrl: "data/projects.json",    FileType: "text"),
+                new("sectionInfo.json", IsDir: false, FileUrl: "data/sectionInfo.json", FileType: "text"),
+                new("siteConfig.json",  IsDir: false, FileUrl: "data/siteConfig.json",  FileType: "text"),
+            ],
+            ["C:\\WWWROOT\\js"] =
+            [
+                new("dragHelper.js",  IsDir: false, FileUrl: "js/dragHelper.js",  FileType: "text"),
+                new("paintHelper.js", IsDir: false, FileUrl: "js/paintHelper.js", FileType: "text"),
+            ],
+            ["C:\\WWWROOT\\media"] =
+            [
+                new("image",       IsDir: true),
+                new("resume.docx", IsDir: false, FileUrl: null, FileType: "binary"),
+            ],
+            ["C:\\WWWROOT\\media\\image"] =
+            [
+                new("lain.png",      IsDir: false, FileUrl: "media/image/lain.png",      FileType: "image"),
+                new("lain_navi.png", IsDir: false, FileUrl: "media/image/lain_navi.png", FileType: "image"),
+            ],
+        };
+    }
 
     private List<string> CmdDir()
     {
         var lines = new List<string>();
-        if (!_vfs.TryGetValue(_cwd, out var entries))
+        if (_vfs == null || !_vfs.TryGetValue(_cwd, out var entries))
         {
             lines.Add("The system cannot find the path specified.");
             return lines;
@@ -131,6 +158,8 @@ public partial class Win95Desktop
     // Returns the canonical VFS key, or null if the destination doesn't exist.
     private string? ResolvePath(string path)
     {
+        if (_vfs == null) return null;
+
         string current;
         string[] parts;
 
@@ -179,7 +208,7 @@ public partial class Win95Desktop
     {
         var lines = new List<string>();
 
-        if (!_vfs.TryGetValue(_cwd, out var entries))
+        if (_vfs == null || !_vfs.TryGetValue(_cwd, out var entries))
         {
             lines.Add($"'{filename}' is not recognized as an internal or external command,");
             lines.Add("operable program or batch file.");
@@ -203,11 +232,11 @@ public partial class Win95Desktop
         switch (entry.FileType)
         {
             case "desktop":
-                switch (entry.Name.ToLower())
+                switch (entry.Action)
                 {
-                    case "resume.md":    OpenResumeWindow();   break;
-                    case "projects.txt": OpenProjectsWindow(); break;
-                    case "contact.txt":  OpenContactWindow();  break;
+                    case "open-resume":   OpenResumeWindow();   break;
+                    case "open-projects": OpenProjectsWindow(); break;
+                    case "open-contact":  OpenContactWindow();  break;
                 }
                 break;
 
@@ -242,17 +271,17 @@ public partial class Win95Desktop
                 break;
 
             case "exe":
-                switch (entry.Name.ToLower())
+                switch (entry.Action)
                 {
-                    case "cmd.exe":
+                    case "run-cmd":
                         lines.Add("CMD is already running in this session.");
                         break;
-                    case "paint.exe":
-                        _paintInitImageUrl = "media/image/lain.png";
+                    case "run-paint":
+                        _paintInitImageUrl = PaintInitImageUrl;
                         _paintOpen         = true;
                         _paintMinimized    = false;
                         break;
-                    case "notepad.exe":
+                    case "run-notepad":
                         _notepadOpen      = true;
                         _notepadMinimized = false;
                         break;
