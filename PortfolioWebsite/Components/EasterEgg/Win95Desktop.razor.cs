@@ -225,6 +225,7 @@ public partial class Win95Desktop
                 _paintInitImageUrl = entry.FileUrl!;
                 if (_paintOpen)
                 {
+                    _paintMinimized = false;
                     try
                     {
                         await JS.InvokeVoidAsync("paintHelper.loadImage", "paintCanvas", entry.FileUrl);
