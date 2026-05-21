@@ -79,6 +79,7 @@ public partial class Win95Desktop
             ["C:\\WWWROOT\\data"] =
             [
                 new("aboutMe.json",     IsDir: false, FileUrl: "data/aboutMe.json",     FileType: "text"),
+                new("contact.json",     IsDir: false, FileUrl: "data/contact.json",     FileType: "text"),
                 new("person.json",      IsDir: false, FileUrl: "data/person.json",      FileType: "text"),
                 new("projects.json",    IsDir: false, FileUrl: "data/projects.json",    FileType: "text"),
                 new("resume.json",      IsDir: false, FileUrl: "data/resume.json",      FileType: "text"),
@@ -434,23 +435,34 @@ public partial class Win95Desktop
     {
         get
         {
+            var contact  = BaseViewModel.Contact;
             var linkedin = BaseViewModel.Person?.LinkedinUrl ?? "N/A";
             var github   = BaseViewModel.AboutMe?.GithubUrl  ?? "N/A";
             var email    = BaseViewModel.Person?.Email        ?? "N/A";
             var location = BaseViewModel.AboutMe?.Location    ?? "N/A";
 
             var sb = new StringBuilder();
-            sb.AppendLine("  Best way to reach me: LinkedIn");
-            sb.AppendLine();
+            if (!string.IsNullOrEmpty(contact?.ContactNote))
+            {
+                sb.AppendLine($"  {contact.ContactNote}");
+                sb.AppendLine();
+            }
             sb.AppendLine($"  LinkedIn >> {linkedin}");
             sb.AppendLine($"  GitHub   >> {github}");
             sb.AppendLine($"  Email    >> {email}");
             sb.AppendLine($"  Location >> {location}");
-            sb.AppendLine();
-            sb.AppendLine("  +---------------------------------------------+");
-            sb.AppendLine("  | Feel free to reach out for opportunities,   |");
-            sb.AppendLine("  | collaborations, or just to say hello!       |");
-            sb.AppendLine("  +---------------------------------------------+");
+
+            if (contact?.CallToActionLines?.Count > 0)
+            {
+                var maxLen = contact.CallToActionLines.Max(l => l.Length);
+                var border = "  +" + new string('-', maxLen + 2) + "+";
+                sb.AppendLine();
+                sb.AppendLine(border);
+                foreach (var line in contact.CallToActionLines)
+                    sb.AppendLine($"  | {line.PadRight(maxLen)} |");
+                sb.AppendLine(border);
+            }
+
             return sb.ToString();
         }
     }
