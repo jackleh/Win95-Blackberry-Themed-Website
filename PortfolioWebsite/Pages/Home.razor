@@ -14,7 +14,7 @@
     {
         <BlackBerryPhone />
     }
-    else
+    else if (BaseViewModel.SiteConfig?.Win95Enabled == true)
     {
         <Win95Desktop Mode="Win95Mode.Standalone" OnExit="@(() => { })" />
     }
