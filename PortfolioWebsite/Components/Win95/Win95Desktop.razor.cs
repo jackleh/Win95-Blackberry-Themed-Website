@@ -38,69 +38,23 @@ public partial class Win95Desktop
         _cwd               = $"C:\\{OsDirName}";
         _paintInitImageUrl = PaintInitImageUrl;
 
-        _vfs = new Dictionary<string, List<FsEntry>>(StringComparer.OrdinalIgnoreCase)
+        _vfs = new Dictionary<string, List<FsEntry>>(StringComparer.OrdinalIgnoreCase);
+
+        if (BaseViewModel.SiteConfig?.Win95VfsEntries != null)
         {
-            ["C:\\"] =
-            [
-                new("Desktop", IsDir: true),
-                new(OsDirName, IsDir: true),
-                new("WWWROOT", IsDir: true),
-            ],
-            ["C:\\Desktop"] =
-            [
-                new(ResumeFileName,   IsDir: false, FileUrl: null, FileType: "desktop", Action: "open-resume"),
-                new(ProjectsFileName, IsDir: false, FileUrl: null, FileType: "desktop", Action: "open-projects"),
-                new(ContactFileName,  IsDir: false, FileUrl: null, FileType: "desktop", Action: "open-contact"),
-            ],
-            [$"C:\\{OsDirName}"] =
-            [
-                new("System32", IsDir: true),
-            ],
-            [$"C:\\{OsDirName}\\System32"] =
-            [
-                new(CmdExeName,     IsDir: false, FileUrl: null, FileType: "exe", Action: "run-cmd"),
-                new(PaintExeName,   IsDir: false, FileUrl: null, FileType: "exe", Action: "run-paint"),
-                new(NotepadExeName, IsDir: false, FileUrl: null, FileType: "exe", Action: "run-notepad"),
-            ],
-            ["C:\\WWWROOT"] =
-            [
-                new("css",         IsDir: true),
-                new("data",        IsDir: true),
-                new("js",          IsDir: true),
-                new("media",       IsDir: true),
-                new("favicon.png", IsDir: false, FileUrl: "favicon.png", FileType: "image"),
-                new("index.html",  IsDir: false, FileUrl: "index.html",  FileType: "text"),
-            ],
-            ["C:\\WWWROOT\\css"] =
-            [
-                new("app.css", IsDir: false, FileUrl: "css/app.css", FileType: "text"),
-            ],
-            ["C:\\WWWROOT\\data"] =
-            [
-                new("aboutMe.json",     IsDir: false, FileUrl: "data/aboutMe.json",     FileType: "text"),
-                new("contact.json",     IsDir: false, FileUrl: "data/contact.json",     FileType: "text"),
-                new("person.json",      IsDir: false, FileUrl: "data/person.json",      FileType: "text"),
-                new("projects.json",    IsDir: false, FileUrl: "data/projects.json",    FileType: "text"),
-                new("resume.json",      IsDir: false, FileUrl: "data/resume.json",      FileType: "text"),
-                new("sectionInfo.json", IsDir: false, FileUrl: "data/sectionInfo.json", FileType: "text"),
-                new("siteConfig.json",  IsDir: false, FileUrl: "data/siteConfig.json",  FileType: "text"),
-            ],
-            ["C:\\WWWROOT\\js"] =
-            [
-                new("dragHelper.js",  IsDir: false, FileUrl: "js/dragHelper.js",  FileType: "text"),
-                new("paintHelper.js", IsDir: false, FileUrl: "js/paintHelper.js", FileType: "text"),
-            ],
-            ["C:\\WWWROOT\\media"] =
-            [
-                new("image",       IsDir: true),
-                new("resume.docx", IsDir: false, FileUrl: null, FileType: "binary"),
-            ],
-            ["C:\\WWWROOT\\media\\image"] =
-            [
-                new("lain.png",      IsDir: false, FileUrl: "media/image/lain.png",      FileType: "image"),
-                new("lain_navi.png", IsDir: false, FileUrl: "media/image/lain_navi.png", FileType: "image"),
-            ],
-        };
+            foreach (var entry in BaseViewModel.SiteConfig.Win95VfsEntries)
+            {
+                // Replace placeholder directory name in the path
+                var path = entry.Path.Replace("COPLAND", OsDirName, StringComparison.OrdinalIgnoreCase);
+                
+                if (!_vfs.ContainsKey(path))
+                {
+                    _vfs[path] = [];
+                }
+
+                _vfs[path].Add(new FsEntry(entry.Name, entry.IsDir, entry.FileUrl, entry.FileType, entry.Action));
+            }
+        }
     }
 
     private List<string> CmdDir()
