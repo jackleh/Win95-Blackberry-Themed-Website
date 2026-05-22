@@ -281,10 +281,14 @@ public partial class Win95Desktop
                         _paintInitImageUrl = PaintInitImageUrl;
                         _paintOpen         = true;
                         _paintMinimized    = false;
+                        _paintMaximized    = false;
+                        _paintNeedsInit    = true;
                         break;
                     case "run-notepad":
-                        _notepadOpen      = true;
-                        _notepadMinimized = false;
+                        _notepadOpen       = true;
+                        _notepadMinimized  = false;
+                        _notepadMaximized  = false;
+                        _notepadNeedsInit  = true;
                         break;
                 }
                 break;
