@@ -1,4 +1,4 @@
-namespace PortfolioWebsite.Models;
+namespace Website.Models;
 
 public enum Win95Mode
 {

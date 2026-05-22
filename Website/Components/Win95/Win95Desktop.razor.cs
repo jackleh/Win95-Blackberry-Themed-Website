@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 using System.Net.Http;
 using System.Text;
 
-namespace PortfolioWebsite.Components.Win95;
+namespace Website.Components.Win95;
 
 public partial class Win95Desktop
 {

@@ -1,4 +1,4 @@
-namespace PortfolioWebsite.Models;
+namespace Website.Models;
 
 public class SiteConfig
 {
