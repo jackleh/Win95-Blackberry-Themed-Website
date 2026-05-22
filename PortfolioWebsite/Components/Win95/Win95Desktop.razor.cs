@@ -258,12 +258,16 @@ public partial class Win95Desktop
 
             case "image":
                 _paintInitImageUrl = entry.FileUrl!;
+                _paintMinimized = false;
                 if (_paintOpen)
+                {
+                    await JS.InvokeVoidAsync("dragHelper.raiseWindow", "paintWindow");
                     await JS.InvokeVoidAsync("paintHelper.loadImage", "paintCanvas", entry.FileUrl);
+                }
                 else
                 {
                     _paintOpen      = true;
-                    _paintMinimized = false;
+                    _paintNeedsInit = true;
                 }
                 break;
 
