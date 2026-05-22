@@ -1,0 +1,11 @@
+{
+  "Projects": [
+    {
+      "Name": "PortfolioWebsite",
+      "Description": "This site — a Blazor WebAssembly personal portfolio with a terminal-inspired UI and a retro Win95-style desktop hidden behind the window controls.",
+      "Technologies": ["Blazor WASM", "C#", ".NET 8"],
+      "Url": "https://github.com/jackleh/PortfolioWebsite",
+      "Status": "active"
+    }
+  ]
+}
