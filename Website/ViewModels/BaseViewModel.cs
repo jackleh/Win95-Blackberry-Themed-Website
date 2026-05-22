@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
-using PortfolioWebsite.Models;
+using Website.Models;
 
-namespace PortfolioWebsite.ViewModels;
+namespace Website.ViewModels;
 
 public class BaseViewModel(HttpClient httpClient)
 {

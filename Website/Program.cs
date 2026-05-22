@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using PortfolioWebsite;
-using PortfolioWebsite.ViewModels;
+using Website;
+using Website.ViewModels;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
