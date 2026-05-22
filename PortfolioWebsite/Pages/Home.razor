@@ -1,22 +1,64 @@
 @page "/"
-@using PortfolioWebsite.Models
-@using PortfolioWebsite.ViewModels
 @using PortfolioWebsite.Components.Win95
+@using PortfolioWebsite.Components.Mobile
+@using PortfolioWebsite.ViewModels
 @inject BaseViewModel BaseViewModel
+@inject IJSRuntime JS
+@implements IAsyncDisposable
 
 <PageTitle>@(BaseViewModel.Person?.Name ?? string.Empty)</PageTitle>
 
 @if (_ready)
 {
-    <Win95Desktop Mode="Win95Mode.Standalone" OnExit="@(() => { })" />
+    @if (_isMobile)
+    {
+        <BlackBerryPhone />
+    }
+    else
+    {
+        <Win95Desktop Mode="Win95Mode.Standalone" OnExit="@(() => { })" />
+    }
 }
 
 @code {
+    private const int MobileBreakpoint = 820;
+
     private bool _ready;
+    private bool _isMobile;
+    private DotNetObjectReference<Home>? _selfRef;
 
     protected override async Task OnInitializedAsync()
     {
         await BaseViewModel.InitializeAsync();
+        try
+        {
+            _isMobile = await JS.InvokeAsync<bool>("deviceHelper.isMobilePhone");
+        }
+        catch
+        {
+            _isMobile = false;
+        }
         _ready = true;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        _selfRef = DotNetObjectReference.Create(this);
+        await JS.InvokeVoidAsync("deviceHelper.onViewportChange", _selfRef, nameof(OnBreakpointChanged), MobileBreakpoint);
+    }
+
+    [JSInvokable]
+    public void OnBreakpointChanged(bool isNarrow)
+    {
+        if (_isMobile == isNarrow) return;
+        _isMobile = isNarrow;
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _selfRef?.Dispose();
+        await Task.CompletedTask;
     }
 }

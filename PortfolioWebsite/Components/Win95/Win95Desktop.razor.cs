@@ -1,7 +1,6 @@
 using Microsoft.JSInterop;
 using System.Net.Http;
 using System.Text;
-using System.Text.Encodings.Web;
 
 namespace PortfolioWebsite.Components.Win95;
 
@@ -325,112 +324,6 @@ public partial class Win95Desktop
         }
     }
 
-    private string ResumeHtml
-    {
-        get
-        {
-            var person  = BaseViewModel.Person;
-            var about   = BaseViewModel.AboutMe;
-            var resume  = BaseViewModel.Resume;
-
-            var linkedin = person?.LinkedinUrl ?? "#";
-            var github   = about?.GithubUrl    ?? "#";
-
-            // Validate and encode URLs to prevent XSS
-            if (!Uri.TryCreate(linkedin, UriKind.Absolute, out _) && linkedin != "#") linkedin = "#";
-            if (!Uri.TryCreate(github,   UriKind.Absolute, out _) && github   != "#") github   = "#";
-
-            var E = HtmlEncoder.Default;
-            var sb = new StringBuilder();
-            sb.AppendLine("<div class='resume-doc'>");
-
-            // Header
-            sb.AppendLine($"  <h1>{E.Encode(person?.Name ?? string.Empty)}</h1>");
-            if (!string.IsNullOrEmpty(resume?.TagLine))
-                sb.AppendLine($"  <p class='resume-tagline'>{E.Encode(resume.TagLine)}</p>");
-            sb.AppendLine("  <p class='resume-meta'>");
-            if (!string.IsNullOrEmpty(person?.Email))
-                sb.AppendLine($"    {E.Encode(person.Email)} &nbsp;&middot;&nbsp;");
-            if (!string.IsNullOrEmpty(person?.Phone))
-                sb.AppendLine($"    {E.Encode(person.Phone)} &nbsp;&middot;&nbsp;");
-            if (!string.IsNullOrEmpty(about?.Location))
-                sb.AppendLine($"    {E.Encode(about.Location)} &nbsp;&middot;&nbsp;");
-            sb.AppendLine($"    <a href='{E.Encode(linkedin)}' target='_blank'>LinkedIn</a> &nbsp;&middot;&nbsp;");
-            sb.AppendLine($"    <a href='{E.Encode(github)}' target='_blank'>GitHub</a>");
-            sb.AppendLine("  </p>");
-            sb.AppendLine("  <hr/>");
-
-            // About
-            if (!string.IsNullOrEmpty(about?.Summary))
-            {
-                sb.AppendLine("  <h2>About</h2>");
-                sb.AppendLine($"  <p>{E.Encode(about.Summary)}</p>");
-            }
-
-            // Job History
-            if (resume?.JobHistory?.Count > 0)
-            {
-                sb.AppendLine("  <h2>Job History</h2>");
-                foreach (var job in resume.JobHistory)
-                {
-                    var heading = string.IsNullOrEmpty(job.Location)
-                        ? E.Encode(job.Company)
-                        : $"{E.Encode(job.Company)} &mdash; {E.Encode(job.Location)}";
-                    sb.AppendLine($"  <h3>{heading}</h3>");
-                    foreach (var role in job.Roles)
-                    {
-                        sb.AppendLine($"  <p class='resume-role'>{E.Encode(role.Title)} &nbsp;&middot;&nbsp; <span class='resume-date'>{E.Encode(role.DateRange)}</span></p>");
-                        if (role.Bullets?.Count > 0)
-                        {
-                            sb.AppendLine("  <ul>");
-                            foreach (var bullet in role.Bullets)
-                                sb.AppendLine($"    <li>{E.Encode(bullet)}</li>");
-                            sb.AppendLine("  </ul>");
-                        }
-                    }
-                }
-            }
-
-            // Skills
-            if (resume?.SkillsByDomain?.Count > 0 || resume?.SkillsBreakdown?.Count > 0)
-            {
-                sb.AppendLine("  <h2>Skills</h2>");
-                if (resume?.SkillsByDomain?.Count > 0)
-                {
-                    sb.AppendLine("  <p class='resume-role'>By Domain</p>");
-                    sb.AppendLine("  <ul>");
-                    foreach (var s in resume.SkillsByDomain)
-                        sb.AppendLine($"    <li>{E.Encode(s)}</li>");
-                    sb.AppendLine("  </ul>");
-                }
-                if (resume?.SkillsBreakdown?.Count > 0)
-                {
-                    sb.AppendLine("  <p class='resume-role'>Breakdown</p>");
-                    sb.AppendLine("  <ul>");
-                    foreach (var s in resume.SkillsBreakdown)
-                        sb.AppendLine($"    <li><strong>{E.Encode(s.Name)}</strong> &mdash; {E.Encode(s.Detail)}</li>");
-                    sb.AppendLine("  </ul>");
-                }
-            }
-
-            // Education
-            if (resume?.Education?.Count > 0)
-            {
-                sb.AppendLine("  <h2>Education</h2>");
-                foreach (var ed in resume.Education)
-                {
-                    var entry = $"{E.Encode(ed.School)} &mdash; {E.Encode(ed.Degree)}";
-                    if (!string.IsNullOrEmpty(ed.Year))
-                        entry += $" &nbsp;&middot;&nbsp; {E.Encode(ed.Year)}";
-                    sb.AppendLine($"  <p>{entry}</p>");
-                }
-            }
-
-            sb.AppendLine("</div>");
-            return sb.ToString();
-        }
-    }
-
     private string ContactText
     {
         get
@@ -438,8 +331,8 @@ public partial class Win95Desktop
             var contact  = BaseViewModel.Contact;
             var linkedin = BaseViewModel.Person?.LinkedinUrl ?? "N/A";
             var github   = BaseViewModel.AboutMe?.GithubUrl  ?? "N/A";
-            var email    = BaseViewModel.Person?.Email        ?? "N/A";
-            var location = BaseViewModel.AboutMe?.Location    ?? "N/A";
+            var email    = BaseViewModel.Resume?.Email    ?? "N/A";
+            var location = BaseViewModel.Resume?.Location ?? "N/A";
 
             var sb = new StringBuilder();
             if (!string.IsNullOrEmpty(contact?.ContactNote))
@@ -465,5 +358,13 @@ public partial class Win95Desktop
 
             return sb.ToString();
         }
+    }
+
+    private static string SafeHref(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return string.Empty;
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri)) return string.Empty;
+        if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps) return string.Empty;
+        return url;
     }
 }

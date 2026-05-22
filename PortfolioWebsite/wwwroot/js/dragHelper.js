@@ -1,4 +1,11 @@
+let _zTop = 100;
+
 window.dragHelper = {
+    raiseWindow: function (id) {
+        const el = document.getElementById(id);
+        if (el) el.style.zIndex = ++_zTop;
+    },
+
     scrollToBottom: function (elementId) {
         const el = document.getElementById(elementId);
         if (el) el.scrollTop = el.scrollHeight;
@@ -54,6 +61,7 @@ window.dragHelper = {
         });
 
         el.addEventListener('mousedown', e => {
+            el.style.zIndex = ++_zTop;
             dir = getDir(e);
             if (!dir) return;
             resizing = true;
@@ -120,6 +128,7 @@ window.dragHelper = {
 
         handle.addEventListener('mousedown', (e) => {
             if (el.classList.contains('maximized')) return;
+            el.style.zIndex = ++_zTop;
             dragging = true;
             // Use getBoundingClientRect so CSS transform/calc positioning is accounted for,
             // then lock in explicit left/top and clear any transform so dragging works correctly.

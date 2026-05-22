@@ -11,16 +11,4 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.2" PrivateAssets="all"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <RazorComponent Include="Pages\Home.razor" />
-        <Content Update="Pages\Home.razor.css">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Pages\SubPages\About.razor" />
-    </ItemGroup>
-
 </Project>

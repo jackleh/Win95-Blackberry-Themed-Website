@@ -1,7 +1,4 @@
 {
-  "OpeningSectionHoldDurationInMs": 1500,
-  "OpeningSectionFadeDurationInMs": 1500,
-  "SectionSelectionFlashTimeDurationInMs": 2000,
   "SiteTitle": ".NET Developer - Jack Lehman",
   "Win95Enabled": true,
   "Win95Video1Url": "https://github.com/jackrlehman/PortfolioWebsite/releases/download/v1.0-media/lain_phone.mp4",

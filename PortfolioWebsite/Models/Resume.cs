@@ -2,29 +2,37 @@ namespace PortfolioWebsite.Models;
 
 public class Resume
 {
-    public string TagLine { get; set; } = string.Empty;
-    public List<JobEntry> JobHistory { get; set; } = [];
-    public List<string> SkillsByDomain { get; set; } = [];
-    public List<SkillDetail> SkillsBreakdown { get; set; } = [];
+    public string Tagline { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public string Location { get; set; } = string.Empty;
+    public string About { get; set; } = string.Empty;
+    public List<Company> Companies { get; set; } = [];
+    public List<SkillGroup> SkillGroups { get; set; } = [];
     public List<EducationEntry> Education { get; set; } = [];
 
-    public class JobEntry
+    public class Company
     {
-        public string Company { get; set; } = string.Empty;
-        public string Location { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public List<Role> Roles { get; set; } = [];
     }
 
     public class Role
     {
         public string Title { get; set; } = string.Empty;
-        public string DateRange { get; set; } = string.Empty;
+        public string Dates { get; set; } = string.Empty;
         public List<string> Bullets { get; set; } = [];
     }
 
-    public class SkillDetail
+    public class SkillGroup
     {
-        public string Name { get; set; } = string.Empty;
+        public string Heading { get; set; } = string.Empty;
+        public List<SkillItem> Items { get; set; } = [];
+    }
+
+    public class SkillItem
+    {
+        public string Label { get; set; } = string.Empty;
         public string Detail { get; set; } = string.Empty;
     }
 

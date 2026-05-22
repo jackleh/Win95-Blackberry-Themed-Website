@@ -1,71 +1,24 @@
-﻿using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using PortfolioWebsite.Models;
 
-namespace PortfolioWebsite.ViewModels
+namespace PortfolioWebsite.ViewModels;
+
+public class BaseViewModel(HttpClient httpClient)
 {
-    public class BaseViewModel(HttpClient httpClient)
+    public Person? Person { get; private set; }
+    public SiteConfig? SiteConfig { get; private set; }
+    public AboutMe? AboutMe { get; private set; }
+    public ProjectsInfo? ProjectsInfo { get; private set; }
+    public Resume? Resume { get; private set; }
+    public Contact? Contact { get; private set; }
+
+    public async Task InitializeAsync()
     {
-        public Person? Person { get; private set; }
-        public SiteConfig? SiteConfig { get; private set; }
-        public SectionInfo? SectionInfo { get; private set; }
-        public AboutMe? AboutMe { get; private set; }
-        public ProjectsInfo? ProjectsInfo { get; private set; }
-        public Resume? Resume { get; private set; }
-        public Contact? Contact { get; private set; }
-
-        public async Task InitializeAsync()
-        {
-            Person = await GetPerson();
-            SiteConfig = await GetSiteConfig();
-            SectionInfo = await GetSectionInfo();
-            AboutMe = await GetAboutMe();
-            ProjectsInfo = await GetProjectsInfo();
-            Resume = await GetResume();
-            Contact = await GetContact();
-        }
-        
-        private async Task<Person?> GetPerson()
-        {
-            const string url = "data/person.json";
-            return await httpClient.GetFromJsonAsync<Person>(url);
-        }
-
-        private async Task<SiteConfig?> GetSiteConfig()
-        {
-            const string url = "data/siteConfig.json";
-            return await httpClient.GetFromJsonAsync<SiteConfig>(url);
-        }
-        
-        private async Task<SectionInfo?> GetSectionInfo()
-        {
-            const string url = "data/sectionInfo.json";
-            return await httpClient.GetFromJsonAsync<SectionInfo>(url);
-        }
-
-        private async Task<AboutMe?> GetAboutMe()
-        {
-            const string url = "data/aboutMe.json";
-            return await httpClient.GetFromJsonAsync<AboutMe>(url);
-        }
-
-        private async Task<ProjectsInfo?> GetProjectsInfo()
-        {
-            const string url = "data/projects.json";
-            return await httpClient.GetFromJsonAsync<ProjectsInfo>(url);
-        }
-
-        private async Task<Resume?> GetResume()
-        {
-            const string url = "data/resume.json";
-            return await httpClient.GetFromJsonAsync<Resume>(url);
-        }
-
-        private async Task<Contact?> GetContact()
-        {
-            const string url = "data/contact.json";
-            return await httpClient.GetFromJsonAsync<Contact>(url);
-        }
+        Person       = await httpClient.GetFromJsonAsync<Person>("data/person.json");
+        SiteConfig   = await httpClient.GetFromJsonAsync<SiteConfig>("data/siteConfig.json");
+        AboutMe      = await httpClient.GetFromJsonAsync<AboutMe>("data/aboutMe.json");
+        ProjectsInfo = await httpClient.GetFromJsonAsync<ProjectsInfo>("data/projects.json");
+        Resume       = await httpClient.GetFromJsonAsync<Resume>("data/resume.json");
+        Contact      = await httpClient.GetFromJsonAsync<Contact>("data/contact.json");
     }
 }
