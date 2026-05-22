@@ -247,6 +247,7 @@ public partial class Win95Desktop
                     var content = await Http.GetStringAsync(entry.FileUrl);
                     _notepadText      = content;
                     _notepadOpen      = true;
+                    _notepadNeedsInit = true;
                     _notepadMinimized = false;
                     _notepadMaximized = false;
                 }
