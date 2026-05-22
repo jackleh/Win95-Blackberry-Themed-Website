@@ -261,6 +261,7 @@ public partial class Win95Desktop
                 _paintMinimized = false;
                 if (_paintOpen)
                 {
+                    _paintNeedsInit = true;
                     await JS.InvokeVoidAsync("dragHelper.raiseWindow", "paintWindow");
                     await JS.InvokeVoidAsync("paintHelper.loadImage", "paintCanvas", entry.FileUrl);
                 }
