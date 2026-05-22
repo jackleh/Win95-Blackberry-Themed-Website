@@ -195,9 +195,8 @@ public partial class Win95Desktop
             else
             {
                 var candidate = current.TrimEnd('\\') + "\\" + part;
-                var match = _vfs.Keys.FirstOrDefault(k => k.Equals(candidate, StringComparison.OrdinalIgnoreCase));
-                if (match == null) return null;
-                current = match;
+                if (!_vfs.ContainsKey(candidate)) return null;
+                current = candidate;
             }
         }
 
