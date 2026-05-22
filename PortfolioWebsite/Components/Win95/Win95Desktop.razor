@@ -9,17 +9,17 @@
         <div class="desktop-icons">
             <div class="desktop-icon" @ondblclick="OpenResumeWindow">
                 <div class="icon-img txt-icon"></div>
-                <div class="icon-label">resume.md</div>
+                <div class="icon-label">@ResumeFileName</div>
             </div>
 
             <div class="desktop-icon" @ondblclick="OpenProjectsWindow">
                 <div class="icon-img txt-icon"></div>
-                <div class="icon-label">projects.txt</div>
+                <div class="icon-label">@ProjectsFileName</div>
             </div>
 
             <div class="desktop-icon" @ondblclick="OpenContactWindow">
                 <div class="icon-img txt-icon"></div>
-                <div class="icon-label">contact.txt</div>
+                <div class="icon-label">@ContactFileName</div>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
                  id="cmdWindow"
                  @onclick="FocusCmdInput">
                 <div class="win95-titlebar" id="cmdTitleBar">
-                    <span class="win95-title">C:\COPLAND\system32\cmd.exe</span>
+                    <span class="win95-title">@CmdTitle</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizeCmd">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizeCmd">□</button>
@@ -68,8 +68,8 @@
                     </div>
                 </div>
                 <div class="win95-body cmd-body" id="cmdBody">
-                    <p>Copland OS Enterprise [Version 8.00.001]</p>
-                    <p>(C) Copyright Copland Corp 1994-1996.</p>
+                    <p>@OsVersion</p>
+                    <p>@OsCopyright</p>
                     @foreach (var line in _cmdHistory)
                     {
                         <p>@line</p>
@@ -91,7 +91,7 @@
             <div class="win95-window txtfile-window projects-window-default @(_projectsMinimized ? "minimized" : "") @(_projectsMaximized ? "maximized" : "")"
                  id="projectsWindow">
                 <div class="win95-titlebar" id="projectsTitleBar">
-                    <span class="win95-title">projects.txt - Notepad</span>
+                    <span class="win95-title">@ProjectsFileName - @NotepadDisplayName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _projectsMinimized = true">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _projectsMaximized = !_projectsMaximized">□</button>
@@ -116,7 +116,7 @@
             <div class="win95-window txtfile-window resume-window-default @(_resumeMinimized ? "minimized" : "") @(_resumeMaximized ? "maximized" : "")"
                  id="resumeWindow">
                 <div class="win95-titlebar" id="resumeTitleBar">
-                    <span class="win95-title">resume.md</span>
+                    <span class="win95-title">@ResumeFileName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _resumeMinimized = true">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _resumeMaximized = !_resumeMaximized">□</button>
@@ -242,7 +242,7 @@
             <div class="win95-window txtfile-window contact-window-default @(_contactMinimized ? "minimized" : "") @(_contactMaximized ? "maximized" : "")"
                  id="contactWindow">
                 <div class="win95-titlebar" id="contactTitleBar">
-                    <span class="win95-title">contact.txt - Notepad</span>
+                    <span class="win95-title">@ContactFileName - @NotepadDisplayName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _contactMinimized = true">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="() => _contactMaximized = !_contactMaximized">□</button>
@@ -267,7 +267,7 @@
             <div class="win95-window notepad-window @(_notepadMinimized ? "minimized" : "") @(_notepadMaximized ? "maximized" : "")"
                  id="notepadWindow">
                 <div class="win95-titlebar" id="notepadTitleBar">
-                    <span class="win95-title">Untitled - Notepad</span>
+                    <span class="win95-title">Untitled - @NotepadDisplayName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizeNotepad">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizeNotepad">□</button>
@@ -288,7 +288,7 @@
             <div class="win95-window paint-window @(_paintMinimized ? "minimized" : "") @(_paintMaximized ? "maximized" : "")"
                  id="paintWindow">
                 <div class="win95-titlebar" id="paintTitleBar">
-                    <span class="win95-title">untitled - Paint</span>
+                    <span class="win95-title">untitled - @PaintDisplayName</span>
                     <div class="win95-controls">
                         <button class="win95-btn" @onclick:stopPropagation @onclick="MinimizePaint">_</button>
                         <button class="win95-btn" @onclick:stopPropagation @onclick="ToggleMaximizePaint">□</button>
@@ -337,15 +337,15 @@
     @if (_startMenuOpen)
     {
         <div class="win95-start-menu" @onclick:stopPropagation>
-            <div class="start-menu-sidebar">Copland OS</div>
+            <div class="start-menu-sidebar">@OsName</div>
             <div class="start-menu-items">
                 <div class="start-menu-item" @onclick="OpenPaintWindow">
                     <span class="start-menu-icon">🖌</span>
-                    <span>paint.exe</span>
+                    <span>@PaintExeName</span>
                 </div>
                 <div class="start-menu-item" @onclick="OpenNotepadWindow">
                     <span class="start-menu-icon">📝</span>
-                    <span>notepad.exe</span>
+                    <span>@NotepadExeName</span>
                 </div>
                 <div class="start-menu-divider"></div>
                 @for (int i = 0; i < _videoTitles.Length; i++)
@@ -372,21 +372,21 @@
             {
                 <div class="taskbar-item @(!_projectsMinimized ? "active" : "")"
                      @onclick="ToggleProjectsFromTaskbar">
-                    projects.txt
+                    @ProjectsFileName
                 </div>
             }
             @if (_resumeOpen)
             {
                 <div class="taskbar-item @(!_resumeMinimized ? "active" : "")"
                      @onclick="ToggleResumeFromTaskbar">
-                    resume.md
+                    @ResumeFileName
                 </div>
             }
             @if (_contactOpen)
             {
                 <div class="taskbar-item @(!_contactMinimized ? "active" : "")"
                      @onclick="ToggleContactFromTaskbar">
-                    contact.txt
+                    @ContactFileName
                 </div>
             }
             @if (_videoOpen)
@@ -400,21 +400,21 @@
             {
                 <div class="taskbar-item @(!_cmdMinimized ? "active" : "")"
                      @onclick="ToggleCmdFromTaskbar">
-                    cmd.exe
+                    @CmdExeName
                 </div>
             }
             @if (_notepadOpen)
             {
                 <div class="taskbar-item @(!_notepadMinimized ? "active" : "")"
                      @onclick="ToggleNotepadFromTaskbar">
-                    Untitled - Notepad
+                    Untitled - @NotepadDisplayName
                 </div>
             }
             @if (_paintOpen)
             {
                 <div class="taskbar-item @(!_paintMinimized ? "active" : "")"
                      @onclick="TogglePaintFromTaskbar">
-                    untitled - Paint
+                    untitled - @PaintDisplayName
                 </div>
             }
         </div>
@@ -426,7 +426,14 @@
 </div>
 
 @code {
-    private string _wallpaperUrl => BaseViewModel.SiteConfig?.EasterEggDesktopPictureUrl ?? string.Empty;
+    [Parameter, EditorRequired]
+    public Win95Mode Mode { get; set; }
+
+    [Parameter]
+    public EventCallback OnExit { get; set; }
+
+    private string _wallpaperUrl => BaseViewModel.SiteConfig?.Win95DesktopPictureUrl ?? string.Empty;
+    private string _siteTitle => BaseViewModel.SiteConfig?.SiteTitle ?? "Portfolio";
 
     // Clock
     private string _clock = string.Empty;
@@ -445,7 +452,7 @@
     private bool _videoNeedsInit;
     private bool _videoVolumeNeedsSync;
     private ElementReference _videoRef;
-    private readonly string[] _videoTitles = ["lain_phone.mp4", "lain_vhs.mp4", "lain_falling_dance.mp4"];
+    private string[] _videoTitles = [];
 
     // CMD
     private bool _cmdOpen;
@@ -489,14 +496,17 @@
 
     private string _currentVideoSrc => _videoIndex switch
     {
-        0 => BaseViewModel.SiteConfig?.EasterEggVideo1Url ?? string.Empty,
-        1 => BaseViewModel.SiteConfig?.EasterEggVideo2Url ?? string.Empty,
-        2 => BaseViewModel.SiteConfig?.EasterEggVideo3Url ?? string.Empty,
+        0 => BaseViewModel.SiteConfig?.Win95Video1Url ?? string.Empty,
+        1 => BaseViewModel.SiteConfig?.Win95Video2Url ?? string.Empty,
+        2 => BaseViewModel.SiteConfig?.Win95Video3Url ?? string.Empty,
         _ => string.Empty
     };
 
     protected override void OnInitialized()
     {
+        InitVfs();
+        _videoTitles = [Video1Title, Video2Title, Video3Title];
+
         _clock = DateTime.Now.ToString("HH:mm");
 
         // 30s tick is plenty for an HH:mm display.
@@ -519,6 +529,13 @@
         };
         _clockTimer.AutoReset = true;
         _clockTimer.Start();
+
+        if (Mode == Win95Mode.VideoSequence)
+        {
+            _videoOpen = true;
+            _videoNeedsInit = true;
+            _videoIndex = 0;
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -743,7 +760,7 @@
                     _cmdHistory.Clear();
                     break;
                 case "ver":
-                    _cmdHistory.Add("Copland OS Enterprise [Version 8.00.001]");
+                    _cmdHistory.Add(OsVersion);
                     break;
                 case "help":
                     _cmdHistory.Add("Available commands:");

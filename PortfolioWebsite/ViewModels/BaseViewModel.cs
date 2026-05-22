@@ -1,6 +1,4 @@
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using PortfolioWebsite.Models;
 
 namespace PortfolioWebsite.ViewModels;
@@ -12,6 +10,7 @@ public class BaseViewModel(HttpClient httpClient)
     public AboutMe? AboutMe { get; private set; }
     public ProjectsInfo? ProjectsInfo { get; private set; }
     public Resume? Resume { get; private set; }
+    public Contact? Contact { get; private set; }
 
     public async Task InitializeAsync()
     {
@@ -20,5 +19,6 @@ public class BaseViewModel(HttpClient httpClient)
         AboutMe      = await httpClient.GetFromJsonAsync<AboutMe>("data/aboutMe.json");
         ProjectsInfo = await httpClient.GetFromJsonAsync<ProjectsInfo>("data/projects.json");
         Resume       = await httpClient.GetFromJsonAsync<Resume>("data/resume.json");
+        Contact      = await httpClient.GetFromJsonAsync<Contact>("data/contact.json");
     }
 }

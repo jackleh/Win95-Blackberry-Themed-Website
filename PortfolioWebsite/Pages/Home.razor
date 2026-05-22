@@ -1,12 +1,12 @@
 @page "/"
-@using PortfolioWebsite.Components.EasterEgg
+@using PortfolioWebsite.Components.Win95
 @using PortfolioWebsite.Components.Mobile
 @using PortfolioWebsite.ViewModels
 @inject BaseViewModel BaseViewModel
 @inject IJSRuntime JS
 @implements IAsyncDisposable
 
-<PageTitle>Jack Lehman</PageTitle>
+<PageTitle>@(BaseViewModel.Person?.Name ?? string.Empty)</PageTitle>
 
 @if (_ready)
 {
@@ -14,9 +14,9 @@
     {
         <BlackBerryPhone />
     }
-    else
+    else if (BaseViewModel.SiteConfig?.Win95Enabled == true)
     {
-        <Win95Desktop />
+        <Win95Desktop Mode="Win95Mode.Standalone" OnExit="@(() => { })" />
     }
 }
 
