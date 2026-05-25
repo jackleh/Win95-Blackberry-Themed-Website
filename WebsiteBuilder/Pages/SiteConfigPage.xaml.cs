@@ -24,6 +24,7 @@ public partial class SiteConfigPage : ContentPage
         var c = _dataService.SiteConfig;
         SiteTitleEntry.Text = c.SiteTitle;
         Win95EnabledSwitch.IsToggled = c.Win95Enabled;
+        DonateLinkEntry.Text = c.DonateLink;
 
         OsNameEntry.Text = c.Win95OsName;
         OsVersionEntry.Text = c.Win95OsVersion;
@@ -57,6 +58,7 @@ public partial class SiteConfigPage : ContentPage
         var c = _dataService.SiteConfig;
         c.SiteTitle = SiteTitleEntry.Text ?? string.Empty;
         c.Win95Enabled = Win95EnabledSwitch.IsToggled;
+        c.DonateLink = DonateLinkEntry.Text ?? string.Empty;
 
         c.Win95OsName = OsNameEntry.Text ?? string.Empty;
         c.Win95OsVersion = OsVersionEntry.Text ?? string.Empty;

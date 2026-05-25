@@ -28,6 +28,9 @@
                 <Switch x:Name="Win95EnabledSwitch" />
             </HorizontalStackLayout>
 
+            <Label Text="Donate Link" FontAttributes="Bold" />
+            <Entry x:Name="DonateLinkEntry" Placeholder="https://ko-fi.com/username" Keyboard="Url" />
+
             <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
 
             <!-- OS Branding -->

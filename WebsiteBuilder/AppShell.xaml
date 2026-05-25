@@ -49,4 +49,14 @@
         <ShellContent ContentTemplate="{DataTemplate pages:VfsEditorPage}" Route="VfsEditorPage" />
     </FlyoutItem>
 
+    <Shell.FlyoutFooter>
+        <VerticalStackLayout Padding="20,10" BackgroundColor="{StaticResource Primary}">
+            <Button Text="☕ Tip me a Coffee"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    FontAttributes="Bold"
+                    Clicked="OnTipMeACoffeeClicked" />
+        </VerticalStackLayout>
+    </Shell.FlyoutFooter>
+
 </Shell>
