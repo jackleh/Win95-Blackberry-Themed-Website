@@ -31,6 +31,9 @@
             <Label Text="Donate Link" FontAttributes="Bold" />
             <Entry x:Name="DonateLinkEntry" Placeholder="https://ko-fi.com/username" Keyboard="Url" />
 
+            <Label Text="Donate Text" FontAttributes="Bold" />
+            <Entry x:Name="DonateTextEntry" Placeholder="Tip me a Coffee" />
+
             <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
 
             <!-- OS Branding -->

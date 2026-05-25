@@ -25,5 +25,6 @@ public class SiteConfig
     public string Win95Video3Title { get; set; } = "lain_falling_dance.mp4";
     public string Win95PaintInitImageUrl { get; set; } = "media/image/lain.png";
     public string DonateLink { get; set; } = string.Empty;
+    public string DonateText { get; set; } = string.Empty;
     public List<Win95VfsEntry> Win95VfsEntries { get; set; } = [];
 }

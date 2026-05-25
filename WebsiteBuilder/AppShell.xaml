@@ -51,7 +51,8 @@
 
     <Shell.FlyoutFooter>
         <VerticalStackLayout Padding="20,10" BackgroundColor="{StaticResource Primary}">
-            <Button Text="☕ Tip me a Coffee"
+            <Button x:Name="TipButton"
+                    Text="☕ Tip me a Coffee"
                     TextColor="White"
                     BackgroundColor="Transparent"
                     FontAttributes="Bold"

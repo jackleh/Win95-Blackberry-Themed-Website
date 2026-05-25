@@ -25,6 +25,7 @@ public partial class SiteConfigPage : ContentPage
         SiteTitleEntry.Text = c.SiteTitle;
         Win95EnabledSwitch.IsToggled = c.Win95Enabled;
         DonateLinkEntry.Text = c.DonateLink;
+        DonateTextEntry.Text = c.DonateText;
 
         OsNameEntry.Text = c.Win95OsName;
         OsVersionEntry.Text = c.Win95OsVersion;
@@ -59,6 +60,7 @@ public partial class SiteConfigPage : ContentPage
         c.SiteTitle = SiteTitleEntry.Text ?? string.Empty;
         c.Win95Enabled = Win95EnabledSwitch.IsToggled;
         c.DonateLink = DonateLinkEntry.Text ?? string.Empty;
+        c.DonateText = DonateTextEntry.Text ?? string.Empty;
 
         c.Win95OsName = OsNameEntry.Text ?? string.Empty;
         c.Win95OsVersion = OsVersionEntry.Text ?? string.Empty;
@@ -204,7 +206,13 @@ public partial class SiteConfigPage : ContentPage
             if (result.IsSuccessful)
             {
                 var loaded = await _dataService.LoadFromFolderAsync(result.Folder.Path);
-                if (loaded) { LoadFields(); StatusLabel.Text = $"Loaded from: {result.Folder.Path}"; }
+                if (loaded)
+                {
+                    LoadFields();
+                    if (Shell.Current is AppShell appShell)
+                        appShell.UpdateDonateButtonText();
+                    StatusLabel.Text = $"Loaded from: {result.Folder.Path}";
+                }
                 else StatusLabel.Text = "No Website/wwwroot/data folder found.";
             }
         }
