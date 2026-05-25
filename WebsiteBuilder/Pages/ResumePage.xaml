@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WebsiteBuilder.Pages.ResumePage"
+             Title="Resume">
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="16" x:Name="RootLayout">
+
+            <Label Text="Resume" FontSize="22" FontAttributes="Bold" />
+            <Label Text="Full resume data — experience, skills, and education." Opacity="0.6" />
+
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Open Website Folder" Clicked="OnOpenFolder" />
+                <Button Text="Save All" Clicked="OnSaveAll" BackgroundColor="Green" />
+                <Label x:Name="StatusLabel" VerticalOptions="Center" TextColor="Gray" />
+            </HorizontalStackLayout>
+
+            <BoxView HeightRequest="1" Color="LightGray" />
+
+            <!-- Basic Fields -->
+            <Label Text="Tagline" FontAttributes="Bold" />
+            <Entry x:Name="TaglineEntry" Placeholder="Senior Software Engineer" />
+
+            <Label Text="Email" FontAttributes="Bold" />
+            <Entry x:Name="EmailEntry" Placeholder="email@example.com" Keyboard="Email" />
+
+            <Label Text="Phone" FontAttributes="Bold" />
+            <Entry x:Name="PhoneEntry" Placeholder="210-555-1234" Keyboard="Telephone" />
+
+            <Label Text="Location" FontAttributes="Bold" />
+            <Entry x:Name="LocationEntry" Placeholder="City, State" />
+
+            <Label Text="About" FontAttributes="Bold" />
+            <Editor x:Name="AboutEditor" Placeholder="Professional summary..." AutoSize="TextChanges" MinimumHeightRequest="100" />
+
+            <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
+
+            <!-- Companies -->
+            <Label Text="Companies &amp; Roles" FontSize="20" FontAttributes="Bold" />
+            <Button Text="+ Add Company" Clicked="OnAddCompany" BackgroundColor="#2B0B98" />
+            <VerticalStackLayout x:Name="CompaniesList" Spacing="20" />
+
+            <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
+
+            <!-- Skill Groups -->
+            <Label Text="Skill Groups" FontSize="20" FontAttributes="Bold" />
+            <Button Text="+ Add Skill Group" Clicked="OnAddSkillGroup" BackgroundColor="#2B0B98" />
+            <VerticalStackLayout x:Name="SkillGroupsList" Spacing="20" />
+
+            <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
+
+            <!-- Education -->
+            <Label Text="Education" FontSize="20" FontAttributes="Bold" />
+            <Button Text="+ Add Education" Clicked="OnAddEducation" BackgroundColor="#2B0B98" />
+            <VerticalStackLayout x:Name="EducationList" Spacing="20" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

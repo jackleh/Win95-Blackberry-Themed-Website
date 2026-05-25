@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="WebsiteBuilder.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:WebsiteBuilder.Pages"
+    Title="Website Builder"
+    Shell.FlyoutBehavior="Flyout"
+    FlyoutHeaderBehavior="Fixed">
+
+    <Shell.FlyoutHeader>
+        <VerticalStackLayout Padding="20" BackgroundColor="{StaticResource Primary}">
+            <Label Text="Website Builder"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White" />
+            <Label Text="Win95 / BlackBerry Site"
+                   FontSize="14"
+                   TextColor="White"
+                   Opacity="0.8" />
+        </VerticalStackLayout>
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Title="Person" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:PersonPage}" Route="PersonPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="About Me" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:AboutMePage}" Route="AboutMePage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Contact" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:ContactPage}" Route="ContactPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Projects" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:ProjectsPage}" Route="ProjectsPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Resume" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:ResumePage}" Route="ResumePage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Site Config" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:SiteConfigPage}" Route="SiteConfigPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="VFS Editor" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:VfsEditorPage}" Route="VfsEditorPage" />
+    </FlyoutItem>
+
+</Shell>
