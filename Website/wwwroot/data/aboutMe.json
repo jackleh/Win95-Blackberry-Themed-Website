@@ -1,7 +1,23 @@
 {
-  "Summary": "Senior Software Developer specialized in .NET MAUI, Blazor, and Sports Betting. Committed to developing quality software products with a focus on innovative features, performance, and clean UI/UX.",
-  "Skills": [".NET MAUI", "Blazor", "C#", "ASP.NET Core", "UI/UX Design", "Sports Betting Tech", "AI Workflows", "Delphi Berlin", "Leadership"],
-  "Languages": ["C#", "Pascal", "HTML", "CSS", "JavaScript"],
-  "Location": "Las Vegas, NV — Open to Remote",
-  "GithubUrl": "https://github.com/jackleh"
+  "summary": "Senior Software Developer specialized in .NET MAUI, Blazor, and Sports Betting. Committed to developing quality software products with a focus on innovative features, performance, and clean UI/UX.",
+  "skills": [
+    ".NET MAUI",
+    "Blazor",
+    "C#",
+    "ASP.NET Core",
+    "UI/UX Design",
+    "Sports Betting Tech",
+    "AI Workflows",
+    "Delphi Berlin",
+    "Leadership"
+  ],
+  "languages": [
+    "C#",
+    "Pascal",
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "location": "Las Vegas, NV \u2014 Open to Remote",
+  "githubUrl": "https://github.com/jackleh"
 }
