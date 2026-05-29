@@ -1,0 +1,60 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+# Permissions required for the deploy-pages action to publish via OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment; don't cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish Blazor WASM
+        run: dotnet publish Website/Website.csproj -c Release -o release --nologo
+
+      # The static site lives in release/wwwroot. base href="/" is already
+      # correct for the apex domain jackleh.com, so no rewrite is needed.
+
+      - name: Add .nojekyll (so the _framework folder is served)
+        run: touch release/wwwroot/.nojekyll
+
+      - name: Add SPA 404 fallback
+        run: cp release/wwwroot/index.html release/wwwroot/404.html
+
+      - name: Add CNAME (custom domain)
+        run: echo "jackleh.com" > release/wwwroot/CNAME
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: release/wwwroot
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
