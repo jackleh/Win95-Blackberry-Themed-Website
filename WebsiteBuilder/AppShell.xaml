@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="WebsiteBuilder.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:WebsiteBuilder.Pages"
+    Title="Website Builder"
+    Shell.FlyoutBehavior="Locked"
+    FlyoutWidth="240"
+    FlyoutBackgroundColor="{StaticResource Win95Silver}"
+    FlyoutHeaderBehavior="Fixed">
+
+    <Shell.FlyoutHeader>
+        <!-- Navy header echoing the Win95 Start-menu title bar. Matches each
+             page's in-content header exactly (same padding + NavTitle/NavSubtitle). -->
+        <VerticalStackLayout Padding="16,18" Spacing="0" BackgroundColor="{StaticResource Win95Navy}">
+            <Label Text="Website Builder" Style="{StaticResource NavTitle}" />
+            <Label Text="Win95 / BlackBerry Site" Style="{StaticResource NavSubtitle}" />
+        </VerticalStackLayout>
+    </Shell.FlyoutHeader>
+
+    <!-- Flyout items: a small blue square to the left + underlined text when
+         selected (not the OS accent, not a full-row highlight). -->
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="Auto,*" HeightRequest="38" HorizontalOptions="Fill">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter TargetName="SelBox" Property="BoxView.Color" Value="Transparent" />
+                                <Setter TargetName="ItemLabel" Property="Label.TextDecorations" Value="None" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter TargetName="SelBox" Property="BoxView.Color" Value="{StaticResource Blue100Accent}" />
+                                <Setter TargetName="ItemLabel" Property="Label.TextDecorations" Value="Underline" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <BoxView x:Name="SelBox"
+                         Grid.Column="0"
+                         WidthRequest="9"
+                         HeightRequest="9"
+                         Color="Transparent"
+                         VerticalOptions="Center"
+                         Margin="18,0,0,0" />
+                <Label x:Name="ItemLabel"
+                       Grid.Column="1"
+                       Text="{Binding Title}"
+                       FontFamily="Tahoma"
+                       FontSize="14"
+                       TextColor="Black"
+                       VerticalOptions="Center"
+                       Margin="10,0,0,0" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    <FlyoutItem Title="Person" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:PersonPage}" Route="PersonPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Contact" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:ContactPage}" Route="ContactPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Projects" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:ProjectsPage}" Route="ProjectsPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Resume" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:ResumePage}" Route="ResumePage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Site Config" Icon="{x:Null}">
+        <ShellContent ContentTemplate="{DataTemplate pages:SiteConfigPage}" Route="SiteConfigPage" />
+    </FlyoutItem>
+
+    <Shell.FlyoutFooter>
+        <VerticalStackLayout Padding="12" BackgroundColor="{StaticResource Win95Navy}">
+            <Button x:Name="TipButton"
+                    Text="Tip me a Coffee"
+                    TextColor="Black"
+                    BackgroundColor="{StaticResource Win95Silver}"
+                    BorderColor="{StaticResource Win95Shadow}"
+                    BorderWidth="1"
+                    CornerRadius="0"
+                    FontFamily="Tahoma"
+                    FontAttributes="Bold"
+                    Clicked="OnTipMeACoffeeClicked" />
+        </VerticalStackLayout>
+    </Shell.FlyoutFooter>
+
+</Shell>

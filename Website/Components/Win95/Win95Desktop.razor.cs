@@ -261,39 +261,16 @@ public partial class Win95Desktop
         return lines;
     }
 
-    // ── Resume / Projects / Contact text ─────────────────────────────────────
-    private string ProjectsText
-    {
-        get
-        {
-            var projects = BaseViewModel.ProjectsInfo?.Projects;
-            if (projects == null || projects.Count == 0)
-                return "No projects found.";
-
-            var sb = new StringBuilder();
-            for (int i = 0; i < projects.Count; i++)
-            {
-                var p      = projects[i];
-                var status = !string.IsNullOrEmpty(p.Status) ? $"  [{p.Status.ToUpper()}]" : "";
-                var stack  = string.Join(" | ", p.Technologies);
-                sb.AppendLine($"  [{(i + 1):D2}] {p.Name}{status}");
-                sb.AppendLine($"       Stack  : {stack}");
-                sb.AppendLine($"       Desc   : {p.Description}");
-                if (!string.IsNullOrEmpty(p.Url))
-                    sb.AppendLine($"       Repo   : {p.Url}");
-                sb.AppendLine();
-            }
-            return sb.ToString();
-        }
-    }
-
+    // ── Resume / Contact text ────────────────────────────────────────────────
+    // (Projects are rendered as structured HTML in the markup for proper
+    //  hanging-indent wrapping, so there's no ProjectsText string here.)
     private string ContactText
     {
         get
         {
             var contact  = BaseViewModel.Contact;
             var linkedin = BaseViewModel.Person?.LinkedinUrl ?? "N/A";
-            var github   = BaseViewModel.AboutMe?.GithubUrl  ?? "N/A";
+            var github   = BaseViewModel.Person?.GithubUrl  ?? "N/A";
             var email    = BaseViewModel.Resume?.Email    ?? "N/A";
             var location = BaseViewModel.Resume?.Location ?? "N/A";
 

@@ -1,6 +1,6 @@
 {
-  "ContactNote": "Best way to reach me: LinkedIn",
-  "CallToActionLines": [
+  "contactNote": "Best way to reach me: LinkedIn",
+  "callToActionLines": [
     "Feel free to reach out for opportunities,",
     "collaborations, or just to say hello!"
   ]

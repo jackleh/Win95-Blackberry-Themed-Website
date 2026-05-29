@@ -181,7 +181,7 @@
                                 <span class="bb-contact-val">@DisplayUrl(linkedin)</span>
                             </a>
                         }
-                        @{ var github = SafeHref(BaseViewModel.AboutMe?.GithubUrl); }
+                        @{ var github = SafeHref(_person?.GithubUrl); }
                         @if (!string.IsNullOrWhiteSpace(github))
                         {
                             <a class="bb-contact-row" href="@github" target="_blank" rel="noopener noreferrer">
@@ -189,7 +189,7 @@
                                 <span class="bb-contact-val">@DisplayUrl(github)</span>
                             </a>
                         }
-                        @{ var location = _resume?.Location ?? BaseViewModel.AboutMe?.Location; }
+                        @{ var location = _resume?.Location; }
                         @if (!string.IsNullOrWhiteSpace(location))
                         {
                             <div class="bb-contact-row">

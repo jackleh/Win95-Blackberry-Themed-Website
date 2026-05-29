@@ -1,4 +1,4 @@
-namespace Website.Models;
+namespace WebsiteBuilder.Models;
 
 public class SiteConfig
 {

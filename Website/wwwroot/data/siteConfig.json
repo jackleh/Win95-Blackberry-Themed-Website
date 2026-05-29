@@ -1,217 +1,260 @@
 {
-  "SiteTitle": ".NET Developer - Jack Lehman",
-  "Win95Enabled": true,
-  "Win95Video1Url": "https://github.com/jackleh/PortfolioWebsite/releases/download/v1.0-media/lain_phone.mp4",
-  "Win95Video2Url": "https://github.com/jackleh/PortfolioWebsite/releases/download/v1.0-media/lain_vhs.mp4",
-  "Win95Video3Url": "https://github.com/jackleh/PortfolioWebsite/releases/download/v1.0-media/lain_falling_dance.mp4",
-  "Win95DesktopPictureUrl": "media/image/lain_navi.png",
-  "Win95OsName": "Copland OS",
-  "Win95OsVersion": "Copland OS Enterprise [Version 8.00.001]",
-  "Win95OsCopyright": "(C) Copyright Copland Corp 1994-1996.",
-  "Win95OsDirName": "COPLAND",
-  "Win95PaintExeName": "paint.exe",
-  "Win95PaintDisplayName": "Paint",
-  "Win95NotepadExeName": "notepad.exe",
-  "Win95NotepadDisplayName": "Notepad",
-  "Win95CmdExeName": "cmd.exe",
-  "Win95ResumeFileName": "resume.md",
-  "Win95ProjectsFileName": "projects.txt",
-  "Win95ContactFileName": "contact.txt",
-  "Win95Video1Title": "lain_phone.mp4",
-  "Win95Video2Title": "lain_vhs.mp4",
-  "Win95Video3Title": "lain_falling_dance.mp4",
-  "Win95PaintInitImageUrl": "media/image/lain.png",
-  "Win95VfsEntries": [
+  "siteTitle": ".NET Developer - Jack Lehman",
+  "win95Enabled": true,
+  "win95Video1Url": "https://github.com/jackleh/PortfolioWebsite/releases/download/v1.0-media/lain_phone.mp4",
+  "win95Video2Url": "https://github.com/jackleh/PortfolioWebsite/releases/download/v1.0-media/lain_vhs.mp4",
+  "win95Video3Url": "https://github.com/jackleh/PortfolioWebsite/releases/download/v1.0-media/lain_falling_dance.mp4",
+  "win95DesktopPictureUrl": "media/image/lain_navi.png",
+  "win95OsName": "Copland OS",
+  "win95OsVersion": "Copland OS Enterprise [Version 8.00.001]",
+  "win95OsCopyright": "(C) Copyright Copland Corp 1994-1996.",
+  "win95OsDirName": "COPLAND",
+  "win95PaintExeName": "paint.exe",
+  "win95PaintDisplayName": "Paint",
+  "win95NotepadExeName": "notepad.exe",
+  "win95NotepadDisplayName": "Notepad",
+  "win95CmdExeName": "cmd.exe",
+  "win95ResumeFileName": "resume.md",
+  "win95ProjectsFileName": "projects.txt",
+  "win95ContactFileName": "contact.txt",
+  "win95Video1Title": "lain_phone.mp4",
+  "win95Video2Title": "lain_vhs.mp4",
+  "win95Video3Title": "lain_falling_dance.mp4",
+  "win95PaintInitImageUrl": "media/image/lain.png",
+  "donateLink": "https://ko-fi.com/jackleh",
+  "donateText": "Tip me a Coffee",
+  "win95VfsEntries": [
     {
-      "Path": "C:\\",
-      "Name": "Desktop",
-      "IsDir": true
+      "path": "C:\\",
+      "name": "Desktop",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\",
-      "Name": "COPLAND",
-      "IsDir": true
+      "path": "C:\\",
+      "name": "COPLAND",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\",
-      "Name": "WWWROOT",
-      "IsDir": true
+      "path": "C:\\",
+      "name": "WWWROOT",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\Desktop",
-      "Name": "resume.md",
-      "IsDir": false,
-      "FileType": "desktop",
-      "Action": "open-resume"
+      "path": "C:\\Desktop",
+      "name": "resume.md",
+      "isDir": false,
+      "fileUrl": null,
+      "fileType": "desktop",
+      "action": "open-resume"
     },
     {
-      "Path": "C:\\Desktop",
-      "Name": "projects.txt",
-      "IsDir": false,
-      "FileType": "desktop",
-      "Action": "open-projects"
+      "path": "C:\\Desktop",
+      "name": "projects.txt",
+      "isDir": false,
+      "fileUrl": null,
+      "fileType": "desktop",
+      "action": "open-projects"
     },
     {
-      "Path": "C:\\Desktop",
-      "Name": "contact.txt",
-      "IsDir": false,
-      "FileType": "desktop",
-      "Action": "open-contact"
+      "path": "C:\\Desktop",
+      "name": "contact.txt",
+      "isDir": false,
+      "fileUrl": null,
+      "fileType": "desktop",
+      "action": "open-contact"
     },
     {
-      "Path": "C:\\COPLAND",
-      "Name": "System32",
-      "IsDir": true
+      "path": "C:\\COPLAND",
+      "name": "System32",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\COPLAND\\System32",
-      "Name": "cmd.exe",
-      "IsDir": false,
-      "FileType": "exe",
-      "Action": "run-cmd"
+      "path": "C:\\COPLAND\\System32",
+      "name": "cmd.exe",
+      "isDir": false,
+      "fileUrl": null,
+      "fileType": "exe",
+      "action": "run-cmd"
     },
     {
-      "Path": "C:\\COPLAND\\System32",
-      "Name": "paint.exe",
-      "IsDir": false,
-      "FileType": "exe",
-      "Action": "run-paint"
+      "path": "C:\\COPLAND\\System32",
+      "name": "paint.exe",
+      "isDir": false,
+      "fileUrl": null,
+      "fileType": "exe",
+      "action": "run-paint"
     },
     {
-      "Path": "C:\\COPLAND\\System32",
-      "Name": "notepad.exe",
-      "IsDir": false,
-      "FileType": "exe",
-      "Action": "run-notepad"
+      "path": "C:\\COPLAND\\System32",
+      "name": "notepad.exe",
+      "isDir": false,
+      "fileUrl": null,
+      "fileType": "exe",
+      "action": "run-notepad"
     },
     {
-      "Path": "C:\\WWWROOT",
-      "Name": "css",
-      "IsDir": true
+      "path": "C:\\WWWROOT",
+      "name": "css",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT",
-      "Name": "data",
-      "IsDir": true
+      "path": "C:\\WWWROOT",
+      "name": "data",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT",
-      "Name": "js",
-      "IsDir": true
+      "path": "C:\\WWWROOT",
+      "name": "js",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT",
-      "Name": "media",
-      "IsDir": true
+      "path": "C:\\WWWROOT",
+      "name": "media",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT",
-      "Name": "favicon.png",
-      "IsDir": false,
-      "FileUrl": "favicon.png",
-      "FileType": "image"
+      "path": "C:\\WWWROOT",
+      "name": "favicon.png",
+      "isDir": false,
+      "fileUrl": "favicon.png",
+      "fileType": "image",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT",
-      "Name": "index.html",
-      "IsDir": false,
-      "FileUrl": "index.html",
-      "FileType": "text"
+      "path": "C:\\WWWROOT",
+      "name": "index.html",
+      "isDir": false,
+      "fileUrl": "index.html",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\css",
-      "Name": "app.css",
-      "IsDir": false,
-      "FileUrl": "css/app.css",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\css",
+      "name": "app.css",
+      "isDir": false,
+      "fileUrl": "css/app.css",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\data",
-      "Name": "aboutMe.json",
-      "IsDir": false,
-      "FileUrl": "data/aboutMe.json",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\data",
+      "name": "contact.json",
+      "isDir": false,
+      "fileUrl": "data/contact.json",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\data",
-      "Name": "contact.json",
-      "IsDir": false,
-      "FileUrl": "data/contact.json",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\data",
+      "name": "person.json",
+      "isDir": false,
+      "fileUrl": "data/person.json",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\data",
-      "Name": "person.json",
-      "IsDir": false,
-      "FileUrl": "data/person.json",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\data",
+      "name": "projects.json",
+      "isDir": false,
+      "fileUrl": "data/projects.json",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\data",
-      "Name": "projects.json",
-      "IsDir": false,
-      "FileUrl": "data/projects.json",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\data",
+      "name": "resume.json",
+      "isDir": false,
+      "fileUrl": "data/resume.json",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\data",
-      "Name": "resume.json",
-      "IsDir": false,
-      "FileUrl": "data/resume.json",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\data",
+      "name": "sectionInfo.json",
+      "isDir": false,
+      "fileUrl": "data/sectionInfo.json",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\data",
-      "Name": "sectionInfo.json",
-      "IsDir": false,
-      "FileUrl": "data/sectionInfo.json",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\data",
+      "name": "siteConfig.json",
+      "isDir": false,
+      "fileUrl": "data/siteConfig.json",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\data",
-      "Name": "siteConfig.json",
-      "IsDir": false,
-      "FileUrl": "data/siteConfig.json",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\js",
+      "name": "dragHelper.js",
+      "isDir": false,
+      "fileUrl": "js/dragHelper.js",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\js",
-      "Name": "dragHelper.js",
-      "IsDir": false,
-      "FileUrl": "js/dragHelper.js",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\js",
+      "name": "paintHelper.js",
+      "isDir": false,
+      "fileUrl": "js/paintHelper.js",
+      "fileType": "text",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\js",
-      "Name": "paintHelper.js",
-      "IsDir": false,
-      "FileUrl": "js/paintHelper.js",
-      "FileType": "text"
+      "path": "C:\\WWWROOT\\media",
+      "name": "image",
+      "isDir": true,
+      "fileUrl": null,
+      "fileType": null,
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\media",
-      "Name": "image",
-      "IsDir": true
+      "path": "C:\\WWWROOT\\media",
+      "name": "resume.docx",
+      "isDir": false,
+      "fileUrl": null,
+      "fileType": "binary",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\media",
-      "Name": "resume.docx",
-      "IsDir": false,
-      "FileType": "binary"
+      "path": "C:\\WWWROOT\\media\\image",
+      "name": "lain.png",
+      "isDir": false,
+      "fileUrl": "media/image/lain.png",
+      "fileType": "image",
+      "action": null
     },
     {
-      "Path": "C:\\WWWROOT\\media\\image",
-      "Name": "lain.png",
-      "IsDir": false,
-      "FileUrl": "media/image/lain.png",
-      "FileType": "image"
-    },
-    {
-      "Path": "C:\\WWWROOT\\media\\image",
-      "Name": "lain_navi.png",
-      "IsDir": false,
-      "FileUrl": "media/image/lain_navi.png",
-      "FileType": "image"
+      "path": "C:\\WWWROOT\\media\\image",
+      "name": "lain_navi.png",
+      "isDir": false,
+      "fileUrl": "media/image/lain_navi.png",
+      "fileType": "image",
+      "action": null
     }
   ]
 }
