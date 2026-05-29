@@ -31,6 +31,9 @@
             <Label Text="LinkedIn URL" FontAttributes="Bold" />
             <Entry x:Name="LinkedinEntry" Placeholder="https://linkedin.com/in/..." Keyboard="Url" />
 
+            <Label Text="GitHub URL" FontAttributes="Bold" />
+            <Entry x:Name="GithubEntry" Placeholder="https://github.com/..." Keyboard="Url" />
+
         </VerticalStackLayout>
         </ScrollView>
     </Grid>

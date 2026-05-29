@@ -22,7 +22,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<WebsiteDataService>();
         builder.Services.AddSingleton<AppShell>();
         builder.Services.AddTransient<PersonPage>();
-        builder.Services.AddTransient<AboutMePage>();
         builder.Services.AddTransient<ContactPage>();
         builder.Services.AddTransient<ProjectsPage>();
         builder.Services.AddTransient<ResumePage>();

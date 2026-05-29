@@ -24,6 +24,7 @@ public partial class PersonPage : ContentPage
         NameEntry.Text = _dataService.Person.Name;
         TitleEntry.Text = _dataService.Person.Title;
         LinkedinEntry.Text = _dataService.Person.LinkedinUrl;
+        GithubEntry.Text = _dataService.Person.GithubUrl;
     }
 
     private void SaveFields()
@@ -31,6 +32,7 @@ public partial class PersonPage : ContentPage
         _dataService.Person.Name = NameEntry.Text ?? string.Empty;
         _dataService.Person.Title = TitleEntry.Text ?? string.Empty;
         _dataService.Person.LinkedinUrl = LinkedinEntry.Text ?? string.Empty;
+        _dataService.Person.GithubUrl = GithubEntry.Text ?? string.Empty;
     }
 
     private async void OnOpenFolder(object? sender, EventArgs e)

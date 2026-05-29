@@ -41,7 +41,7 @@ public partial class ResumePage : ContentPage
         r.Email = EmailEntry.Text ?? string.Empty;
         r.Phone = PhoneEntry.Text ?? string.Empty;
         r.Location = LocationEntry.Text ?? string.Empty;
-        r.About = AboutEditor.Text ?? string.Empty;
+        r.About = (AboutEditor.Text ?? string.Empty).Replace("\r\n", "\n").Replace("\r", "\n");
     }
 
     // ── Companies & Roles ──────────────────────────────────
@@ -224,7 +224,11 @@ public partial class ResumePage : ContentPage
     {
         if (string.IsNullOrWhiteSpace(text))
             return [];
-        return text.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
+        // WinUI's Editor separates lines with '\r' (not '\n'), so split on all
+        // newline variants — otherwise multi-line input collapses into one entry.
+        return text
+            .Split(["\r\n", "\r", "\n"], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .ToList();
     }
 
     private async void OnOpenFolder(object? sender, EventArgs e)

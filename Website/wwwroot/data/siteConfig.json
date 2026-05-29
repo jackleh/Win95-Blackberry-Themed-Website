@@ -162,14 +162,6 @@
     },
     {
       "path": "C:\\WWWROOT\\data",
-      "name": "aboutMe.json",
-      "isDir": false,
-      "fileUrl": "data/aboutMe.json",
-      "fileType": "text",
-      "action": null
-    },
-    {
-      "path": "C:\\WWWROOT\\data",
       "name": "contact.json",
       "isDir": false,
       "fileUrl": "data/contact.json",

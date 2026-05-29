@@ -53,7 +53,7 @@ public partial class ProjectsPage : ContentPage
 
         layout.Children.Add(new Label { Text = "Description", FontAttributes = FontAttributes.Bold });
         var descEditor = new Editor { Text = project.Description, Placeholder = "Project description...", AutoSize = EditorAutoSizeOption.TextChanges, MinimumHeightRequest = 60 };
-        descEditor.TextChanged += (_, e) => project.Description = e.NewTextValue ?? string.Empty;
+        descEditor.TextChanged += (_, e) => project.Description = NormalizeNewlines(e.NewTextValue);
         layout.Children.Add(descEditor);
 
         layout.Children.Add(new Label { Text = "URL", FontAttributes = FontAttributes.Bold });
@@ -98,11 +98,20 @@ public partial class ProjectsPage : ContentPage
         RebuildUI();
     }
 
+    // Normalize WinUI's '\r' line breaks to '\n' so stored free-text never
+    // carries lone carriage returns into the JSON.
+    private static string NormalizeNewlines(string? text) =>
+        (text ?? string.Empty).Replace("\r\n", "\n").Replace("\r", "\n");
+
     private static List<string> ParseLines(string? text)
     {
         if (string.IsNullOrWhiteSpace(text))
             return [];
-        return text.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
+        // WinUI's Editor separates lines with '\r' (not '\n'), so split on all
+        // newline variants — otherwise multi-line input collapses into one entry.
+        return text
+            .Split(["\r\n", "\r", "\n"], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .ToList();
     }
 
     private async void OnOpenFolder(object? sender, EventArgs e)

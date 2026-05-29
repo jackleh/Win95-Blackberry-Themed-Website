@@ -63,10 +63,6 @@
         <ShellContent ContentTemplate="{DataTemplate pages:PersonPage}" Route="PersonPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="About Me" Icon="{x:Null}">
-        <ShellContent ContentTemplate="{DataTemplate pages:AboutMePage}" Route="AboutMePage" />
-    </FlyoutItem>
-
     <FlyoutItem Title="Contact" Icon="{x:Null}">
         <ShellContent ContentTemplate="{DataTemplate pages:ContactPage}" Route="ContactPage" />
     </FlyoutItem>

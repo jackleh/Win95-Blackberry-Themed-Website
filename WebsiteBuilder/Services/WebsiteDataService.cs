@@ -27,7 +27,6 @@ public class WebsiteDataService
     public string ImageFolderPath => System.IO.Path.Combine(MediaFolderPath, "image");
 
     public Person Person { get; set; } = new();
-    public AboutMe AboutMe { get; set; } = new();
     public Contact Contact { get; set; } = new();
     public ProjectsInfo ProjectsInfo { get; set; } = new();
     public Resume Resume { get; set; } = new();
@@ -41,7 +40,6 @@ public class WebsiteDataService
             return false;
 
         Person = await LoadJsonAsync<Person>("person.json") ?? new();
-        AboutMe = await LoadJsonAsync<AboutMe>("aboutMe.json") ?? new();
         Contact = await LoadJsonAsync<Contact>("contact.json") ?? new();
         ProjectsInfo = await LoadJsonAsync<ProjectsInfo>("projects.json") ?? new();
         Resume = await LoadJsonAsync<Resume>("resume.json") ?? new();
@@ -58,7 +56,6 @@ public class WebsiteDataService
         Directory.CreateDirectory(DataFolderPath);
 
         await SaveJsonAsync("person.json", Person);
-        await SaveJsonAsync("aboutMe.json", AboutMe);
         await SaveJsonAsync("contact.json", Contact);
         await SaveJsonAsync("projects.json", ProjectsInfo);
         await SaveJsonAsync("resume.json", Resume);

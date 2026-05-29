@@ -106,7 +106,36 @@
                     <span class="notepad-menu-item">Help</span>
                 </div>
                 <div class="notepad-body">
-                    <pre class="txtfile-content">@ProjectsText</pre>
+                    <div class="proj-list">
+                        @{ var projects = BaseViewModel.ProjectsInfo?.Projects; }
+                        @if (projects is null || projects.Count == 0)
+                        {
+                            <div class="proj-empty">No projects found.</div>
+                        }
+                        else
+                        {
+                            @for (int i = 0; i < projects.Count; i++)
+                            {
+                                var p = projects[i];
+                                var status = !string.IsNullOrEmpty(p.Status) ? $"  [{p.Status.ToUpper()}]" : "";
+                                <div class="proj">
+                                    <div class="proj-title">[@((i + 1).ToString("D2"))] @p.Name@status</div>
+                                    @if (p.Technologies is { Count: > 0 })
+                                    {
+                                        <div class="proj-field"><span class="proj-label">Stack  :</span> @string.Join(", ", p.Technologies)</div>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(p.Description))
+                                    {
+                                        <div class="proj-field"><span class="proj-label">Desc   :</span> @p.Description</div>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(p.Url))
+                                    {
+                                        <div class="proj-field"><span class="proj-label">Repo   :</span> @p.Url</div>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
                 </div>
             </div>
         }
@@ -133,7 +162,7 @@
                         var resume   = BaseViewModel.Resume;
                         var person   = BaseViewModel.Person;
                         var linkedin = SafeHref(person?.LinkedinUrl);
-                        var github   = SafeHref(BaseViewModel.AboutMe?.GithubUrl);
+                        var github   = SafeHref(person?.GithubUrl);
                     }
                     <div class="resume-doc">
                         <h1>@(person?.Name)</h1>
@@ -465,6 +494,12 @@
     private readonly List<string> _cmdHistory = new();
     private ElementReference _cmdInputRef;
 
+    // Up/Down command recall — the actual commands typed, kept separate from the
+    // on-screen scrollback (_cmdHistory). _cmdHistoryIndex points one past the
+    // newest entry when not actively browsing.
+    private readonly List<string> _cmdInputHistory = new();
+    private int _cmdHistoryIndex = -1;
+
     // Start menu
     private bool _startMenuOpen;
 
@@ -722,6 +757,8 @@
         _cmdMaximized = false;
         _cmdInput = string.Empty;
         _cmdHistory.Clear();
+        _cmdInputHistory.Clear();
+        _cmdHistoryIndex = -1;
     }
 
     private async Task FocusCmdInput()
@@ -731,6 +768,10 @@
 
     private async Task OnCmdKeyDown(KeyboardEventArgs e)
     {
+        // Up/Down arrows recall previously entered commands, like a real prompt.
+        if (e.Key == "ArrowUp")    { RecallCommand(-1); return; }
+        if (e.Key == "ArrowDown")  { RecallCommand(+1); return; }
+
         if (e.Key != "Enter") return;
 
         var raw     = _cmdInput;
@@ -740,6 +781,8 @@
 
         if (trimmed.Length > 0)
         {
+            _cmdInputHistory.Add(raw);
+
             // Normalize only "cd.." and "cd\..." (DOS-style no-space variants).
             // Anything else with a "cd" prefix (e.g. "cdr") is left alone.
             var normalized = trimmed;
@@ -784,8 +827,27 @@
             }
         }
 
+        _cmdHistoryIndex = _cmdInputHistory.Count;
         _cmdShouldFocus  = true;
         _cmdShouldScroll = true;
+    }
+
+    // Walk the command history: direction -1 = older, +1 = newer. Stepping past
+    // the newest entry returns to a blank prompt.
+    private void RecallCommand(int direction)
+    {
+        if (_cmdInputHistory.Count == 0) return;
+
+        if (_cmdHistoryIndex < 0 || _cmdHistoryIndex > _cmdInputHistory.Count)
+            _cmdHistoryIndex = _cmdInputHistory.Count;
+
+        _cmdHistoryIndex = Math.Clamp(_cmdHistoryIndex + direction, 0, _cmdInputHistory.Count);
+
+        _cmdInput = _cmdHistoryIndex == _cmdInputHistory.Count
+            ? string.Empty
+            : _cmdInputHistory[_cmdHistoryIndex];
+
+        _cmdShouldFocus = true;
     }
 
     // ── Taskbar toggles (raise on restore) ───────────────────────────────────
