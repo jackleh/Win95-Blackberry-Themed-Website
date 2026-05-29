@@ -3,19 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WebsiteBuilder.Pages.SiteConfigPage"
              Title="Site Config">
-    <ScrollView Padding="20">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Divider between the locked flyout and the content. -->
+        <BoxView Grid.RowSpan="2" WidthRequest="2" HorizontalOptions="Start" Color="{StaticResource Win95Shadow}" />
+        <VerticalStackLayout Grid.Row="0" Padding="16,18" Spacing="0" BackgroundColor="{StaticResource Win95Navy}">
+            <Label Text="Site Config" Style="{StaticResource NavTitle}" />
+            <Label Text="Win95 theme settings, video URLs, OS branding, and media assets." Style="{StaticResource NavSubtitle}" />
+        </VerticalStackLayout>
+        <ScrollView Grid.Row="1" Padding="20">
         <VerticalStackLayout Spacing="16">
-
-            <Label Text="Site Configuration" FontSize="22" FontAttributes="Bold" />
-            <Label Text="Win95 theme settings, video URLs, OS branding, and media assets." Opacity="0.6" />
 
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Open Website Folder" Clicked="OnOpenFolder" />
-                <Button Text="Save All" Clicked="OnSaveAll" BackgroundColor="Green" />
+                <Button Text="Save All" Clicked="OnSaveAll" />
                 <Label x:Name="StatusLabel" VerticalOptions="Center" TextColor="Gray" />
             </HorizontalStackLayout>
 
-            <BoxView HeightRequest="1" Color="LightGray" />
+            <BoxView HeightRequest="1" Color="{StaticResource Win95Shadow}" />
 
             <!-- General -->
             <Label Text="General" FontSize="18" FontAttributes="Bold" />
@@ -122,15 +126,16 @@
                 <Entry x:Name="DesktopPicEntry" Placeholder="media/image/wallpaper.png" HorizontalOptions="FillAndExpand" />
                 <Button Text="Browse Image..." Clicked="OnPickDesktopPicture" />
             </HorizontalStackLayout>
-            <Image x:Name="DesktopPicPreview" HeightRequest="120" Aspect="AspectFit" HorizontalOptions="Start" />
+            <Image x:Name="DesktopPicPreview" HeightRequest="120" Aspect="AspectFit" HorizontalOptions="Start" IsVisible="False" />
 
             <Label Text="Paint Init Image URL" FontAttributes="Bold" />
             <HorizontalStackLayout Spacing="8">
                 <Entry x:Name="PaintInitImageEntry" Placeholder="media/image/picture.png" HorizontalOptions="FillAndExpand" />
                 <Button Text="Browse Image..." Clicked="OnPickPaintImage" />
             </HorizontalStackLayout>
-            <Image x:Name="PaintInitPreview" HeightRequest="120" Aspect="AspectFit" HorizontalOptions="Start" />
+            <Image x:Name="PaintInitPreview" HeightRequest="120" Aspect="AspectFit" HorizontalOptions="Start" IsVisible="False" />
 
         </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

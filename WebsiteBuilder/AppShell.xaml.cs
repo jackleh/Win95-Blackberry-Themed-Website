@@ -5,7 +5,7 @@ namespace WebsiteBuilder;
 public partial class AppShell : Shell
 {
     private const string DefaultDonateLink = "https://ko-fi.com/jackleh";
-    private const string DefaultDonateText = "☕ Tip me a Coffee";
+    private const string DefaultDonateText = "Tip me a Coffee";
     private readonly WebsiteDataService _dataService;
 
     public AppShell(WebsiteDataService dataService)
@@ -19,7 +19,7 @@ public partial class AppShell : Shell
     {
         TipButton.Text = string.IsNullOrWhiteSpace(_dataService.SiteConfig.DonateText)
             ? DefaultDonateText
-            : $"☕ {_dataService.SiteConfig.DonateText}";
+            : _dataService.SiteConfig.DonateText;
     }
 
     private async void OnTipMeACoffeeClicked(object? sender, EventArgs e)

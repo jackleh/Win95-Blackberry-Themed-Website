@@ -30,9 +30,9 @@ public partial class ProjectsPage : ContentPage
 
             var frame = new Frame
             {
-                BorderColor = Colors.LightGray,
-                Padding = new Thickness(16),
-                CornerRadius = 8,
+                BorderColor = Color.FromArgb("#808080"),
+                Padding = new Thickness(12),
+                CornerRadius = 0,
                 HasShadow = false,
                 Content = BuildProjectEditor(project, index)
             };
@@ -80,7 +80,7 @@ public partial class ProjectsPage : ContentPage
         };
         layout.Children.Add(techEditor);
 
-        var removeBtn = new Button { Text = "Remove Project", BackgroundColor = Colors.Red };
+        var removeBtn = new Button { Text = "Remove Project" };
         var capturedIndex = index;
         removeBtn.Clicked += (_, _) =>
         {

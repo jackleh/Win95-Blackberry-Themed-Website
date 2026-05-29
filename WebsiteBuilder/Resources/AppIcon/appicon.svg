@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#512BD4" rx="20"/>
-  <text x="50" y="62" font-family="Arial" font-size="40" fill="white" text-anchor="middle" font-weight="bold">WB</text>
+  <rect width="100" height="100" fill="#C0C0C0" rx="20"/>
+  <text x="50" y="62" font-family="Arial" font-size="40" fill="#000080" text-anchor="middle" font-weight="bold">WB</text>
 </svg>

@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using WebsiteBuilder.Pages;
 using WebsiteBuilder.Services;
@@ -11,6 +12,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -25,7 +27,6 @@ public static class MauiProgram
         builder.Services.AddTransient<ProjectsPage>();
         builder.Services.AddTransient<ResumePage>();
         builder.Services.AddTransient<SiteConfigPage>();
-        builder.Services.AddTransient<VfsEditorPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

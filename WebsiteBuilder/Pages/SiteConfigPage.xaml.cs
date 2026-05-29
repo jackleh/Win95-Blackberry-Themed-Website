@@ -101,6 +101,7 @@ public partial class SiteConfigPage : ContentPage
         if (string.IsNullOrEmpty(relativePath) || string.IsNullOrEmpty(_dataService.WebsiteRootPath))
         {
             imageControl.Source = null;
+            imageControl.IsVisible = false;
             return;
         }
 
@@ -109,6 +110,10 @@ public partial class SiteConfigPage : ContentPage
             imageControl.Source = ImageSource.FromFile(fullPath);
         else
             imageControl.Source = null;
+
+        // Collapse the preview when there's nothing to show so it doesn't
+        // reserve a tall empty gap between fields.
+        imageControl.IsVisible = imageControl.Source != null;
     }
 
     // ── Image/Video pickers ────────────────────────────────
@@ -144,7 +149,10 @@ public partial class SiteConfigPage : ContentPage
                 }
 
                 if (preview != null)
+                {
                     preview.Source = ImageSource.FromFile(result.FullPath);
+                    preview.IsVisible = true;
+                }
             }
         }
         catch (Exception ex)
@@ -153,11 +161,11 @@ public partial class SiteConfigPage : ContentPage
         }
     }
 
-    private async void OnPickVideo1(object? sender, EventArgs e) => await PickVideo(Video1UrlEntry, Video1TitleEntry);
-    private async void OnPickVideo2(object? sender, EventArgs e) => await PickVideo(Video2UrlEntry, Video2TitleEntry);
-    private async void OnPickVideo3(object? sender, EventArgs e) => await PickVideo(Video3UrlEntry, Video3TitleEntry);
+    private async void OnPickVideo1(object? sender, EventArgs e) => await PickVideo(Video1UrlEntry);
+    private async void OnPickVideo2(object? sender, EventArgs e) => await PickVideo(Video2UrlEntry);
+    private async void OnPickVideo3(object? sender, EventArgs e) => await PickVideo(Video3UrlEntry);
 
-    private async Task PickVideo(Entry urlEntry, Entry titleEntry)
+    private async Task PickVideo(Entry urlEntry)
     {
         try
         {
@@ -186,7 +194,7 @@ public partial class SiteConfigPage : ContentPage
                     urlEntry.Text = result.FullPath;
                 }
 
-                titleEntry.Text = result.FileName;
+                // Leave the title empty by default — the user fills it in manually.
                 StatusLabel.Text = $"Video selected: {result.FileName}";
             }
         }

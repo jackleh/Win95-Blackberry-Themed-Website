@@ -1,6 +1,10 @@
 using System.Text.Json;
 using WebsiteBuilder.Models;
 
+// Disambiguate from Microsoft.Maui.ApplicationModel.Communication.Contact,
+// which is pulled in as a global using by the MAUI workload + ImplicitUsings.
+using Contact = WebsiteBuilder.Models.Contact;
+
 namespace WebsiteBuilder.Services;
 
 public class WebsiteDataService

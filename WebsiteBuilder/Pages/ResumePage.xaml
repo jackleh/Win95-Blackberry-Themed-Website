@@ -3,19 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WebsiteBuilder.Pages.ResumePage"
              Title="Resume">
-    <ScrollView Padding="20">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Divider between the locked flyout and the content. -->
+        <BoxView Grid.RowSpan="2" WidthRequest="2" HorizontalOptions="Start" Color="{StaticResource Win95Shadow}" />
+        <VerticalStackLayout Grid.Row="0" Padding="16,18" Spacing="0" BackgroundColor="{StaticResource Win95Navy}">
+            <Label Text="Resume" Style="{StaticResource NavTitle}" />
+            <Label Text="Full resume data — experience, skills, and education." Style="{StaticResource NavSubtitle}" />
+        </VerticalStackLayout>
+        <ScrollView Grid.Row="1" Padding="20">
         <VerticalStackLayout Spacing="16" x:Name="RootLayout">
-
-            <Label Text="Resume" FontSize="22" FontAttributes="Bold" />
-            <Label Text="Full resume data — experience, skills, and education." Opacity="0.6" />
 
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Open Website Folder" Clicked="OnOpenFolder" />
-                <Button Text="Save All" Clicked="OnSaveAll" BackgroundColor="Green" />
+                <Button Text="Save All" Clicked="OnSaveAll" />
                 <Label x:Name="StatusLabel" VerticalOptions="Center" TextColor="Gray" />
             </HorizontalStackLayout>
 
-            <BoxView HeightRequest="1" Color="LightGray" />
+            <BoxView HeightRequest="1" Color="{StaticResource Win95Shadow}" />
 
             <!-- Basic Fields -->
             <Label Text="Tagline" FontAttributes="Bold" />
@@ -37,23 +41,24 @@
 
             <!-- Companies -->
             <Label Text="Companies &amp; Roles" FontSize="20" FontAttributes="Bold" />
-            <Button Text="+ Add Company" Clicked="OnAddCompany" BackgroundColor="#2B0B98" />
+            <Button Text="+ Add Company" Clicked="OnAddCompany" />
             <VerticalStackLayout x:Name="CompaniesList" Spacing="20" />
 
             <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
 
             <!-- Skill Groups -->
             <Label Text="Skill Groups" FontSize="20" FontAttributes="Bold" />
-            <Button Text="+ Add Skill Group" Clicked="OnAddSkillGroup" BackgroundColor="#2B0B98" />
+            <Button Text="+ Add Skill Group" Clicked="OnAddSkillGroup" />
             <VerticalStackLayout x:Name="SkillGroupsList" Spacing="20" />
 
             <BoxView HeightRequest="2" Color="{StaticResource Primary}" />
 
             <!-- Education -->
             <Label Text="Education" FontSize="20" FontAttributes="Bold" />
-            <Button Text="+ Add Education" Clicked="OnAddEducation" BackgroundColor="#2B0B98" />
+            <Button Text="+ Add Education" Clicked="OnAddEducation" />
             <VerticalStackLayout x:Name="EducationList" Spacing="20" />
 
         </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

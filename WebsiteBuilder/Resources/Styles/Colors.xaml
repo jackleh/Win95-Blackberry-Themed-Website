@@ -4,7 +4,9 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="Primary">#512BD4</Color>
+    <!-- Primary repurposed to Win95 navy so the Shell nav bar, flyout
+         header/footer, and section dividers all read as classic Win95 chrome. -->
+    <Color x:Key="Primary">#000080</Color>
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
@@ -34,5 +36,21 @@
     <Color x:Key="Blue100Accent">#3E8EED</Color>
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A4CBF6</Color>
+
+    <!-- ── Windows 95 palette (sourced from the website's Win95Desktop.razor.css) ── -->
+    <Color x:Key="Win95Silver">#C0C0C0</Color>
+    <!-- ButtonFace / 3D surface -->
+    <Color x:Key="Win95Navy">#000080</Color>
+    <!-- Title bars, selection -->
+    <Color x:Key="Win95Highlight">#FFFFFF</Color>
+    <!-- 3D highlight edge -->
+    <Color x:Key="Win95Shadow">#808080</Color>
+    <!-- 3D shadow edge / etched borders -->
+    <Color x:Key="Win95DarkShadow">#404040</Color>
+    <Color x:Key="Win95Teal">#008080</Color>
+    <!-- Classic desktop background -->
+    <Color x:Key="Win95Field">#FFFFFF</Color>
+    <!-- Sunken input field background -->
+    <Color x:Key="Win95Text">#000000</Color>
 
 </ResourceDictionary>

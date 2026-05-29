@@ -52,7 +52,7 @@ public partial class ResumePage : ContentPage
         {
             var company = _dataService.Resume.Companies[i];
             var ci = i;
-            var frame = new Frame { BorderColor = Colors.LightGray, Padding = 16, CornerRadius = 8, HasShadow = false };
+            var frame = new Frame { BorderColor = Color.FromArgb("#808080"), Padding = 12, CornerRadius = 0, HasShadow = false };
             var layout = new VerticalStackLayout { Spacing = 10 };
 
             layout.Children.Add(new Label { Text = $"Company #{ci + 1}", FontSize = 16, FontAttributes = FontAttributes.Bold });
@@ -64,7 +64,7 @@ public partial class ResumePage : ContentPage
 
             // Roles
             layout.Children.Add(new Label { Text = "Roles", FontSize = 15, FontAttributes = FontAttributes.Bold });
-            var addRoleBtn = new Button { Text = "+ Add Role", BackgroundColor = Color.FromArgb("#3E8EED"), FontSize = 12 };
+            var addRoleBtn = new Button { Text = "+ Add Role", FontSize = 12 };
             addRoleBtn.Clicked += (_, _) => { company.Roles.Add(new Resume.Role()); RebuildCompanies(); };
             layout.Children.Add(addRoleBtn);
 
@@ -72,7 +72,7 @@ public partial class ResumePage : ContentPage
             {
                 var role = company.Roles[j];
                 var rj = j;
-                var roleFrame = new Frame { BorderColor = Colors.CornflowerBlue, Padding = 12, CornerRadius = 4, HasShadow = false };
+                var roleFrame = new Frame { BorderColor = Color.FromArgb("#000080"), Padding = 12, CornerRadius = 0, HasShadow = false };
                 var roleLayout = new VerticalStackLayout { Spacing = 8 };
 
                 roleLayout.Children.Add(new Label { Text = $"Role #{rj + 1}", FontAttributes = FontAttributes.Bold });
@@ -98,7 +98,7 @@ public partial class ResumePage : ContentPage
                 bulletsEditor.TextChanged += (_, e) => role.Bullets = ParseLines(e.NewTextValue);
                 roleLayout.Children.Add(bulletsEditor);
 
-                var removeRoleBtn = new Button { Text = "Remove Role", BackgroundColor = Colors.OrangeRed, FontSize = 12 };
+                var removeRoleBtn = new Button { Text = "Remove Role", FontSize = 12 };
                 removeRoleBtn.Clicked += (_, _) => { company.Roles.RemoveAt(rj); RebuildCompanies(); };
                 roleLayout.Children.Add(removeRoleBtn);
 
@@ -106,7 +106,7 @@ public partial class ResumePage : ContentPage
                 layout.Children.Add(roleFrame);
             }
 
-            var removeCompanyBtn = new Button { Text = "Remove Company", BackgroundColor = Colors.Red };
+            var removeCompanyBtn = new Button { Text = "Remove Company" };
             removeCompanyBtn.Clicked += (_, _) => { _dataService.Resume.Companies.RemoveAt(ci); RebuildCompanies(); };
             layout.Children.Add(removeCompanyBtn);
 
@@ -123,7 +123,7 @@ public partial class ResumePage : ContentPage
         {
             var group = _dataService.Resume.SkillGroups[i];
             var gi = i;
-            var frame = new Frame { BorderColor = Colors.LightGray, Padding = 16, CornerRadius = 8, HasShadow = false };
+            var frame = new Frame { BorderColor = Color.FromArgb("#808080"), Padding = 12, CornerRadius = 0, HasShadow = false };
             var layout = new VerticalStackLayout { Spacing = 10 };
 
             layout.Children.Add(new Label { Text = $"Skill Group #{gi + 1}", FontSize = 16, FontAttributes = FontAttributes.Bold });
@@ -134,7 +134,7 @@ public partial class ResumePage : ContentPage
             layout.Children.Add(headingEntry);
 
             layout.Children.Add(new Label { Text = "Skills", FontSize = 15, FontAttributes = FontAttributes.Bold });
-            var addSkillBtn = new Button { Text = "+ Add Skill Item", BackgroundColor = Color.FromArgb("#3E8EED"), FontSize = 12 };
+            var addSkillBtn = new Button { Text = "+ Add Skill Item", FontSize = 12 };
             addSkillBtn.Clicked += (_, _) => { group.Items.Add(new Resume.SkillItem()); RebuildSkillGroups(); };
             layout.Children.Add(addSkillBtn);
 
@@ -147,7 +147,7 @@ public partial class ResumePage : ContentPage
                 labelEntry.TextChanged += (_, e) => item.Label = e.NewTextValue ?? string.Empty;
                 var detailEntry = new Entry { Text = item.Detail, Placeholder = "Detail", HorizontalOptions = LayoutOptions.FillAndExpand };
                 detailEntry.TextChanged += (_, e) => item.Detail = e.NewTextValue ?? string.Empty;
-                var removeSkillBtn = new Button { Text = "X", BackgroundColor = Colors.Red, FontSize = 12, WidthRequest = 40 };
+                var removeSkillBtn = new Button { Text = "✕", TextColor = Colors.Red, FontAttributes = FontAttributes.Bold, FontSize = 12, WidthRequest = 40 };
                 removeSkillBtn.Clicked += (_, _) => { group.Items.RemoveAt(sj); RebuildSkillGroups(); };
 
                 itemLayout.Children.Add(labelEntry);
@@ -156,7 +156,7 @@ public partial class ResumePage : ContentPage
                 layout.Children.Add(itemLayout);
             }
 
-            var removeGroupBtn = new Button { Text = "Remove Skill Group", BackgroundColor = Colors.Red };
+            var removeGroupBtn = new Button { Text = "Remove Skill Group" };
             removeGroupBtn.Clicked += (_, _) => { _dataService.Resume.SkillGroups.RemoveAt(gi); RebuildSkillGroups(); };
             layout.Children.Add(removeGroupBtn);
 
@@ -173,7 +173,7 @@ public partial class ResumePage : ContentPage
         {
             var edu = _dataService.Resume.Education[i];
             var ei = i;
-            var frame = new Frame { BorderColor = Colors.LightGray, Padding = 16, CornerRadius = 8, HasShadow = false };
+            var frame = new Frame { BorderColor = Color.FromArgb("#808080"), Padding = 12, CornerRadius = 0, HasShadow = false };
             var layout = new VerticalStackLayout { Spacing = 10 };
 
             layout.Children.Add(new Label { Text = $"Education #{ei + 1}", FontSize = 16, FontAttributes = FontAttributes.Bold });
@@ -193,7 +193,7 @@ public partial class ResumePage : ContentPage
             yearEntry.TextChanged += (_, e) => edu.Year = e.NewTextValue ?? string.Empty;
             layout.Children.Add(yearEntry);
 
-            var removeBtn = new Button { Text = "Remove Education", BackgroundColor = Colors.Red };
+            var removeBtn = new Button { Text = "Remove Education" };
             removeBtn.Clicked += (_, _) => { _dataService.Resume.Education.RemoveAt(ei); RebuildEducation(); };
             layout.Children.Add(removeBtn);
 
