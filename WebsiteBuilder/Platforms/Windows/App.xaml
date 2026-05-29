@@ -1,0 +1,17 @@
+<maui:MauiWinUIApplication
+    x:Class="WebsiteBuilder.WinUI.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:maui="using:Microsoft.Maui"
+    xmlns:local="using:WebsiteBuilder.WinUI">
+    <maui:MauiWinUIApplication.Resources>
+        <ResourceDictionary>
+            <!-- Replace the OS-accent flyout selection (orange bar + accent pill)
+                 with nothing here; the Shell.ItemTemplate paints its own blue square. -->
+            <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelected" Color="Transparent" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPointerOver" Color="Transparent" />
+            <SolidColorBrush x:Key="NavigationViewItemBackgroundSelectedPressed" Color="Transparent" />
+        </ResourceDictionary>
+    </maui:MauiWinUIApplication.Resources>
+</maui:MauiWinUIApplication>

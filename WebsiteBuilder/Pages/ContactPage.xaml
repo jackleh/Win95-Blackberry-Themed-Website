@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WebsiteBuilder.Pages.ContactPage"
+             Title="Contact">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Divider between the locked flyout and the content. -->
+        <BoxView Grid.RowSpan="2" WidthRequest="2" HorizontalOptions="Start" Color="{StaticResource Win95Shadow}" />
+        <VerticalStackLayout Grid.Row="0" Padding="16,18" Spacing="0" BackgroundColor="{StaticResource Win95Navy}">
+            <Label Text="Contact" Style="{StaticResource NavTitle}" />
+            <Label Text="Contact note and call-to-action lines shown on the site." Style="{StaticResource NavSubtitle}" />
+        </VerticalStackLayout>
+        <ScrollView Grid.Row="1" Padding="20">
+        <VerticalStackLayout Spacing="16">
+
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Open Website Folder" Clicked="OnOpenFolder" />
+                <Button Text="Save All" Clicked="OnSaveAll" />
+                <Label x:Name="StatusLabel" VerticalOptions="Center" TextColor="Gray" />
+            </HorizontalStackLayout>
+
+            <BoxView HeightRequest="1" Color="{StaticResource Win95Shadow}" />
+
+            <Label Text="Contact Note" FontAttributes="Bold" />
+            <Entry x:Name="ContactNoteEntry" Placeholder="Best way to reach me: ..." />
+
+            <Label Text="Call to Action Lines" FontSize="18" FontAttributes="Bold" />
+            <Label Text="One line per row." Opacity="0.6" />
+            <Editor x:Name="CtaEditor" Placeholder="Feel free to reach out..." AutoSize="TextChanges" MinimumHeightRequest="100" />
+
+        </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -628,12 +628,57 @@
     line-height: 1.5;
     color: #000000;
     background: #ffffff;
-    white-space: pre;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
     overflow: auto;
     border: none;
     outline: none;
     box-sizing: border-box;
     width: 100%;
+}
+
+/* ── Projects viewer (hanging-indent fields) ── */
+.proj-list {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    background: #ffffff;
+    color: #000000;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 6px 8px;
+}
+
+.proj {
+    margin-bottom: 12px;
+}
+
+.proj-title {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+
+/* Align the Stack/Desc/Repo labels under the project name, i.e. past the
+   "[01] " number prefix (5 chars) on the title line. Hanging indent (padding +
+   negative text-indent, 9 chars for "Stack  : ") keeps wrapped value lines
+   aligned under where the value starts. */
+.proj-field {
+    margin-left: 5ch;
+    padding-left: 9ch;
+    text-indent: -9ch;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+
+.proj-empty {
+    background: #ffffff;
+    color: #000000;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    padding: 6px 8px;
 }
 
 /* ── Resume Markdown viewer ── */

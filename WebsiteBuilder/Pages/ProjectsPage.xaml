@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WebsiteBuilder.Pages.ProjectsPage"
+             Title="Projects">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Divider between the locked flyout and the content. -->
+        <BoxView Grid.RowSpan="2" WidthRequest="2" HorizontalOptions="Start" Color="{StaticResource Win95Shadow}" />
+        <VerticalStackLayout Grid.Row="0" Padding="16,18" Spacing="0" BackgroundColor="{StaticResource Win95Navy}">
+            <Label Text="Projects" Style="{StaticResource NavTitle}" />
+            <Label Text="Portfolio projects displayed on the site." Style="{StaticResource NavSubtitle}" />
+        </VerticalStackLayout>
+        <ScrollView Grid.Row="1" Padding="20">
+        <VerticalStackLayout Spacing="16" x:Name="RootLayout">
+
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Open Website Folder" Clicked="OnOpenFolder" />
+                <Button Text="Save All" Clicked="OnSaveAll" />
+                <Label x:Name="StatusLabel" VerticalOptions="Center" TextColor="Gray" />
+            </HorizontalStackLayout>
+
+            <BoxView HeightRequest="1" Color="{StaticResource Win95Shadow}" />
+
+            <Button Text="+ Add Project" Clicked="OnAddProject" />
+
+            <VerticalStackLayout x:Name="ProjectsList" Spacing="20" />
+
+        </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Primary repurposed to Win95 navy so the Shell nav bar, flyout
+         header/footer, and section dividers all read as classic Win95 chrome. -->
+    <Color x:Key="Primary">#000080</Color>
+    <Color x:Key="PrimaryDark">#ac99ea</Color>
+    <Color x:Key="PrimaryDarkText">#242424</Color>
+    <Color x:Key="Secondary">#DFD8F7</Color>
+    <Color x:Key="SecondaryDarkText">#9880e5</Color>
+    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="White">White</Color>
+    <Color x:Key="Black">Black</Color>
+    <Color x:Key="Magenta">#D600AA</Color>
+    <Color x:Key="MidnightBlue">#190649</Color>
+    <Color x:Key="OffBlack">#1f1f1f</Color>
+
+    <Color x:Key="Gray100">#E1E1E1</Color>
+    <Color x:Key="Gray200">#C8C8C8</Color>
+    <Color x:Key="Gray300">#ACACAC</Color>
+    <Color x:Key="Gray400">#919191</Color>
+    <Color x:Key="Gray500">#6E6E6E</Color>
+    <Color x:Key="Gray600">#404040</Color>
+    <Color x:Key="Gray900">#212121</Color>
+    <Color x:Key="Gray950">#141414</Color>
+
+    <Color x:Key="Yellow100Accent">#F7B548</Color>
+    <Color x:Key="Yellow200Accent">#FFD590</Color>
+    <Color x:Key="Yellow300Accent">#FFE5B9</Color>
+    <Color x:Key="Cyan100Accent">#28C2D1</Color>
+    <Color x:Key="Cyan200Accent">#7BDDEF</Color>
+    <Color x:Key="Cyan300Accent">#C3F2F4</Color>
+    <Color x:Key="Blue100Accent">#3E8EED</Color>
+    <Color x:Key="Blue200Accent">#72ACF1</Color>
+    <Color x:Key="Blue300Accent">#A4CBF6</Color>
+
+    <!-- ── Windows 95 palette (sourced from the website's Win95Desktop.razor.css) ── -->
+    <Color x:Key="Win95Silver">#C0C0C0</Color>
+    <!-- ButtonFace / 3D surface -->
+    <Color x:Key="Win95Navy">#000080</Color>
+    <!-- Title bars, selection -->
+    <Color x:Key="Win95Highlight">#FFFFFF</Color>
+    <!-- 3D highlight edge -->
+    <Color x:Key="Win95Shadow">#808080</Color>
+    <!-- 3D shadow edge / etched borders -->
+    <Color x:Key="Win95DarkShadow">#404040</Color>
+    <Color x:Key="Win95Teal">#008080</Color>
+    <!-- Classic desktop background -->
+    <Color x:Key="Win95Field">#FFFFFF</Color>
+    <!-- Sunken input field background -->
+    <Color x:Key="Win95Text">#000000</Color>
+
+</ResourceDictionary>
