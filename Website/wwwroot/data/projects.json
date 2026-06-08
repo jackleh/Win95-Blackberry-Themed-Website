@@ -1,8 +1,8 @@
 {
   "projects": [
     {
-      "name": "Win95 \u0026 Blackberry Themed Portfolio Website",
-      "description": "A Blazor WebAssembly personal portfolio site with two interactive UIs: a retro Windows 95\u2013style desktop for desktop browsers and a BlackBerry-style phone for mobile. Everything \u2014 copy, links, resume, projects, colors, OS names \u2014 is driven by JSON config files so the project is easy to fork and repurpose.",
+      "name": "Win95 & Blackberry Themed Portfolio Website",
+      "description": "A Blazor WebAssembly personal portfolio site with two interactive UIs: a retro Windows 95–style desktop for desktop browsers and a BlackBerry-style phone for mobile. Everything — copy, links, resume, projects, colors, OS names — is driven by JSON config files so the project is easy to fork and repurpose.",
       "technologies": [
         "Blazor WASM",
         "C#",
@@ -12,13 +12,33 @@
       "status": "active"
     },
     {
-      "name": "Win95 \u0026 Blackberry Themed Portfolio Website Builder",
-      "description": "A Windows desktop app for managing the content of your Windows 95 / BlackBerry\u2013themed personal website. Point it at the repo folder and edit your bio, contact, projects, and full resume through simple forms \u2014 it reads and writes the site\u0027s JSON data files directly, copies in images and videos, and lets you tweak the Win95 desktop branding (OS name, app names, wallpaper, videos, donate link) without ever touching code.",
+      "name": "Win95 & Blackberry Themed Portfolio Website Builder",
+      "description": "A Windows desktop app for managing the content of your Windows 95 / BlackBerry–themed personal website. Point it at the repo folder and edit your bio, contact, projects, and full resume through simple forms — it reads and writes the site's JSON data files directly, copies in images and videos, and lets you tweak the Win95 desktop branding (OS name, app names, wallpaper, videos, donate link) without ever touching code.",
       "technologies": [
         "C#",
         ".NET MAUI"
       ],
       "url": "https://github.com/jackleh/Win95-Blackberry-Themed-Website",
+      "status": "active"
+    },
+    {
+      "name": "Markdown Printer",
+      "description": "A desktop utility for printing Markdown files locally without uploading them to third-party services. Converts Markdown to a printable format entirely on-device, keeping your documents private.",
+      "technologies": [
+        "C#",
+        ".NET"
+      ],
+      "url": "https://github.com/jackleh/Markdown-Printer",
+      "status": "active"
+    },
+    {
+      "name": "Reddit Saved Scalper",
+      "description": "A Selenium-powered bot that bulk-downloads media from Reddit's saved posts tab. Automates browsing and media extraction so you can archive your saved content without manual effort.",
+      "technologies": [
+        "C#",
+        "Selenium"
+      ],
+      "url": "https://github.com/jackleh/Reddit-Saved-Scalper",
       "status": "active"
     }
   ]
