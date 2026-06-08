@@ -30,6 +30,14 @@
     protected override async Task OnInitializedAsync()
     {
         await BaseViewModel.InitializeAsync();
+
+        var initials = BaseViewModel.SiteConfig?.FaviconInitials;
+        if (!string.IsNullOrEmpty(initials))
+        {
+            try { await JS.InvokeVoidAsync("faviconHelper.setInitials", initials); }
+            catch { }
+        }
+
         try
         {
             _isMobile = await JS.InvokeAsync<bool>("deviceHelper.isMobilePhone");
