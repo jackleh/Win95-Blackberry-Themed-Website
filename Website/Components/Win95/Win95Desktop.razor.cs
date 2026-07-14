@@ -25,7 +25,7 @@ public partial class Win95Desktop
     private string NotepadDisplayName => BaseViewModel.SiteConfig?.Win95NotepadDisplayName ?? "Notepad";
     private string CmdExeName         => BaseViewModel.SiteConfig?.Win95CmdExeName         ?? "cmd.exe";
     private string ResumeFileName     => BaseViewModel.SiteConfig?.Win95ResumeFileName     ?? "resume.md";
-    private string ProjectsFileName   => BaseViewModel.SiteConfig?.Win95ProjectsFileName   ?? "projects.txt";
+    private string ProjectsFileName   => BaseViewModel.SiteConfig?.Win95ProjectsFileName   ?? "projects.md";
     private string ContactFileName    => BaseViewModel.SiteConfig?.Win95ContactFileName    ?? "contact.txt";
     private string Video1Title        => BaseViewModel.SiteConfig?.Win95Video1Title        ?? "lain_phone.mp4";
     private string Video2Title        => BaseViewModel.SiteConfig?.Win95Video2Title        ?? "lain_vhs.mp4";
