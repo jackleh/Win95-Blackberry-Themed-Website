@@ -105,34 +105,47 @@
                     <span class="notepad-menu-item">View</span>
                     <span class="notepad-menu-item">Help</span>
                 </div>
-                <div class="notepad-body">
-                    <div class="proj-list">
-                        @{ var projects = BaseViewModel.ProjectsInfo?.Projects; }
+                <div class="notepad-body resume-md-body">
+                    @{ var projects = BaseViewModel.ProjectsInfo?.Projects; }
+                    <div class="resume-doc">
+                        <h1>Projects</h1>
+                        <p class="resume-tagline">A selection of things I've built and shipped.</p>
+                        <hr/>
                         @if (projects is null || projects.Count == 0)
                         {
-                            <div class="proj-empty">No projects found.</div>
+                            <p>No projects found.</p>
                         }
                         else
                         {
-                            @for (int i = 0; i < projects.Count; i++)
+                            @foreach (var p in projects)
                             {
-                                var p = projects[i];
-                                var status = !string.IsNullOrEmpty(p.Status) ? $"  [{p.Status.ToUpper()}]" : "";
-                                <div class="proj">
-                                    <div class="proj-title">[@((i + 1).ToString("D2"))] @p.Name@status</div>
-                                    @if (p.Technologies is { Count: > 0 })
-                                    {
-                                        <div class="proj-field"><span class="proj-label">Stack  :</span> @string.Join(", ", p.Technologies)</div>
-                                    }
-                                    @if (!string.IsNullOrWhiteSpace(p.Description))
-                                    {
-                                        <div class="proj-field"><span class="proj-label">Desc   :</span> @p.Description</div>
-                                    }
-                                    @if (!string.IsNullOrWhiteSpace(p.Url))
-                                    {
-                                        <div class="proj-field"><span class="proj-label">Repo   :</span> @p.Url</div>
-                                    }
-                                </div>
+                                var repoHref = SafeHref(p.Url);
+                                <h3>@p.Name</h3>
+                                @if (p.Technologies is { Count: > 0 } || !string.IsNullOrEmpty(p.Status))
+                                {
+                                    <p class="resume-role">
+                                        @if (p.Technologies is { Count: > 0 })
+                                        {
+                                            @string.Join(", ", p.Technologies)
+                                        }
+                                        @if (!string.IsNullOrEmpty(p.Status))
+                                        {
+                                            @if (p.Technologies is { Count: > 0 })
+                                            {
+                                                <text>&nbsp;&middot;&nbsp;</text>
+                                            }
+                                            <span class="resume-date">@p.Status.ToUpper()</span>
+                                        }
+                                    </p>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(p.Description))
+                                {
+                                    <p>@p.Description</p>
+                                }
+                                @if (!string.IsNullOrEmpty(repoHref))
+                                {
+                                    <p><a href="@repoHref" target="_blank" rel="noopener noreferrer">@p.Url</a></p>
+                                }
                             }
                         }
                     </div>
