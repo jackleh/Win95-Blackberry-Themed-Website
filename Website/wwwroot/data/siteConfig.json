@@ -15,7 +15,7 @@
   "win95NotepadDisplayName": "Notepad",
   "win95CmdExeName": "cmd.exe",
   "win95ResumeFileName": "resume.md",
-  "win95ProjectsFileName": "projects.txt",
+  "win95ProjectsFileName": "projects.md",
   "win95ContactFileName": "contact.txt",
   "win95Video1Title": "lain_phone.mp4",
   "win95Video2Title": "lain_vhs.mp4",
@@ -59,7 +59,7 @@
     },
     {
       "path": "C:\\Desktop",
-      "name": "projects.txt",
+      "name": "projects.md",
       "isDir": false,
       "fileUrl": null,
       "fileType": "desktop",

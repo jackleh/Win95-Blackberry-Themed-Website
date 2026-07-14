@@ -18,7 +18,7 @@ public class SiteConfig
     public string Win95NotepadDisplayName { get; set; } = "Notepad";
     public string Win95CmdExeName { get; set; } = "cmd.exe";
     public string Win95ResumeFileName { get; set; } = "resume.md";
-    public string Win95ProjectsFileName { get; set; } = "projects.txt";
+    public string Win95ProjectsFileName { get; set; } = "projects.md";
     public string Win95ContactFileName { get; set; } = "contact.txt";
     public string Win95Video1Title { get; set; } = "lain_phone.mp4";
     public string Win95Video2Title { get; set; } = "lain_vhs.mp4";
